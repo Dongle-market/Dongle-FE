@@ -3,6 +3,7 @@
 import Header from "@/components/layout/CategoryHeader";
 import FooterNav from "@/components/layout/CategoryFooterNav";
 import styled from 'styled-components';
+import Link from "next/link";
 
 
 interface TitleContainerProps {
@@ -52,11 +53,17 @@ const Content = styled.div`
     overflow-x: auto;       /* 내용이 넘치면 가로 스크롤 생성 */
 `;
 
-const Item = styled.div`
+const Item = styled(Link)`  /* Link로 Item을 클릭 가능하게 만듦 */
     padding: 8px;
-    border-radius: 4px;
-    flex-shrink: 0;        /* 아이템이 작아지지 않도록 설정 */
+    border-radius: 30px;
+    flex-shrink: 0;
     font-size: 14px;
+    text-decoration: none;    /* 링크의 기본 스타일을 없앰 */
+    color: black;
+    display: inline-block;
+    &:hover {
+        background-color: #F5A48F; /* Hover 효과 추가 */
+    }
 `;
 
 export default function Home() {
@@ -72,29 +79,29 @@ export default function Home() {
             <ContentContainer>
                 <Subtitle>사료</Subtitle>
                 <Content>
-                    <Item>전체</Item>
-                    <Item>습식사료</Item>
-                    <Item>소프트사료</Item>
-                    <Item>건식사료</Item>
+                    <Item href="/dog/food">전체</Item>
+                    <Item href="/dog/wet-food">습식사료</Item>
+                    <Item href="/dog/soft-food">소프트사료</Item>
+                    <Item href="/dog/dry-food">건식사료</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>간식</Subtitle>
                 <Content>
-                    <Item>전체</Item>
-                    <Item>수제간식</Item>
-                    <Item>빵/케이크</Item>
-                    <Item>뼈간식</Item>
-                    <Item>껌</Item>
+                    <Item href="/dog/food">전체</Item>
+                    <Item href="/dog/food">수제간식</Item>
+                    <Item href="/dog/food">빵/케이크</Item>
+                    <Item href="/dog/food">뼈간식</Item>
+                    <Item href="/dog/food">껌</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>용품</Subtitle>
                 <Content>
-                    <Item>전체</Item>
-                    <Item>위생용품</Item>
-                    <Item>목욕용품</Item>
-                    <Item>훈련용품</Item>
+                    <Item href="/dog/food">전체</Item>
+                    <Item href="/dog/food">위생용품</Item>
+                    <Item href="/dog/food">목욕용품</Item>
+                    <Item href="/dog/food">훈련용품</Item>
                 </Content>
             </ContentContainer>
 
@@ -106,29 +113,29 @@ export default function Home() {
             <ContentContainer>
                 <Subtitle>사료</Subtitle>
                 <Content>
-                    <Item>전체</Item>
-                    <Item>캔/통조림</Item>
-                    <Item>건식사료</Item>
-                    <Item>습식사료</Item>
-                    <Item>에어/동결사료</Item>
+                    <Item href="/cat/food">전체</Item>
+                    <Item href="/cat/food">캔/통조림</Item>
+                    <Item href="/cat/food">건식사료</Item>
+                    <Item href="/cat/food">습식사료</Item>
+                    <Item href="/cat/food">에어/동결사료</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>간식</Subtitle>
                 <Content>
-                    <Item>전체</Item>
-                    <Item>파우치/츄르</Item>
-                    <Item>수제간식</Item>
-                    <Item>캣닢/캣그라스</Item>
+                    <Item href="/cat/food">전체</Item>
+                    <Item href="/cat/food">파우치/츄르</Item>
+                    <Item href="/cat/food">수제간식</Item>
+                    <Item href="/cat/food">캣닢/캣그라스</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>용품</Subtitle>
                 <Content>
-                    <Item>전체</Item>
-                    <Item>캣타워</Item>
-                    <Item>급수기</Item>
-                    <Item>목욕용품</Item>
+                    <Item href="/cat/food">전체</Item>
+                    <Item href="/cat/food">캣타워</Item>
+                    <Item href="/cat/food">급수기</Item>
+                    <Item href="/cat/food">목욕용품</Item>
                 </Content>
             </ContentContainer>
             </ContentWrapper>
