@@ -1,19 +1,21 @@
-// FooterNav.tsx
+// MyDongleFooterNav.tsx
 'use client';
 
 import React from 'react';
 import styled from 'styled-components';
-import WhiteDogSvg from '../../../public/svgs/whitedog.svg';
-import HamburgerSvg from '../../../public/svgs/hamburger.svg';
-import DogFootSvg from '../../../public/svgs/dogfoot.svg';
-import BasketSvg from '../../../public/svgs/basket.svg';
-import MySvg from '../../../public/svgs/my.svg';
+import HamburgerSvg from '../../../public/svgs/hamburger_icon.svg';
+import MyDongleSvg from '../../../public/svgs/mydongle_icon_select.svg';
+import DogHomeSvg from '../../../public/svgs/home_icon.svg';
+import BasketSvg from '../../../public/svgs/basket_icon.svg';
+import MySvg from '../../../public/svgs/user_icon.svg';
 
 const FooterNavContainer = styled.nav`
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: inherit;
   height: 70px;
   background-color: rgba(253, 253, 253, 0.66);
   color: black;
@@ -54,7 +56,7 @@ const BoldText = styled.span`
     font-weight: bold;
 `;
 
-const FooterNav = () => {
+const MyDongleFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
@@ -63,24 +65,24 @@ const FooterNav = () => {
             <span>카테고리</span>
         </IconContainer>
         <IconContainer>
-            <WhiteDogSvg />
-            <span>마이 동글</span>
+            <MyDongleSvg />
+            <BoldText>마이 동글</BoldText>
         </IconContainer>
         <IconContainer>
-            <DogFootSvg />
-            <BoldText>동글 홈</BoldText>
+            <DogHomeSvg />
+            <span>동글 홈</span>
         </IconContainer>
         <IconContainer>
             <BasketSvg />
-            <span>장바구니</span>
+            <span>마이 마켓</span>
         </IconContainer>
         <IconContainer>
             <MySvg />
-            <span>마이</span>
+            <span>내 정보</span>
         </IconContainer>
       </NavContainer>
     </FooterNavContainer>
   );
 };
 
-export default FooterNav;
+export default MyDongleFooterNav;

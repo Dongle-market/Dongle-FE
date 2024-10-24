@@ -1,11 +1,11 @@
-// MainHeader.tsx
+// CategoryHeader.tsx
 'use client';
 
 import React from 'react';
 import styled from 'styled-components';
-import DongleSvg from '../../../public/svgs/whitelogo_dongle.svg'
+import DongleSvg from '../../../public/svgs/blacklogo_dongle.svg'
 import DogSvg from '../../../public/svgs/logo_dog.svg';
-import ShoppingBasketSvg from '../../../public/svgs/white_shoppingbag.svg';
+import ShoppingBasketSvg from '../../../public/svgs/black_shoppingbag.svg';
 
 const Wrapper = styled.div`
   padding: 16px 14px;
@@ -15,24 +15,25 @@ const LogoContainer = styled.div`
   gap: 2px
 `;
 
-const LogoWarpper = styled.div`
+const LogoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
 
-const MainHeader = () => {
+const CategoryHeader = () => {
   return (
     <Wrapper>
-      <LogoWarpper>
+      <LogoWrapper>
         <LogoContainer>
           <DongleSvg />
           <DogSvg />
         </LogoContainer>
         <ShoppingBasketSvg />
-      </LogoWarpper>      
+      </LogoWrapper>      
     </Wrapper>
   );
 }
 
-export default MainHeader;
+
+export default CategoryHeader;

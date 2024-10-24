@@ -1,6 +1,6 @@
 // pages.tsx
 import MainHeader from "@/components/layout/MainHeader";
-import FooterNav from "@/components/layout/FooterNav";
+import FooterNav from "@/components/layout/MainFooterNav";
 
 export default function Home() {
   return (
