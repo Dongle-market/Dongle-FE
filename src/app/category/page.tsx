@@ -9,16 +9,21 @@ interface TitleContainerProps {
     $marginTop?: number;
 }
 
+const ContentWrapper = styled.div`
+    flex-grow: 1;
+    padding-bottom: 100px;  /* 임시로 푸터 높이만큼 하단 여백 추가 */
+`;
+
 // Transient props를 사용해 props가 DOM에 전달되지 않도록 설정
 const TitleContainer = styled.div<TitleContainerProps>`
     display: flex;
     align-items: center;
     padding: 0px 16px;
-    margin-top: ${({ $marginTop = 16 }) => `${$marginTop}px`};  /* $marginTop을 CSS로 처리 */
+    margin-top: ${({ $marginTop = 16 }) => `${$marginTop}px`};
 `;
 
 const Title = styled.div`
-    margin-right: 16px;     /* 텍스트와 선 사이의 간격 */
+    margin-right: 16px;
     font-size: 20px;
     font-weight: bold;
 `;
@@ -42,7 +47,7 @@ const Subtitle = styled.div`
 const Content = styled.div`
     display: flex;
     flex-direction: row;    /* 요소들을 가로로 나열 */
-    padding: 0 8px;         /* 좌우 패딩 8px 설정 */
+    padding: 0 8px;         
     gap: 8px;               /* 요소들 사이의 간격 8px 설정 */
     overflow-x: auto;       /* 내용이 넘치면 가로 스크롤 생성 */
 `;
@@ -58,6 +63,7 @@ export default function Home() {
     return (
         <div className="page">
             <Header />
+            <ContentWrapper>
             {/* 강아지 섹션 */}
             <TitleContainer $marginTop={16}>
                 <Title>강아지</Title>
@@ -125,6 +131,7 @@ export default function Home() {
                     <Item>목욕용품</Item>
                 </Content>
             </ContentContainer>
+            </ContentWrapper>
             <FooterNav />
         </div>
     );
