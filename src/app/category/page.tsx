@@ -31,7 +31,7 @@ const Title = styled.div`
 
 const Line = styled.div`
     flex-grow: 1;          /* 남은 공간을 채워서 선이 길게 늘어남 */
-    height: 1.2px;
+    height: 1px;
     background-color: #d9d9d9;
 `;
 
