@@ -12,14 +12,15 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
   margin-right: 16px;     /* 텍스트와 선 사이의 간격 */
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 const Line = styled.div`
   flex-grow: 1;          /* 남은 공간을 채워서 선이 길게 늘어남 */
-  height: 1.2px;           /* 선의 두께 */
-  background-color: #d9d9d9; /* 선의 색상 (여기서는 검정색) */
+  height: 1.2px;
+  background-color: #d9d9d9;
   margin-right: 16px;
 `;
 
@@ -30,6 +31,7 @@ const ContentContainer = styled.div`
 const Subtitle = styled.div`
     padding: 16px;
     font-size: 16px;
+    font-weight: bold;
 `;
 
 const Content = styled.div`
@@ -62,6 +64,25 @@ export default function Home() {
             <Item>습식사료</Item>
             <Item>소프트사료</Item>
             <Item>건식사료</Item>
+        </Content>
+      </ContentContainer>
+      <ContentContainer>
+      <Subtitle>간식</Subtitle>
+        <Content>
+            <Item>전체</Item>
+            <Item>수제간식</Item>
+            <Item>빵/케이크</Item>
+            <Item>뼈간식</Item>
+            <Item>껌</Item>
+        </Content>
+      </ContentContainer>
+      <ContentContainer>
+      <Subtitle>용품</Subtitle>
+        <Content>
+            <Item>전체</Item>
+            <Item>위생용품</Item>
+            <Item>목욕용품</Item>
+            <Item>훈련용품</Item>
         </Content>
       </ContentContainer>
       <FooterNav />
