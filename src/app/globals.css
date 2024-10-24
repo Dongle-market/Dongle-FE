@@ -1,7 +1,8 @@
 :root {
-  --background-color: gray;
-  --text-color: #171717;
+  --background-color: white;
+  --content-background-color: #F8F8F8;
   max-width: 600px;
+  margin: 0 auto;
 }
 
 html, body {
@@ -13,13 +14,23 @@ html, body {
 body {
   background-color: var(--background-color);
   color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   margin: 0;
   padding: 0;
 }
 
-.page {
-  position: relative;
+.mainpage {
+  background-color: var(--content-background-color);
+  background-image: url('../../public/images/background_main.png');
+  background-size: 100% auto;
+  background-position: top;
+  background-repeat: no-repeat; 
+  width: 100%;
   min-height: 100%;
+  margin: 0 auto;
+  position: relative;
 }
 
 @font-face {

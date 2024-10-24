@@ -12,8 +12,10 @@ import MySvg from '../../../public/svgs/my.svg';
 const FooterNavContainer = styled.nav`
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 600px;
   height: 70px;
   background-color: rgba(253, 253, 253, 0.66);
   color: black;
