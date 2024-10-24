@@ -5,8 +5,8 @@ import FooterNav from "@/components/layout/FooterNav";
 export default function Home() {
   return (
     <div className="page">
-      <MainHeader /> 
-      <main className="main">테스트 페이지 입니다!!!</main>
+      <MainHeader />
+      <main className="main">소스트리 테스트합니다 감사합니다!!!</main>
       <footer className="footer">푸터영역입니다.</footer>
       <FooterNav />
     </div>
