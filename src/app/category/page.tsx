@@ -1,7 +1,7 @@
 'use client';
 
-import Header from "@/components/layout/CategoryHeader";
-import FooterNav from "@/components/layout/CategoryFooterNav";
+import Header from "@/components/header/CategoryHeader";
+import FooterNav from "@/components/navbar/CategoryFooterNav";
 import styled from 'styled-components';
 import Link from "next/link";
 
