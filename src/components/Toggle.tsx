@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 const ToggleContainer = styled.div`
   display: flex;
-  align-items: center; // 추가: 수직 방향으로 가운데 정렬
-  justify-content: center; // 추가: 수평 방향으로 가운데 정렬
+  align-items: center;
+  justify-content: center;
   width: 130px;
   height: 36px;
   border-radius: 18px;

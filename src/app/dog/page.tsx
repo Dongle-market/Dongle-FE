@@ -61,21 +61,6 @@ const ButtonWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-
-// const MainHeaderContainer = styled.div`
-//   position: fixed;
-//   width: 100%;
-//   max-width: 600px;
-//   height: 121px;
-//   top: 0;
-//   z-index: 1000;
-//   box-sizing: border-box;
-//   background-image: url('/images/background_main.png');
-//   background-size: 100% auto; // 이미지가 컨테이너를 완전히 채우도록 설정
-//   background-position: center; // 이미지가 중앙에 위치하도록 설정
-//   background-repeat: no-repeat; // 이미지 반복 없이 설정
-// `;
-
 interface MainHeaderContainerProps {
   $bgColor: string; 
 }
@@ -88,7 +73,7 @@ const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
   top: 0;
   box-sizing: border-box;
   background-color: ${(props) => props.$bgColor};
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.3s ease; */
 `;
 
 
@@ -103,6 +88,15 @@ export default function Home() {
       setBgColor("#222222");
     }
   };
+
+  useEffect(() => {
+    console.log(window.scrollY, bgColor);
+    if (window.scrollY === 0) {
+      setBgColor("transparent");
+    } else {
+      setBgColor("#222222");
+    }
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
