@@ -3,12 +3,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import MainHeader from "@/components/layout/MainHeader";
-import FooterNav from "@/components/layout/MainFooterNav";
-import MenuBar from "@/components/MenuBar";
-import Banner from "@/components/Banner";
-import MainItem from "@/components/MainItem";
-import Toggle from '@/components/Toggle';
+import MainHeader from "@/components/header/MainHeader";
+import FooterNav from "@/components/navbar/MainFooterNav";
+import MenuBar from "@/components/header/MenuBar";
+import Banner from "@/components/main/Banner";
+import MainItem from "@/components/items/MainItem";
+import Toggle from '@/components/header/Toggle';
 
 const DogMainPage = styled.div`
   display: flex;

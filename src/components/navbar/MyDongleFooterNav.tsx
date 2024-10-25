@@ -1,13 +1,13 @@
-// CategoryFooterNav.tsx
+// MyDongleFooterNav.tsx
 'use client';
 
 import React from 'react';
 import styled from 'styled-components';
-import HamburgerSvg from '/public/svgs/hamburger_icon_select.svg';
-import MyDongleSvg from '/public/svgs/mydongle_icon.svg';
-import DogHomeSvg from '/public/svgs/home_icon.svg';
-import BasketSvg from '/public/svgs/basket_icon.svg';
-import MySvg from '/public/svgs/user_icon.svg';
+import HamburgerSvg from '/public/svgs/navbar/hamburger_icon.svg';
+import MyDongleSvg from '/public/svgs/navbar/mydongle_icon_select.svg';
+import DogHomeSvg from '/public/svgs/navbar/home_icon.svg';
+import BasketSvg from '/public/svgs/navbar/basket_icon.svg';
+import MySvg from '/public/svgs/navbar/user_icon.svg';
 
 const FooterNavContainer = styled.nav`
   position: fixed;
@@ -56,17 +56,17 @@ const BoldText = styled.span`
     font-weight: 600;
 `;
 
-const CategoryFooterNav = () => {
+const MyDongleFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
         <IconContainer>
             <HamburgerSvg />
-            <BoldText>카테고리</BoldText>
+            <span>카테고리</span>
         </IconContainer>
         <IconContainer>
             <MyDongleSvg />
-            <span>마이 동글</span>
+            <BoldText>마이 동글</BoldText>
         </IconContainer>
         <IconContainer>
             <DogHomeSvg />
@@ -85,4 +85,4 @@ const CategoryFooterNav = () => {
   );
 };
 
-export default CategoryFooterNav;
+export default MyDongleFooterNav;
