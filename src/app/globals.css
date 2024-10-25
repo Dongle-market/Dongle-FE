@@ -22,6 +22,10 @@ html, body {
 body {
   background-color: var(--background-color);
   color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
   max-width: inherit;
   margin: 0;
   padding: 0;
@@ -34,4 +38,13 @@ body {
   min-height: 100%;
   margin: 0 auto;
   position: relative;
+}
+
+.mainpage {
+  background-image: url('/public/images/background_main.png');
+  background-size: 100% auto;
+  background-position: top;
+  background-repeat: no-repeat; 
+  width: 100%;
+  max-width: inherit;
 }

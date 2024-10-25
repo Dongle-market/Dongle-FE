@@ -53,7 +53,7 @@ const BoldText = styled.span`
     font-size: 12px;
     color: black;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
 `;
 
 const MainFooterNav = () => {

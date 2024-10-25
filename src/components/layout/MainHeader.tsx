@@ -7,8 +7,14 @@ import DongleSvg from '/public/svgs/whitelogo_dongle.svg'
 import DogSvg from '/public/svgs/logo_dog.svg';
 import ShoppingBasketSvg from '/public/svgs/white_shoppingbag.svg';
 
-const Wrapper = styled.div`
-  padding: 16px 14px;
+const HeaderContainer = styled.div`
+  position: fixed;
+  padding: 14px 16px;
+  width: 100%;
+  max-width: 600px;
+  top: 0;
+  z-index: 1000;
+  box-sizing: border-box;
 `;
 const LogoContainer = styled.div`
   display: flex;
@@ -23,7 +29,7 @@ const LogoWarpper = styled.div`
 
 const MainHeader = () => {
   return (
-    <Wrapper>
+    <HeaderContainer>
       <LogoWarpper>
         <LogoContainer>
           <DongleSvg />
@@ -31,7 +37,7 @@ const MainHeader = () => {
         </LogoContainer>
         <ShoppingBasketSvg />
       </LogoWarpper>      
-    </Wrapper>
+    </HeaderContainer>
   );
 }
 
