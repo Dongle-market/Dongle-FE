@@ -15,7 +15,7 @@ const FooterNavContainer = styled.nav`
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 600px;
+  max-width: inherit;
   height: 70px;
   background-color: rgba(253, 253, 253, 0.66);
   color: black;
@@ -53,7 +53,7 @@ const BoldText = styled.span`
     font-size: 12px;
     color: black;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
 `;
 
 const FooterNav = () => {

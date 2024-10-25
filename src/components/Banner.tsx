@@ -1,58 +1,103 @@
+// Banner.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Slider from "react-slick";
 import styled from 'styled-components';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const BannerContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-`;
+interface CustomSlideProps {
+  image: string;
+}
 
-const Banners = styled.div<{ $currentSlide: number }>`
+const CustomSlide = styled.div<CustomSlideProps>`
   display: flex;
-  transition: transform 0.5s ease-in-out;
-  transform: ${({ $currentSlide }) => `translateX(-${$currentSlide * 100}%)`};
-  width: 300%;
-`;
-
-const BannerItem = styled.div`
-  flex: 0 0 100%;
-  height: 300px;
+  align-items: center;
+  justify-content: center;
   background-size: cover;
   background-position: center;
+  height: 240px;
+  width: 100%;
+  border-radius: 8px;
+  background-image: url(${props => props.image});
 `;
 
-const Banner = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const banners = [
-    '../../public/images/banner1.png',
-    '../../public/images/banner2.png',
-    '../../public/images/banner3.png',
-  ];
+const BannerContainer = styled.div`
+  padding: 16px 16px 32px 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 96px;
+`;
 
-  useEffect(() => {
-    const slideInterval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % banners.length);
-    }, 5000); // 5초마다 슬라이드 전환
+const SliderWrapper = styled.div`
+  border-radius: 8px;
+  overflow: hidden;
+`;
 
-    return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 인터벌 제거
-  }, [banners.length]);
+const CustomDotContainer = styled.div`
+  position: absolute;
+  bottom: 4px;
+  width: 100%;
+  text-align: center;
+`;
 
-  return (
-    <BannerContainer>
-      <Banners $currentSlide={currentSlide}>
-        {banners.map((banner, index) => (
-          <BannerItem
-            key={index}
-            style={{ backgroundImage: `url(${banner})` }}
-          />
-        ))}
-      </Banners>
-    </BannerContainer>
-  );
-};
+const Dot = styled.button`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: grey;
+  border: none;
+  cursor: pointer;
+
+  &.slick-active {
+    background: black;
+  }
+`;
+
+const DotsList = styled.ul`
+  padding-inline-start: 0px;
+  margin: 0;
+`;
+
+const Banner: React.FC = () => {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        appendDots: (dots: React.ReactNode[]) => (
+          <CustomDotContainer>
+            <DotsList>{dots}</DotsList>
+          </CustomDotContainer>
+        ),
+        customPaging: (i: number) => (
+          <Dot key={i} />
+        ),
+        nextArrow: <></>,
+        prevArrow: <></>
+    };
+
+    const images = [
+        '/images/banner1.png',
+        '/images/banner2.png',
+        '/images/banner3.png'
+    ];
+
+    return (
+      <BannerContainer>
+        <SliderWrapper>
+            <Slider {...settings}>
+                {images.map((image, index) => (
+                    <CustomSlide key={index} image={image} />
+                ))}
+            </Slider>
+        </SliderWrapper>
+      </BannerContainer>
+    );
+}
 
 export default Banner;
