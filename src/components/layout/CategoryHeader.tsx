@@ -8,8 +8,15 @@ import DogSvg from '../../../public/svgs/logo_dog.svg';
 import ShoppingBasketSvg from '../../../public/svgs/black_shoppingbag.svg';
 
 const Wrapper = styled.div`
-  padding: 16px 14px;
+  padding: 14px 16px;
+  position: fixed;    /* 헤더를 상단에 고정 */
+  width: 100%;
+  top: 0;
+  max-width: inherit;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
 `;
+
 const LogoContainer = styled.div`
   display: flex;
   gap: 2px

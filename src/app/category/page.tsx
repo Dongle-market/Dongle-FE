@@ -13,6 +13,7 @@ interface TitleContainerProps {
 const ContentWrapper = styled.div`
     flex-grow: 1;
     padding-bottom: 100px;  /* 임시로 푸터 높이만큼 하단 여백 추가 */
+    padding-top: 60px;
 `;
 
 // Transient props를 사용해 props가 DOM에 전달되지 않도록 설정
