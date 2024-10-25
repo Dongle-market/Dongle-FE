@@ -1,13 +1,13 @@
-// MainFooterNav.tsx
+// MyMarketFooterNav.tsx
 'use client';
 
 import React from 'react';
 import styled from 'styled-components';
-import HamburgerSvg from '/public/svgs/hamburger_icon.svg';
-import MyDongleSvg from '/public/svgs/mydongle_icon.svg';
-import DogHomeSvg from '/public/svgs/home_icon_select.svg';
-import BasketSvg from '/public/svgs/basket_icon.svg';
-import MySvg from '/public/svgs/user_icon.svg';
+import HamburgerSvg from '/public/svgs/navbar/hamburger_icon.svg';
+import MyDongleSvg from '/public/svgs/navbar/mydongle_icon.svg';
+import DogHomeSvg from '/public/svgs/navbar/home_icon.svg';
+import BasketSvg from '/public/svgs/navbar/basket_icon_select.svg';
+import MySvg from '/public/svgs/navbar/user_icon.svg';
 
 const FooterNavContainer = styled.nav`
   position: fixed;
@@ -53,10 +53,10 @@ const BoldText = styled.span`
     font-size: 12px;
     color: black;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
 `;
 
-const MainFooterNav = () => {
+const MyMarketFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
@@ -70,11 +70,11 @@ const MainFooterNav = () => {
         </IconContainer>
         <IconContainer>
             <DogHomeSvg />
-            <BoldText>동글 홈</BoldText>
+            <span>동글 홈</span>
         </IconContainer>
         <IconContainer>
             <BasketSvg />
-            <span>마이 마켓</span>
+            <BoldText>마이 마켓</BoldText>
         </IconContainer>
         <IconContainer>
             <MySvg />
@@ -85,4 +85,4 @@ const MainFooterNav = () => {
   );
 };
 
-export default MainFooterNav;
+export default MyMarketFooterNav;

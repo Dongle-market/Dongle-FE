@@ -1,13 +1,13 @@
-// UserInfoFooterNav.tsx
+// MainFooterNav.tsx
 'use client';
 
 import React from 'react';
 import styled from 'styled-components';
-import HamburgerSvg from '/public/svgs/hamburger_icon.svg';
-import MyDongleSvg from '/public/svgs/mydongle_icon.svg';
-import DogHomeSvg from '/public/svgs/home_icon.svg';
-import BasketSvg from '/public/svgs/basket_icon.svg';
-import MySvg from '/public/svgs/user_icon_select.svg';
+import HamburgerSvg from '/public/svgs/navbar/hamburger_icon.svg';
+import MyDongleSvg from '/public/svgs/navbar/mydongle_icon.svg';
+import DogHomeSvg from '/public/svgs/navbar/home_icon_select.svg';
+import BasketSvg from '/public/svgs/navbar/basket_icon.svg';
+import MySvg from '/public/svgs/navbar/user_icon.svg';
 
 const FooterNavContainer = styled.nav`
   position: fixed;
@@ -56,7 +56,7 @@ const BoldText = styled.span`
     font-weight: 600;
 `;
 
-const UserInfoFooterNav = () => {
+const MainFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
@@ -70,7 +70,7 @@ const UserInfoFooterNav = () => {
         </IconContainer>
         <IconContainer>
             <DogHomeSvg />
-            <span>동글 홈</span>
+            <BoldText>동글 홈</BoldText>
         </IconContainer>
         <IconContainer>
             <BasketSvg />
@@ -78,11 +78,11 @@ const UserInfoFooterNav = () => {
         </IconContainer>
         <IconContainer>
             <MySvg />
-            <BoldText>내 정보</BoldText>
+            <span>내 정보</span>
         </IconContainer>
       </NavContainer>
     </FooterNavContainer>
   );
 };
 
-export default UserInfoFooterNav;
+export default MainFooterNav;
