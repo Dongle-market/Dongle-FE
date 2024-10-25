@@ -63,7 +63,7 @@ const Item = styled(Link)`  /* Link로 Item을 클릭 가능하게 만듦 */
     color: black;
     display: inline-block;
     &:hover {
-        background-color: #F5A48F; /* Hover 효과 추가 */
+        background-color: #F5A48F;
     }
 `;
 

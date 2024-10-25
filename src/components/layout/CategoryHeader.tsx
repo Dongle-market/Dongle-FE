@@ -3,9 +3,9 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import DongleSvg from '../../../public/svgs/blacklogo_dongle.svg'
-import DogSvg from '../../../public/svgs/logo_dog.svg';
-import ShoppingBasketSvg from '../../../public/svgs/black_shoppingbag.svg';
+import DongleSvg from '/public/svgs/blacklogo_dongle.svg'
+import DogSvg from '/public/svgs/logo_dog.svg';
+import ShoppingBasketSvg from '/public/svgs/black_shoppingbag.svg';
 
 const Wrapper = styled.div`
   padding: 14px 16px;
