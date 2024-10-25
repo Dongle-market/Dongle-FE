@@ -1,7 +1,16 @@
+/* globals.css */
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url(./fonts/PretendardVariable.woff2) format('opentype');
+}
+
 :root {
-  --background-color: gray;
-  --text-color: #171717;
+  --background-color: white;
+  --content-background-color: #F8F8F8;
   max-width: 600px;
+  font-family: 'Pretendard', sans-serif;
+  margin: 0 auto;
 }
 
 html, body {
@@ -13,16 +22,16 @@ html, body {
 body {
   background-color: var(--background-color);
   color: var(--text-color);
+  max-width: inherit;
   margin: 0;
   padding: 0;
 }
 
 .page {
-  position: relative;
+  background-color: var(--content-background-color);
+  width: 100%;
+  max-width: inherit;
   min-height: 100%;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url(./fonts/PretendardVariable.woff2) format('opentype');
+  margin: 0 auto;
+  position: relative;
 }
