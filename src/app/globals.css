@@ -1,9 +1,10 @@
 /* globals.css */
 
+/* 
 @font-face {
   font-family: 'Pretendard';
   src: url(./fonts/PretendardVariable.woff2) format('opentype');
-}
+} */
 
 :root {
   --background-color: white;
@@ -41,7 +42,7 @@ body {
 }
 
 .mainpage {
-  background-image: url('/public/images/background_main.png');
+  background-image: url('/images/background_main.png');
   background-size: 100% auto;
   background-position: top;
   background-repeat: no-repeat; 
