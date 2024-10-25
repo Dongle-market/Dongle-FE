@@ -1,7 +1,7 @@
 // /dog/pages.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MainHeader from "@/components/layout/MainHeader";
 import FooterNav from "@/components/layout/FooterNav";
@@ -61,50 +61,22 @@ const ButtonWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-interface MainHeaderContainerProps {
-  $bgColor: string; 
-}
-
-const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
+const MainHeaderContainer = styled.div`
   position: fixed;
   width: 100%;
   max-width: 600px;
-  height: 121px;
+  height: 102px;
   top: 0;
   box-sizing: border-box;
-  background-color: ${(props) => props.$bgColor};
-  /* transition: background-color 0.3s ease; */
+  background-image: url('/images/background_main.png');
+  background-size: cover;
+  background-position: top;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
 `;
 
 
 export default function Home() {
-
-  const [bgColor, setBgColor] = useState("transparent");
-
-  const handleScroll = () => {
-    if (window.scrollY === 0) {
-      setBgColor("transparent");
-    } else {
-      setBgColor("#222222");
-    }
-  };
-
-  useEffect(() => {
-    console.log(window.scrollY, bgColor);
-    if (window.scrollY === 0) {
-      setBgColor("transparent");
-    } else {
-      setBgColor("#222222");
-    }
-  });
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const products = [
     { id: 1, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
     { id: 2, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
@@ -117,7 +89,7 @@ export default function Home() {
   return (
     <div className="page">
       <div className="mainpage">
-        <MainHeaderContainer $bgColor={bgColor}>
+        <MainHeaderContainer>
           <MainHeader />
           <ButtonWrapper>
             <Toggle />
