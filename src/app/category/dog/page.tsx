@@ -5,7 +5,7 @@
 import Header from "@/components/header/CategoryDetailHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";
 import ProductRow from "@/components/items/CategoryItemsRow";
-import ArrowSvg from "/public/svgs/down_arrow.svg";
+import ArrowSvg from "/public/svgs/element/down_arrow.svg";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 
