@@ -1,10 +1,10 @@
-// category/dog/page.tsx
+// categry/dog/page.tsx
 
 'use client';
 
 import Header from "@/components/header/CategoryDetailHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";
-import ArrowSvg from "../../../../public/svgs/down_arrow.svg";
+import ArrowSvg from "/public/svgs/down_arrow.svg";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 
@@ -53,7 +53,7 @@ const Item = styled.div<Itemprops>`
 const FilterContainer = styled.div`
     padding: 16px;
     display: flex;
-    gap: 16px;  /* Selectbox들 사이 간격 */
+    gap: 8px;  /* Selectbox들 사이 간격 */
 `;
 
 const SelectBoxContainer = styled.div`
@@ -61,7 +61,7 @@ const SelectBoxContainer = styled.div`
     align-items: center;
     padding: 7px 10px;
     border: 1px solid gray;
-    border-radius: 24px;
+    border-radius: 30px;
     position: relative;
 `;
 
@@ -71,6 +71,8 @@ const Select = styled.select`
     background: transparent;
     font-size: 12px;
     cursor: pointer;
+    color: black;
+    text-decoration: none;
 `;
 
 const Arrow = styled.div`
@@ -79,100 +81,91 @@ const Arrow = styled.div`
 `;
 
 export default function Home() {
-  const [selectedItem1, setSelectedItem1] = useState("전체"); // 첫 번째 select 값
-  const [selectedItem2, setSelectedItem2] = useState("추천순"); // 두 번째 select 값
-  const [selectWidth1, setSelectWidth1] = useState(50); // 첫 번째 select 너비
-  const [selectWidth2, setSelectWidth2] = useState(50); // 두 번째 select 너비
-  const firstSelectRef = useRef<HTMLSelectElement>(null);
-  const secondSelectRef = useRef<HTMLSelectElement>(null);
+  const filters = [
+    { id: "category", options: ["전체", "습식사료", "소프트사료", "건식사료"] },
+    { id: "sort", options: ["추천순", "최신순"] }
+  ];
 
-  // 선택된 텍스트에 맞춰 Selectbox의 너비 설정하는 함수
-  const adjustSelectWidth = (selectRef: React.RefObject<HTMLSelectElement>, setWidth: React.Dispatch<React.SetStateAction<number>>) => {
-      if (selectRef.current) {
-          const selectedOption = selectRef.current.options[selectRef.current.selectedIndex];
-          const tempSpan = document.createElement("span");
-          tempSpan.style.fontSize = "12px";  // Select와 동일한 폰트 크기 적용
-          tempSpan.style.visibility = "hidden";
-          tempSpan.style.position = "absolute";
-          tempSpan.innerText = selectedOption.text;
-          document.body.appendChild(tempSpan);
-          
-          const newWidth = tempSpan.offsetWidth + 12; // 텍스트 길이에 패딩 포함
-          setWidth(newWidth);
-          document.body.removeChild(tempSpan);
-      }
+  const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
+    category: "전체",
+    sort: "추천순"
+  });
+  const [selectWidths, setSelectWidths] = useState<{ [key: string]: number }>({
+    category: 50,
+    sort: 50
+  });
+
+  const selectRefs = useRef<{ [key: string]: HTMLSelectElement | null }>({
+    category: null,
+    sort: null
+  });
+
+  const adjustSelectWidth = (id: string) => {
+    const selectRef = selectRefs.current[id];
+    if (selectRef) {
+      const selectedOption = selectRef.options[selectRef.selectedIndex];
+      const tempSpan = document.createElement("span");
+      tempSpan.style.fontSize = "12px";
+      tempSpan.style.visibility = "hidden";
+      tempSpan.style.position = "absolute";
+      tempSpan.innerText = selectedOption.text;
+      document.body.appendChild(tempSpan);
+
+      const newWidth = tempSpan.offsetWidth + 12;
+      setSelectWidths(prevWidths => ({ ...prevWidths, [id]: newWidth }));
+      document.body.removeChild(tempSpan);
+    }
   };
 
   useEffect(() => {
-      adjustSelectWidth(firstSelectRef, setSelectWidth1);  // 처음 로드 시 첫 번째 select 너비 조정
-      adjustSelectWidth(secondSelectRef, setSelectWidth2); // 처음 로드 시 두 번째 select 너비 조정
-  }, []);
+    filters.forEach(filter => adjustSelectWidth(filter.id));
+  }, [selectedItems]); // selectedItems가 변경될 때마다 adjustSelectWidth 호출
 
-  const handleFirstSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedItem1(e.target.value);
-      adjustSelectWidth(firstSelectRef, setSelectWidth1);
+  const handleSelectChange = (id: string, value: string) => {
+    setSelectedItems(prevItems => ({ ...prevItems, [id]: value }));
   };
 
-  const handleSecondSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedItem2(e.target.value);
-      adjustSelectWidth(secondSelectRef, setSelectWidth2);
-  };
-
-  // Arrow 클릭 시 select box 열리도록 하는 함수
-  const openSelectBox = (selectRef: React.RefObject<HTMLSelectElement>) => {
-      if (selectRef.current) {
-          selectRef.current.focus(); // 클릭하면 select box 포커스를 줌으로써 드롭다운이 열리게 함
-      }
+  const openSelectBox = (id: string) => {
+    const selectRef = selectRefs.current[id];
+    if (selectRef) {
+      selectRef.focus();
+    }
   };
 
   return (
     <div className="page">
       <Header />
       <Content>
-        {["전체", "습식사료", "소프트사료", "건식사료"].map((item) => (
+        {filters[0].options.map(item => (
           <Item
             key={item}
-            $isSelected={selectedItem1 === item}
-            onClick={() => setSelectedItem1(item)}
+            $isSelected={selectedItems["category"] === item}
+            onClick={() => handleSelectChange("category", item)}
           >
             {item}
-            </Item>
-         ))}
-       </Content>
+          </Item>
+        ))}
+      </Content>
       <FilterContainer>
-      <SelectBoxContainer>
-      <Select 
-                value={selectedItem1} 
-                onChange={handleFirstSelectChange} 
-                ref={firstSelectRef}
-                style={{ width: `${selectWidth1}px` }} // 첫 번째 select 너비 적용
+        {filters.map(filter => (
+          <SelectBoxContainer key={filter.id}>
+            <Select
+              ref={(el) => { selectRefs.current[filter.id] = el; }}
+              value={selectedItems[filter.id]}
+              onChange={(e) => handleSelectChange(filter.id, e.target.value)}
+              style={{ width: `${selectWidths[filter.id]}px` }}
             >
-            <option value="전체">전체</option>
-            <option value="습식사료">습식사료</option>
-            <option value="소프트사료">소프트사료</option>
-            <option value="건식사료">건식사료</option>
-          </Select>
-          <Arrow onClick={() => openSelectBox(firstSelectRef)}>
-            <ArrowSvg/>
-          </Arrow>
-        </SelectBoxContainer>
-
-        <SelectBoxContainer>
-        <Select 
-                value={selectedItem2} 
-                onChange={handleSecondSelectChange} 
-                ref={secondSelectRef}
-                style={{ width: `${selectWidth2}px` }} // 두 번째 select 너비 적용
-            >
-            <option value="추천순">추천순</option>
-            <option value="최신순">최신순</option>
-          </Select>
-          <Arrow onClick={() => openSelectBox(secondSelectRef)}>
-            <ArrowSvg/>
-          </Arrow>
-        </SelectBoxContainer>
+              {filter.options.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </Select>
+            <Arrow onClick={() => openSelectBox(filter.id)}>
+              <ArrowSvg />
+            </Arrow>
+          </SelectBoxContainer>
+        ))}
       </FilterContainer>
-       <FooterNav />
-     </div>
-   );
+      <FooterNav />
+    </div>
+  );
 }
