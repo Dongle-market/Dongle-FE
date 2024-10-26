@@ -4,6 +4,7 @@
 
 import Header from "@/components/header/CategoryDetailHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";
+import ProductRow from "@/components/items/CategoryItemsRow";
 import ArrowSvg from "/public/svgs/down_arrow.svg";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
@@ -11,6 +12,14 @@ import { useState, useRef, useEffect } from "react";
 interface Itemprops {
     $isSelected?: boolean;
 }
+
+const ProductListContainer = styled.div`
+    padding: 0px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 100px;
+`;
 
 const Content = styled.div`
   display: flex;
@@ -132,6 +141,23 @@ export default function Home() {
     }
   };
 
+  const products = [
+    { id: 1, imageUrl: "https://shopping-phinf.pstatic.net/main_3752457/37524570621.20230130114937.jpg", name: "잘먹잘싸 강아지사료 기호성좋은 연어", price: 23900 },
+    { id: 2, imageUrl: "https://shopping-phinf.pstatic.net/main_8398538/83985387325.21.jpg", name: "강아지 사료 눈물 가수분해 피부 알러지 말티즈 비숑 푸들 라비앙독 연어 1.8kg", price: 20900 },
+    { id: 3, imageUrl: "https://shopping-phinf.pstatic.net/main_1564506/15645061501.20240411092625.jpg", name: "로얄캐닌 하이포알러제닉 스몰독", price: 21960 },
+    { id: 4, imageUrl: "https://shopping-phinf.pstatic.net/main_1456236/14562361991.20240903141927.jpg", name: "NOW 그레인프리 스몰브리드 시니어", price: 19980 },
+    { id: 5, imageUrl: "https://shopping-phinf.pstatic.net/main_8358452/83584527138.7.jpg", name: "슈퍼벳 리퀴드잇 노령견 강아지 습식사료 액상사료 회복식 노견 200ml 5개", price: 29000 },
+    { id: 6, imageUrl: "https://shopping-phinf.pstatic.net/main_1140991/11409916892.24.jpg", name: "나우 눈물 사료 프레쉬 스몰브리드 어덜트 2.72kg", price: 39000 },
+    { id: 7, imageUrl: "https://shopping-phinf.pstatic.net/main_1232582/12325828530.20240903142042.jpg", name: "NOW 그레인프리 스몰브리드 어덜트", price: 22700 },
+    { id: 8, imageUrl: "https://shopping-phinf.pstatic.net/main_3095766/30957669618.20240829092620.jpg", name: "본아페티 강아지 다이어트 관절 소프트 반습식 사료", price: 18800 },
+];
+
+    // products 배열을 두 개씩 나누어 rows 배열로 생성
+    const rows = [];
+    for (let i = 0; i < products.length; i += 2) {
+        rows.push(products.slice(i, i + 2));
+    }
+
   return (
     <div className="page">
       <Header />
@@ -165,6 +191,11 @@ export default function Home() {
           </SelectBoxContainer>
         ))}
       </FilterContainer>
+      <ProductListContainer>
+                {rows.map((rowProducts, index) => (
+                    <ProductRow key={index} items={rowProducts} />
+                ))}
+      </ProductListContainer>
       <FooterNav />
     </div>
   );
