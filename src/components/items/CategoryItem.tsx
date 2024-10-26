@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import HeartSvg from '/public/svgs/element/heart.svg'
+import FullHeartSvg from '/public/svgs/element/heart_full.svg'
 
 interface Item {
     id: number;
@@ -29,6 +31,15 @@ const Thumbnail = styled.img`
     object-fit: cover; /* 이미지를 정사각형으로 채우기 */
 `;
 
+const HeartIconWrapper = styled.div`
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+`;
+
 const Info = styled.div`
     margin-top: 8px;
 `;
@@ -49,10 +60,19 @@ interface ItemCardProps {
 }
 
 export default function CategoryItem({ item }: ItemCardProps) {
+    const [isLiked, setIsLiked] = useState(false);
+
+    const toggleLike = () => {
+        setIsLiked(!isLiked);
+    };
+
     return (
         <Card>
             <ThumbnailWrapper>
                 <Thumbnail src={item.imageUrl} alt={item.name} />
+                <HeartIconWrapper onClick={toggleLike}>
+                    {isLiked ? <FullHeartSvg /> : <HeartSvg />}
+                </HeartIconWrapper>
             </ThumbnailWrapper>
             <Info>
                 <Name>{item.name}</Name>
