@@ -3,15 +3,14 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import BackSvg from '../../../public/svgs/back_arrow.svg'
-import ShoppingBasketSvg from '../../../public/svgs/black_shoppingbag.svg';
+import BackSvg from '/public/svgs/header/back_arrow.svg'
+import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 
 const Wrapper = styled.div`
   padding: 16px 14px;
 `;
 
 const Title = styled.div`
-    font-size: 20px;
     font-weight: 600;
 `;
 

@@ -2,9 +2,9 @@
 
 'use client';
 
-import Header from "@/components/layout/CategoryDetailHeader";
-import FooterNav from "@/components/layout/CategoryFooterNav";
-import ArrowSvg from "/public/svgs/down_arrow.svg";
+import Header from "@/components/header/CategoryDetailHeader";
+import FooterNav from "@/components/navbar/CategoryFooterNav";
+import ArrowSvg from "../../../../public/svgs/down_arrow.svg";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 
