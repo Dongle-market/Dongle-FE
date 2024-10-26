@@ -34,7 +34,7 @@ const Content = styled.div`
     left: 0;
     right: 0;
     height: 1px;
-    background-color: lightgray;  /* 회색 줄 */
+    background-color: lightgray;
   }
 `;
 
@@ -44,11 +44,11 @@ const Item = styled.div<Itemprops>`
   flex-shrink: 0;
   font-size: 16px;
   cursor: pointer;
-  color: ${({ $isSelected }) => ($isSelected ? "black" : "gray")};  /* 선택 시 검은색, 아니면 회색 */
+  color: ${({ $isSelected }) => ($isSelected ? "black" : "gray")};
   position: relative;
   &:after {
     content: '';
-    display: ${({ $isSelected }) => ($isSelected ? "block" : "none")}; /* 선택된 경우에만 검은색 줄 표시 */
+    display: ${({ $isSelected }) => ($isSelected ? "block" : "none")};
     position: absolute;
     bottom: -20.5px;
     left: 0;
@@ -62,7 +62,7 @@ const Item = styled.div<Itemprops>`
 const FilterContainer = styled.div`
     padding: 16px;
     display: flex;
-    gap: 8px;  /* Selectbox들 사이 간격 */
+    gap: 8px;
 `;
 
 const SelectBoxContainer = styled.div`
@@ -86,7 +86,7 @@ const Select = styled.select`
 
 const Arrow = styled.div`
     display: flex;
-    cursor: pointer; /* 클릭 가능하도록 설정 */
+    cursor: pointer;
 `;
 
 export default function Home() {
