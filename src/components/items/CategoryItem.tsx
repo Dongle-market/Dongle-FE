@@ -47,6 +47,13 @@ const Info = styled.div`
 const Name = styled.div`
     font-size: 14px;
     margin: 0;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
 `;
 
 const Price = styled.div`
