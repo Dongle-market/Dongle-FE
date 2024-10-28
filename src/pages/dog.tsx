@@ -1,7 +1,7 @@
 // /dog/pages.tsx
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainHeader from "@/components/header/MainHeader";
 import FooterNav from "@/components/navbar/MainFooterNav";
@@ -61,18 +61,22 @@ const ButtonWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const MainHeaderContainer = styled.div`
+interface MainHeaderContainerProps {
+  $isTop: boolean;
+}
+
+const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
   position: fixed;
   width: 100%;
   max-width: 600px;
   height: 102px;
   top: 0;
   box-sizing: border-box;
-  background-image: url('/images/background_main.png');
+  background-color: ${({ $isTop }) => ($isTop ? 'transparent' : '#ED6648')};
   background-size: cover;
   background-position: top;
   z-index: 1000;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.25s ease;
 `;
 
 
@@ -86,10 +90,25 @@ export default function Home() {
     { id: 6, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" }
   ];
 
+  const [isTop, setIsTop] = useState<boolean>(true);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsTop(false);
+      } else {
+        setIsTop(true);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
   return (
     <div className="page">
       <div className="mainpage">
-        <MainHeaderContainer>
+        <MainHeaderContainer $isTop={isTop}>
           <MainHeader />
           <ButtonWrapper>
             <Toggle />
