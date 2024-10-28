@@ -192,9 +192,9 @@ export default function Home() {
         ))}
       </FilterContainer>
       <ProductListContainer>
-                {rows.map((rowProducts, index) => (
-                    <ProductRow key={index} items={rowProducts} />
-                ))}
+        {rows.map((rowProducts, index) => (
+            <ProductRow key={index} items={rowProducts} />
+        ))}
       </ProductListContainer>
       <FooterNav />
     </div>
