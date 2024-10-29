@@ -1,6 +1,3 @@
-// components/SelectBox.tsx
-'use client'
-
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import ArrowSvg from "/public/svgs/element/down_arrow.svg";
@@ -14,18 +11,17 @@ const SelectBoxContainer = styled.div`
   position: relative;
 `;
 
-const Select = styled.select<{ test: number }>`
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
+const Select = styled.select<{ $width: number }>`
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   border: none;
   background: transparent;
   font-size: 12px;
   cursor: pointer;
   color: black;
-  padding-right: 20px;
   outline: none;
-  width: ${({ test }) => `${test}px`};
+  width: ${({ $width }) => `${$width}px`};
 `;
 
 const Arrow = styled.div`
@@ -40,21 +36,20 @@ interface SelectBoxProps {
 }
 
 export default function SelectBox({ options, selectedOption, onChange }: SelectBoxProps) {
-  const [selectWidth, setSelectWidth] = useState(50); // 초기 너비
+  const [selectWidth, setSelectWidth] = useState(50);
   const tempSpanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    // 선택된 옵션의 너비를 측정하여 설정
     if (tempSpanRef.current) {
       tempSpanRef.current.innerText = selectedOption;
-      setSelectWidth(tempSpanRef.current.offsetWidth + 20); // 여유 공간 추가
+      setSelectWidth(tempSpanRef.current.offsetWidth + 12);
     }
   }, [selectedOption]);
 
   return (
     <SelectBoxContainer>
       <Select
-        test={selectWidth}
+        $width={selectWidth}
         value={selectedOption}
         onChange={(e) => onChange(e.target.value)}
       >
@@ -67,8 +62,6 @@ export default function SelectBox({ options, selectedOption, onChange }: SelectB
       <Arrow>
         <ArrowSvg />
       </Arrow>
-
-      {/* 선택된 옵션의 길이를 계산하는 숨겨진 span */}
       <span ref={tempSpanRef} style={{ visibility: 'hidden', position: 'absolute', fontSize: '12px', whiteSpace: 'pre' }} />
     </SelectBoxContainer>
   );

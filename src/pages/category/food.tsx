@@ -1,12 +1,16 @@
 // /category/food/page.tsx
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Header from "@/components/header/CategoryDetailHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";
 import ProductRow from "@/components/items/CategoryItemsRow";
 import SelectBox from "@/components/header/SelectBox";
 import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  padding-bottom: 100px;
+`;
 
 const ProductListContainer = styled.div`
   padding: 16px;
@@ -70,40 +74,29 @@ const dummyProducts = [
   { id: 8, imageUrl: "https://shopping-phinf.pstatic.net/main_3095766/30957669618.20240829092620.jpg", name: "본아페티 강아지 다이어트 관절 소프트 반습식 사료", price: 18800 },
 ];
 
-// 데이터를 받아오는 함수 (예시 함수)
-async function getProductList(animalType: string, category: string) {
-  return dummyProducts;
-}
 
 export default function FoodPage() {
-  const [animalType, setAnimalType] = useState("강아지");
   const [category, setCategory] = useState("전체");
   const [products, setProducts] = useState(dummyProducts);
-
   const filters = [
     { id: "animal", options: ["강아지", "고양이"] },
-    { id: "category", options: ["전체", "습식사료", "소프트사료", "건식사료"] },
     { id: "sort", options: ["추천순", "최신순"] },
   ];
 
+  const categoryOptions = ["전체", "습식사료", "소프트사료", "건식사료"];
+
+  
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
-    category: "전체",
-    sort: "추천순"
+    animal: "강아지",
+    sort: "추천순",
   });
-
+  
   const handleSelectChange = (id: string, value: string) => {
-    setSelectedItems(prev => ({ ...prev, [id]: value }));
-    if (id === "category") setCategory(value);
+    setSelectedItems((prev) => ({ ...prev, [id]: value }));
   };
-
-  useEffect(() => {
-    async function fetchProducts(animalType: string, category: string) {
-      const data = await getProductList(animalType, category);          
-      setProducts(data);
-    }
-    
-    fetchProducts(animalType, category);
-  }, [animalType, category]);
+  const handleCategoryChange = (option: string) => {
+    setCategory(option);
+  };
 
   const rows = useMemo(() => {
     const result = [];
@@ -115,23 +108,24 @@ export default function FoodPage() {
 
   return (
     <div className="page">
-      <Header />
-      
-      {/* 카테고리 선택 표시 */}
-      <Content>
-        {filters[1].options.map(option => (
-          <Item
-            key={option}
-            $isSelected={selectedItems["category"] === option}
-            onClick={() => handleSelectChange("category", option)}
-          >
-            {option}
-          </Item>
-        ))}
-          </Content>
-      {/* 필터링 및 정렬 컨트롤 */}
-      <FilterContainer>
-        {filters.map(filter => (
+      <Header title={"사료"} />
+      <Wrapper>
+        {/* 카테고리 선택 표시 */}
+        <Content>
+          {categoryOptions.map(option => (
+            <Item
+              key={option}
+              $isSelected={category === option}
+              onClick={() => handleCategoryChange(option)}
+            >
+              {option}
+            </Item>
+          ))}
+        </Content>
+
+        {/* 필터링 및 정렬 컨트롤 */}
+        <FilterContainer>
+        {filters.map((filter) => (
           <SelectBox
             key={filter.id}
             options={filter.options}
@@ -139,16 +133,15 @@ export default function FoodPage() {
             onChange={(value) => handleSelectChange(filter.id, value)}
           />
         ))}
-      </FilterContainer>
+        </FilterContainer>
 
-
-      {/* 제품 리스트 */}
-      <ProductListContainer>
-        {rows.map((rowProducts, index) => (
-          <ProductRow key={index} items={rowProducts} />
-        ))}
-      </ProductListContainer>
-      
+        {/* 제품 리스트 */}
+        <ProductListContainer>
+          {rows.map((rowProducts, index) => (
+            <ProductRow key={index} items={rowProducts} />
+          ))}
+        </ProductListContainer>
+      </Wrapper>
       <FooterNav />
     </div>
   );
