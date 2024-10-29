@@ -8,9 +8,13 @@ import DogSvg from '/public/svgs/logo/logo_dog.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 
 const Wrapper = styled.div`
-  padding: 14px 16px;
   position: fixed;    /* 헤더를 상단에 고정 */
+  display: flex;
+  padding: 0 16px;
   width: 100%;
+  height: 60px;
+  align-items: center;
+  justify-content: space-between;
   top: 0;
   max-width: inherit;
   box-sizing: border-box;
@@ -19,12 +23,13 @@ const Wrapper = styled.div`
 
 const LogoContainer = styled.div`
   display: flex;
-  gap: 2px
+  gap: 2px;
 `;
 
 const LogoWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
   justify-content: space-between;
 `;
 
