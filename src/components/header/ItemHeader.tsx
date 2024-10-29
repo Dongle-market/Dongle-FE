@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   max-width: inherit;
   box-sizing: border-box;
   background-color: #f8f8f8;
+  z-index: 1000;
 `;
 
 const LogoContainer = styled.div`
