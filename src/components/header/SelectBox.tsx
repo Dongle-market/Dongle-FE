@@ -38,6 +38,7 @@ interface SelectBoxProps {
 export default function SelectBox({ options, selectedOption, onChange }: SelectBoxProps) {
   const [selectWidth, setSelectWidth] = useState(50);
   const tempSpanRef = useRef<HTMLSpanElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     if (tempSpanRef.current) {
@@ -46,9 +47,14 @@ export default function SelectBox({ options, selectedOption, onChange }: SelectB
     }
   }, [selectedOption]);
 
+  const handleArrowClick = () => {
+    selectRef.current?.focus();
+  };
+
   return (
     <SelectBoxContainer>
       <Select
+        ref={selectRef}
         $width={selectWidth}
         value={selectedOption}
         onChange={(e) => onChange(e.target.value)}
@@ -59,7 +65,7 @@ export default function SelectBox({ options, selectedOption, onChange }: SelectB
           </option>
         ))}
       </Select>
-      <Arrow>
+      <Arrow onClick={handleArrowClick}>
         <ArrowSvg />
       </Arrow>
       <span ref={tempSpanRef} style={{ visibility: 'hidden', position: 'absolute', fontSize: '12px', whiteSpace: 'pre' }} />

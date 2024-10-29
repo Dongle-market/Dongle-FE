@@ -12,11 +12,10 @@ interface TitleContainerProps {
 
 const ContentWrapper = styled.div`
     flex-grow: 1;
-    padding-bottom: 100px;  /* 임시로 푸터 높이만큼 하단 여백 추가 */
+    padding-bottom: 100px;
     padding-top: 60px;
 `;
 
-// Transient props를 사용해 props가 DOM에 전달되지 않도록 설정
 const TitleContainer = styled.div<TitleContainerProps>`
     display: flex;
     align-items: center;
@@ -31,7 +30,7 @@ const Title = styled.div`
 `;
 
 const Line = styled.div`
-    flex-grow: 1;          /* 남은 공간을 채워서 선이 길게 늘어남 */
+    flex-grow: 1;
     height: 1px;
     background-color: #d9d9d9;
 `;
@@ -48,18 +47,18 @@ const Subtitle = styled.div`
 
 const Content = styled.div`
     display: flex;
-    flex-direction: row;    /* 요소들을 가로로 나열 */
+    flex-direction: row;    
     padding: 0 8px;         
-    gap: 8px;               /* 요소들 사이의 간격 8px 설정 */
-    overflow-x: auto;       /* 내용이 넘치면 가로 스크롤 생성 */
+    gap: 8px;               
+    overflow-x: auto;
 `;
 
-const Item = styled(Link)`  /* Link로 Item을 클릭 가능하게 만듦 */
+const Item = styled(Link)`
     padding: 8px;
     border-radius: 30px;
     flex-shrink: 0;
     font-size: 14px;
-    text-decoration: none;    /* 링크의 기본 스타일을 없앰 */
+    text-decoration: none;
     color: black;
     display: inline-block;
     &:hover {
