@@ -38,7 +38,7 @@ const MainItem: React.FC<MainItemProps> = ({ name, price, imageUrl }) => {
         <ItemContainer>
             <Image src={imageUrl} alt={name} />
             <Name>{name}</Name>
-            <Price>{price}원</Price>
+            <Price>{price.toLocaleString()} 원</Price>
         </ItemContainer>
     );
 };

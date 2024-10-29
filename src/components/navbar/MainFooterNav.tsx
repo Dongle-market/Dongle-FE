@@ -3,11 +3,13 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 import HamburgerSvg from '/public/svgs/navbar/hamburger_icon.svg';
 import MyDongleSvg from '/public/svgs/navbar/mydongle_icon.svg';
 import DogHomeSvg from '/public/svgs/navbar/home_icon_select.svg';
-import BasketSvg from '/public/svgs/navbar/basket_icon.svg';
+import MyMarketSvg from '/public/svgs/navbar/basket_icon.svg';
 import MySvg from '/public/svgs/navbar/user_icon.svg';
+import { link } from 'fs';
 
 const FooterNavContainer = styled.nav`
   position: fixed;
@@ -37,7 +39,7 @@ const NavContainer = styled.div`
     width: 100%;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled(Link)`
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -46,6 +48,7 @@ const IconContainer = styled.div`
     color: black;
     text-align: center;
     align-items: center;
+    text-decoration: none;
 `;
 
 const BoldText = styled.span`
@@ -60,25 +63,25 @@ const MainFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
-        <IconContainer>
-            <HamburgerSvg />
-            <span>카테고리</span>
+        <IconContainer href="/mymarket/wishlist">
+          <HamburgerSvg />
+          <span>카테고리</span>
         </IconContainer>
-        <IconContainer>
-            <MyDongleSvg />
-            <span>마이 동글</span>
+        <IconContainer href="/mymarket/wishlist">
+          <MyDongleSvg />
+          <span>마이 동글</span>
         </IconContainer>
-        <IconContainer>
-            <DogHomeSvg />
-            <BoldText>동글 홈</BoldText>
+        <IconContainer href="/dog">
+          <DogHomeSvg />
+          <BoldText>동글 홈</BoldText>
         </IconContainer>
-        <IconContainer>
-            <BasketSvg />
-            <span>마이 마켓</span>
+        <IconContainer href="/mymarket/wishlist">
+          <MyMarketSvg />
+          <span>마이 마켓</span>
         </IconContainer>
-        <IconContainer>
-            <MySvg />
-            <span>내 정보</span>
+        <IconContainer href="/mymarket/wishlist">
+          <MySvg />
+          <span>내 정보</span>
         </IconContainer>
       </NavContainer>
     </FooterNavContainer>

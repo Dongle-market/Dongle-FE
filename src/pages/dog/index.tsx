@@ -144,7 +144,7 @@ export default function Home() {
             </ProductContainer>
           </ProductWrapper>
           <ProductWrapper>
-            <Title>우리 <BoldText>댕댕이</BoldText>를 위하여〰️🐶</Title>
+            <Title>우리집 <BoldText>댕댕이</BoldText>를 위하여〰️🐶</Title>
             <ProductContainer>
               {products.map(product => (
                 <MainItem

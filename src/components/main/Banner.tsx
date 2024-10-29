@@ -11,7 +11,7 @@ interface CustomSlideProps {
   image: string;
 }
 
-const CustomSlide = styled.div<CustomSlideProps>`
+const CustomSlide = styled.div<{ $image: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@ const CustomSlide = styled.div<CustomSlideProps>`
   height: 240px;
   width: 100%;
   border-radius: 8px;
-  background-image: url(${props => props.image});
+  background-image: url(${props => props.$image});
 `;
 
 const BannerContainer = styled.div`
@@ -92,7 +92,7 @@ const Banner: React.FC = () => {
         <SliderWrapper>
             <Slider {...settings}>
                 {images.map((image, index) => (
-                    <CustomSlide key={index} image={image} />
+                    <CustomSlide key={index} $image={image} />
                 ))}
             </Slider>
         </SliderWrapper>

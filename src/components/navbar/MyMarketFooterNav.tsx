@@ -3,6 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 import HamburgerSvg from '/public/svgs/navbar/hamburger_icon.svg';
 import MyDongleSvg from '/public/svgs/navbar/mydongle_icon.svg';
 import DogHomeSvg from '/public/svgs/navbar/home_icon.svg';
@@ -37,7 +38,7 @@ const NavContainer = styled.div`
     width: 100%;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled(Link)`
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -46,6 +47,7 @@ const IconContainer = styled.div`
     color: black;
     text-align: center;
     align-items: center;
+    text-decoration: none;
 `;
 
 const BoldText = styled.span`
@@ -60,23 +62,23 @@ const MyMarketFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
-        <IconContainer>
+        <IconContainer href="/">
             <HamburgerSvg />
             <span>카테고리</span>
         </IconContainer>
-        <IconContainer>
+        <IconContainer href="/">
             <MyDongleSvg />
             <span>마이 동글</span>
         </IconContainer>
-        <IconContainer>
+        <IconContainer href="/dog">
             <DogHomeSvg />
             <span>동글 홈</span>
         </IconContainer>
-        <IconContainer>
+        <IconContainer href="/mymarket/wishlist">
             <BasketSvg />
             <BoldText>마이 마켓</BoldText>
         </IconContainer>
-        <IconContainer>
+        <IconContainer href="/">
             <MySvg />
             <span>내 정보</span>
         </IconContainer>

@@ -1,7 +1,9 @@
+// CategoryItem.tsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import HeartSvg from '/public/svgs/element/heart.svg'
 import FullHeartSvg from '/public/svgs/element/heart_full.svg'
+import SelectPets from './SelectPets';
 
 interface Item {
     id: number;
@@ -17,7 +19,7 @@ const Card = styled.div`
 const ThumbnailWrapper = styled.div`
     position: relative;
     width: 100%;
-    padding-top: 100%; /* 정사각형 비율 유지 */
+    padding-top: 100%;
     overflow: hidden;
     border-radius: 4px;
 `;
@@ -28,7 +30,7 @@ const Thumbnail = styled.img`
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 이미지를 정사각형으로 채우기 */
+    object-fit: cover;
 `;
 
 const HeartIconWrapper = styled.div`
@@ -64,10 +66,11 @@ const Price = styled.div`
 
 interface ItemCardProps {
     item: Item;
+    defaultLiked?: boolean;
 }
 
-export default function CategoryItem({ item }: ItemCardProps) {
-    const [isLiked, setIsLiked] = useState(false);
+export default function CategoryItem({ item, defaultLiked = false }: ItemCardProps) {
+    const [isLiked, setIsLiked] = useState(defaultLiked);
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
@@ -86,5 +89,26 @@ export default function CategoryItem({ item }: ItemCardProps) {
                 <Price>{item.price.toLocaleString()} 원</Price>
             </Info>
         </Card>
+    );
+}
+
+interface CategoryItemWrapperProps {
+    item: Item;
+    hasAdditionalElement?: boolean;
+    defaultLiked?: boolean;
+}
+
+const CategoryItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export function CategoryItemWrapper({ item, hasAdditionalElement = false, defaultLiked = false }: CategoryItemWrapperProps) {
+    return (
+        <CategoryItemContainer>
+            <CategoryItem item={item} defaultLiked={defaultLiked}/>
+            {hasAdditionalElement && <SelectPets />}
+        </CategoryItemContainer>
     );
 }
