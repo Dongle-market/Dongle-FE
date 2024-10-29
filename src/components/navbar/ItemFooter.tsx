@@ -1,5 +1,9 @@
+// components/ItemFooter.tsx
+
 import styled, { css } from 'styled-components';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HeartSvg from '/public/svgs/element/heart.svg';
 import HeartFullSvg from '/public/svgs/element/heart_full.svg';
 import PlusSvg from '/public/svgs/element/plus.svg';
@@ -114,6 +118,15 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
 
   const toggleHeart = () => {
     setIsHeartFilled(!isHeartFilled);
+    if (!isHeartFilled) {
+      toast(
+        <div>
+          상품을 위시리스트에 담았어요!
+          <br />
+          <strong>이제 상품을 주고 싶은 반려동물을 지정할 수 있어요.</strong>
+        </div>
+      );
+    }
   };
 
   const toggleProfileBorder = (index: number) => {
@@ -123,39 +136,62 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
   };
 
   return (
-    <Wrapper>
-      <TopContainer>
-        <Price>{formattedPrice}</Price>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {isHeartFilled && (
-            <ProfileWrapper>
-              {profileImages.map((src, index) => (
-                <ProfileImage
-                  key={index}
-                  src={src}
-                  alt={`Profile ${index + 1}`}
-                  $isSelected={selectedProfiles[index]}
-                  onClick={() => toggleProfileBorder(index)}
-                />
-              ))}
-            </ProfileWrapper>
-          )}
-          {/* 하트와 프로필 이미지를 개별 컨테이너에 넣어 분리 */}
-          <HeartContainer onClick={toggleHeart}>
-            {isHeartFilled ? <HeartFullSvg /> : <HeartSvg />}
-          </HeartContainer>
-        </div>
-      </TopContainer>
-      <BottomContainer>
-        <QuantityContainer>
-          <MinusSvg onClick={handleDecrease} style={{ cursor: 'pointer' }}>-</MinusSvg>
-          <span>{quantity}개</span>
-          <PlusSvg onClick={handleIncrease} style={{ cursor: 'pointer' }}>+</PlusSvg>
-        </QuantityContainer>
-        <BasketButton>장바구니</BasketButton>
-        <BuyButton>주문하기</BuyButton>
-      </BottomContainer>
-    </Wrapper>
+    <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick
+        pauseOnHover
+        style={{
+          marginBottom: '131px',
+          width: '100%',
+        }}
+      />
+      <Wrapper>
+        <TopContainer>
+          <Price>{formattedPrice}</Price>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {isHeartFilled && (
+              <ProfileWrapper>
+                {profileImages.map((src, index) => (
+                  <ProfileImage
+                    key={index}
+                    src={src}
+                    alt={`Profile ${index + 1}`}
+                    $isSelected={selectedProfiles[index]}
+                    onClick={() => toggleProfileBorder(index)}
+                  />
+                ))}
+              </ProfileWrapper>
+            )}
+            <HeartContainer onClick={toggleHeart}>
+              {isHeartFilled ? <HeartFullSvg /> : <HeartSvg />}
+            </HeartContainer>
+          </div>
+        </TopContainer>
+        <BottomContainer>
+          <QuantityContainer>
+            <MinusSvg onClick={handleDecrease} style={{ cursor: 'pointer' }}>-</MinusSvg>
+            <span>{quantity}개</span>
+            <PlusSvg onClick={handleIncrease} style={{ cursor: 'pointer' }}>+</PlusSvg>
+          </QuantityContainer>
+          <BasketButton>장바구니</BasketButton>
+          <BuyButton>주문하기</BuyButton>
+        </BottomContainer>
+      </Wrapper>
+      {/* Custom CSS for toast style */}
+      <style jsx global>{`
+        .Toastify__toast {
+          font-size: 14px;
+          background-color: rgba(0, 0, 0, 0.5) !important;
+          color: #fff !important;
+          backdrop-filter: blur(5px);
+          border-radius: 16px;
+          margin: 16px;
+        }
+      `}</style>
+    </>
   );
 };
 
