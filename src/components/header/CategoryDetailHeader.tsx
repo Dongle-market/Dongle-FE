@@ -20,12 +20,16 @@ const LogoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const CategoryDetailHeader = () => {
+interface CategoryDetailHeaderProps {
+  title: string;
+}
+
+const CategoryDetailHeader : React.FC<CategoryDetailHeaderProps> = ({ title }) => {
   return (
     <Wrapper>
       <LogoWrapper>
           <BackSvg />
-          <Title>사료</Title>
+          <Title>{title}</Title>
         <ShoppingBasketSvg />
       </LogoWrapper>      
     </Wrapper>
