@@ -4,6 +4,7 @@
 
 import Header from "@/components/header/ItemHeader";
 import FooterNav from "@/components/navbar/ItemFooter";
+import InfoSection from "@/components/items/ItemInfo";
 import styled from 'styled-components';
 import Link from "next/link";
 
@@ -42,6 +43,12 @@ export default function Home() {
                         alt="Product Image"
                     />
                 </ImageWrapper>
+                <InfoSection
+                    categories={['사료', '건식사료']}
+                    brand="now"
+                    productName="NOW 그레인프리 스몰브리드 시니어"
+                    price={44900}
+                />
             </div>
             <FooterNav price={44900} profileImages={profileImages} />
         </div>
