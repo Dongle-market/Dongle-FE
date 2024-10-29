@@ -6,7 +6,7 @@ import PlusSvg from '/public/svgs/element/plus.svg';
 import MinusSvg from '/public/svgs/element/minus.svg';
 
 const Wrapper = styled.div`
-  padding: 16px;
+  padding: 24px 16px;
   position: fixed;
   width: 100%;
   max-width: inherit;
@@ -76,14 +76,14 @@ const ProfileWrapper = styled.div`
 `;
 
 const ProfileImage = styled.img<{ $isSelected: boolean }>`
-  width: 24px;
-  height: 24px;
+  width: 31px;
+  height: 31px;
   border-radius: 50%;
-  border: 1px solid #f8f8f8;
+  border: 2px solid #f8f8f8;
   ${({ $isSelected }) =>
     $isSelected &&
     css`
-      border: 1px solid #FF9E7E;
+      border: 2px solid #FF9E7E;
     `}
 `;
 
