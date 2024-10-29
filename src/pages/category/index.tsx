@@ -10,12 +10,7 @@ interface TitleContainerProps {
     $marginTop?: number;
 }
 
-const ContentWrapper = styled.div`
-    flex-grow: 1;
-    padding-bottom: 100px;
-    padding-top: 60px;
-`;
-
+// Transient props를 사용해 props가 DOM에 전달되지 않도록 설정
 const TitleContainer = styled.div<TitleContainerProps>`
     display: flex;
     align-items: center;
@@ -30,7 +25,7 @@ const Title = styled.div`
 `;
 
 const Line = styled.div`
-    flex-grow: 1;
+    flex-grow: 1;          /* 남은 공간을 채워서 선이 길게 늘어남 */
     height: 1px;
     background-color: #d9d9d9;
 `;
@@ -47,18 +42,18 @@ const Subtitle = styled.div`
 
 const Content = styled.div`
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;    /* 요소들을 가로로 나열 */
     padding: 0 8px;         
-    gap: 8px;               
-    overflow-x: auto;
+    gap: 8px;               /* 요소들 사이의 간격 8px 설정 */
+    overflow-x: auto;       /* 내용이 넘치면 가로 스크롤 생성 */
 `;
 
-const Item = styled(Link)`
+const Item = styled(Link)`  /* Link로 Item을 클릭 가능하게 만듦 */
     padding: 8px;
     border-radius: 30px;
     flex-shrink: 0;
     font-size: 14px;
-    text-decoration: none;
+    text-decoration: none;    /* 링크의 기본 스타일을 없앰 */
     color: black;
     display: inline-block;
     &:hover {
@@ -70,7 +65,7 @@ export default function Home() {
     return (
         <div className="page">
             <Header />
-            <ContentWrapper>
+            <div className="content">
             {/* 강아지 섹션 */}
             <TitleContainer $marginTop={16}>
                 <Title>강아지</Title>
@@ -138,7 +133,7 @@ export default function Home() {
                     <Item href="/cat/food">목욕용품</Item>
                 </Content>
             </ContentContainer>
-            </ContentWrapper>
+            </div>
             <FooterNav />
         </div>
     );
