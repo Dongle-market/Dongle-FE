@@ -47,7 +47,7 @@ const Info = styled.div`
 const Name = styled.div`
     font-size: 14px;
     margin: 0;
-    height: 40px;
+    height: 38px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
