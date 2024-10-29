@@ -74,29 +74,29 @@ export default function Home() {
             <ContentContainer>
                 <Subtitle>사료</Subtitle>
                 <Content>
-                    <Item href="/dog/food">전체</Item>
-                    <Item href="/dog/wet-food">습식사료</Item>
-                    <Item href="/dog/soft-food">소프트사료</Item>
-                    <Item href="/dog/dry-food">건식사료</Item>
+                    <Item href="/category/food">전체</Item>
+                    <Item href="/category/food">습식사료</Item>
+                    <Item href="/category/food">소프트사료</Item>
+                    <Item href="/category/food">건식사료</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>간식</Subtitle>
                 <Content>
-                    <Item href="/dog/food">전체</Item>
-                    <Item href="/dog/food">수제간식</Item>
-                    <Item href="/dog/food">빵/케이크</Item>
-                    <Item href="/dog/food">뼈간식</Item>
-                    <Item href="/dog/food">껌</Item>
+                    <Item href="/category/snack">전체</Item>
+                    <Item href="/category/snack">수제간식</Item>
+                    <Item href="/category/snack">빵/케이크</Item>
+                    <Item href="/category/snack">뼈간식</Item>
+                    <Item href="/category/snack">껌</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>용품</Subtitle>
                 <Content>
-                    <Item href="/dog/food">전체</Item>
-                    <Item href="/dog/food">위생용품</Item>
-                    <Item href="/dog/food">목욕용품</Item>
-                    <Item href="/dog/food">훈련용품</Item>
+                    <Item href="/category/goods">전체</Item>
+                    <Item href="/category/goods">위생용품</Item>
+                    <Item href="/category/goods">목욕용품</Item>
+                    <Item href="/category/goods">훈련용품</Item>
                 </Content>
             </ContentContainer>
 
@@ -108,29 +108,29 @@ export default function Home() {
             <ContentContainer>
                 <Subtitle>사료</Subtitle>
                 <Content>
-                    <Item href="/cat/food">전체</Item>
-                    <Item href="/cat/food">캔/통조림</Item>
-                    <Item href="/cat/food">건식사료</Item>
-                    <Item href="/cat/food">습식사료</Item>
-                    <Item href="/cat/food">에어/동결사료</Item>
+                    <Item href="/category/food">전체</Item>
+                    <Item href="/category/food">캔/통조림</Item>
+                    <Item href="/category/food">건식사료</Item>
+                    <Item href="/category/food">습식사료</Item>
+                    <Item href="/category/food">에어/동결사료</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>간식</Subtitle>
                 <Content>
-                    <Item href="/cat/food">전체</Item>
-                    <Item href="/cat/food">파우치/츄르</Item>
-                    <Item href="/cat/food">수제간식</Item>
-                    <Item href="/cat/food">캣닢/캣그라스</Item>
+                    <Item href="/category/snack">전체</Item>
+                    <Item href="/category/snack">파우치/츄르</Item>
+                    <Item href="/category/snack">수제간식</Item>
+                    <Item href="/category/snack">캣닢/캣그라스</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>용품</Subtitle>
                 <Content>
-                    <Item href="/cat/food">전체</Item>
-                    <Item href="/cat/food">캣타워</Item>
-                    <Item href="/cat/food">급수기</Item>
-                    <Item href="/cat/food">목욕용품</Item>
+                    <Item href="/category/goods">전체</Item>
+                    <Item href="/category/goods">캣타워</Item>
+                    <Item href="/category/goods">급수기</Item>
+                    <Item href="/category/goods">목욕용품</Item>
                 </Content>
             </ContentContainer>
             </div>
