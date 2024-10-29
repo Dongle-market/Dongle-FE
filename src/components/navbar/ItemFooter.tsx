@@ -1,4 +1,4 @@
-import styled,{ css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import HeartSvg from '/public/svgs/element/heart.svg';
 import HeartFullSvg from '/public/svgs/element/heart_full.svg';
@@ -51,12 +51,12 @@ const QuantityContainer = styled.div`
 `;
 
 const Button = styled.button`
-    padding: 8px 16px;
-    border: 1px solid #E55737;
-    border-radius: 20px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
+  padding: 8px 16px;
+  border: 1px solid #E55737;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 `;
 
 const BuyButton = styled(Button)`
@@ -69,28 +69,41 @@ const BasketButton = styled(Button)`
   color: black;
 `;
 
-const ProfileWrapper = styled.div<{ $isSelected: boolean }>`
+const ProfileWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+`;
+
+const ProfileImage = styled.img<{ $isSelected: boolean }>`
   width: 24px;
   height: 24px;
-  overflow: hidden;
-  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #f8f8f8;
   ${({ $isSelected }) =>
     $isSelected &&
     css`
-      border: 1px solid #000;
+      border: 1px solid #FF9E7E;
     `}
 `;
 
-const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+const HeartContainer = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
-const ItemFooter = ({ price }: { price: number }) => {
+interface ItemFooterProps {
+  price: number;
+  profileImages: string[];
+}
+
+const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
   const [quantity, setQuantity] = useState(1);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
-  const [isProfileSelected, setIsProfileSelected] = useState(false);
+  const [selectedProfiles, setSelectedProfiles] = useState<boolean[]>(() =>
+    Array(profileImages.length).fill(false)
+  );
 
   const formattedPrice = `${price.toLocaleString('ko-KR')} 원`;
 
@@ -103,28 +116,34 @@ const ItemFooter = ({ price }: { price: number }) => {
     setIsHeartFilled(!isHeartFilled);
   };
 
-  const toggleProfileBorder = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    setIsProfileSelected(!isProfileSelected);
+  const toggleProfileBorder = (index: number) => {
+    setSelectedProfiles((prevSelected) =>
+      prevSelected.map((isSelected, i) => (i === index ? !isSelected : isSelected))
+    );
   };
 
   return (
     <Wrapper>
       <TopContainer>
         <Price>{formattedPrice}</Price>
-        <div onClick={toggleHeart} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {isHeartFilled && (
-              <ProfileWrapper
-              $isSelected={isProfileSelected}
-              onClick={toggleProfileBorder}
-            >
-              <ProfileImage
-                src="https://via.placeholder.com/24x24.png?text=%20"
-                alt="Profile"
-              />
+            <ProfileWrapper>
+              {profileImages.map((src, index) => (
+                <ProfileImage
+                  key={index}
+                  src={src}
+                  alt={`Profile ${index + 1}`}
+                  $isSelected={selectedProfiles[index]}
+                  onClick={() => toggleProfileBorder(index)}
+                />
+              ))}
             </ProfileWrapper>
-            )}
-          {isHeartFilled ? <HeartFullSvg /> : <HeartSvg />}
+          )}
+          {/* 하트와 프로필 이미지를 개별 컨테이너에 넣어 분리 */}
+          <HeartContainer onClick={toggleHeart}>
+            {isHeartFilled ? <HeartFullSvg /> : <HeartSvg />}
+          </HeartContainer>
         </div>
       </TopContainer>
       <BottomContainer>
