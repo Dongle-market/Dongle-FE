@@ -3,7 +3,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import BackSvg from '/public/svgs/header/back_arrow.svg'
+import { useRouter } from 'next/navigation'; // useRouter를 import
+import BackSvg from '/public/svgs/header/back_arrow.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 
 const Wrapper = styled.div`
@@ -30,11 +31,21 @@ interface CategoryDetailHeaderProps {
 }
 
 const CategoryDetailHeader: React.FC<CategoryDetailHeaderProps> = ({ title }) => {
+  const router = useRouter();
+
+  const handleBackClick = () => {
+    router.back(); // 이전 페이지로 이동
+  };
+
+  const handleCartClick = () => {
+    router.push('/mymarket/cart');
+  };
+
   return (
     <Wrapper>
-      <BackSvg />
+      <BackSvg onClick={handleBackClick} style={{ cursor: 'pointer' }} />
       <Title>{title}</Title>
-      <ShoppingBasketSvg />
+      <ShoppingBasketSvg onClick={handleCartClick} style={{ cursor: 'pointer' }} />
     </Wrapper>
   );
 }
