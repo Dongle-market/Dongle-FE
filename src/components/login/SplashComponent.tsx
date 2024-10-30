@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BigLogoDongleSvg from '/public/svgs/logo/biglogo_dongle_kor.svg';
 
-const SplashContainer = styled.div`
+const SplashContainer = styled.div<{ show: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,9 @@ const SplashContainer = styled.div`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: ${props => props.show ? 1000 : 0};
+  opacity: ${props => props.show ? 1 : 0};
+  transition: opacity 0.5s;
 `;
 
 const LogoContainer = styled.div`
@@ -31,11 +33,17 @@ const LogoContainer = styled.div`
   background-color: #F8F8F8;
 `;
 
-const SplashScreen = () => {
+interface SplashScreenProps {
+  show: boolean;
+}
+
+const SplashScreen: React.FC<SplashScreenProps> = ({
+  show
+}) => {
   return (
-    <SplashContainer>
+    <SplashContainer show={show}>
       <LogoContainer>
-        내 반려동물을 위한 쇼핑몰
+        내 반려동물을 위한 쇼핑몰,
         <BigLogoDongleSvg />
       </LogoContainer>
     </SplashContainer>
