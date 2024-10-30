@@ -105,7 +105,12 @@ const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, re
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined
+                progress: undefined,
+                style: {
+                    marginBottom: '32px',
+                    marginRight: '16px',
+                    marginLeft: '16px'
+                }
             });
         }
     };

@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   background-color: #fdfdfd;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  border: solid 1px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -146,7 +147,8 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
         closeOnClick
         pauseOnHover
         style={{
-          marginBottom: '131px',
+          marginBottom: '123px',
+          padding: 0,
           width: '100%',
         }}
       />
@@ -184,6 +186,10 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
       </Wrapper>
       {/* Custom CSS for toast style */}
       <style jsx global>{`
+        .Toastify__toast-container {
+          max-width: 600px;
+          width: 100%;
+        }
         .Toastify__toast {
           font-size: 14px;
           background-color: rgba(0, 0, 0, 0.5) !important;
