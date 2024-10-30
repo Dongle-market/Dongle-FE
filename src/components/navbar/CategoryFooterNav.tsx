@@ -70,7 +70,7 @@ const CategoryFooterNav = () => {
             <MyDongleSvg />
             <span>마이 동글</span>
         </IconContainer>
-        <IconContainer href="/dog">
+        <IconContainer href="/home">
             <DogHomeSvg />
             <span>동글 홈</span>
         </IconContainer>

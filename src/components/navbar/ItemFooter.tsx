@@ -147,7 +147,7 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
         closeOnClick
         pauseOnHover
         style={{
-          marginBottom: '123px',
+          marginBottom: '135px',
           padding: 0,
           width: '100%',
         }}

@@ -1,21 +1,21 @@
 // /mymarket/wishlist/pages.tsx
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import WishlistHeader from '@/components/header/CategoryHeader';
 import MyMarketFooterNav from '@/components/navbar/MyMarketFooterNav';
 import TabMenu from '@/components/header/TabMenu';
 import { CategoryItemWrapper } from '@/components/items/CategoryItem';
 
-interface Item {
+interface WishlistItem {
     id: number;
     imageUrl: string;
     name: string;
     price: number;
 };
 
-const items: Item[] = [
+const items: WishlistItem[] = [
     { id: 1, imageUrl: '/images/An.png', name: '보류입니다.', price: 34000 },
     { id: 2, imageUrl: '/images/Baek.png', name: '어얼얽--', price: 34000 },
     { id: 3, imageUrl: '/images/An.png', name: '고기가 이븐하게 익지 않아써여', price: 34000 },
@@ -43,10 +43,24 @@ const Wrapper = styled.div`
     width: calc(50% - 16px);
 `;
 
-export default function Home() {
+export default function WishlistPage() {
+    const [itemCount, setItemCount] = useState(0);
+
+    useEffect(() => {
+        const updateItemCount = () => {
+            const count = parseInt(localStorage.getItem('cartItemCount') || '0');
+            setItemCount(count);
+        };
+
+        updateItemCount();
+        window.addEventListener('storage', updateItemCount);
+        return () => window.removeEventListener('storage', updateItemCount);
+    }, []);
+
+
     return (
         <div className="page">
-            <WishlistHeader />
+            <WishlistHeader itemCount={itemCount}/>
             <div className='content'>
                 <TabMenu />
                 <WishlistContainer>

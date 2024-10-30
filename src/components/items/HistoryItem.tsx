@@ -1,0 +1,203 @@
+// HistoryItem.tsx
+'use client';
+
+import React from 'react';
+import styled from 'styled-components';
+import SelectPets from './SelectPets';
+import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const HistoryItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 0;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D9D9D9;
+`;
+
+const Image = styled.img`
+  width: 84px;
+  height: 84px;
+  border-radius: 16px;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  max-width: 468px;
+  width: 100%;
+`;
+
+const Info = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+`;
+
+const Name = styled.div`
+    font-size: 16px;
+    overflow: hidden;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
+`;
+
+const Price = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+const DateText = styled.div`
+  font-size: 12px;
+  color: #545454;
+  padding-left: 4px;
+  white-space: nowrap;
+`;
+
+const CartButton = styled.button`
+  background-color: #F1F1F1;
+  font-family: "Pretendard";
+  font-size: 12px;
+  color: #5E5E5E;
+  text-decoration: none;
+  border-radius: 30px;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+`;
+
+interface HistoryItemProps {
+    imageUrl: string;
+    name: string;
+    price: number;
+    cartItems: { name: string; price: number; }[];
+}
+
+const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, cartItems }) => {
+    const currentDate = new Date().toLocaleDateString('ko-KR');
+
+    const isItemInCart = () => {
+        return cartItems.some(item => item.name === name && item.price === price);
+    };
+
+    const ToastContent = () => {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                color: 'white',
+                fontSize: '12px'
+            }}>
+                <span>장바구니에 상품을 담았습니다.</span>
+                <Link href="/mymarket/cart" style={{ color: 'white' }}>바로가기</Link>
+            </div>
+        );
+    };
+
+    const ToastContentAlreadyInCart = () => {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                color: 'white',
+                fontSize: '12px'
+            }}>
+                <span>이미 장바구니에 있는 상품입니다.</span>
+                <Link href="/mymarket/cart" style={{ color: 'white' }}>바로가기</Link>
+            </div>
+        );
+    };
+
+    const commonToastOptions = {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+            marginBottom: '82px',
+            marginRight: '16px',
+            marginLeft: '16px',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            borderRadius: '16px',
+        }
+    };
+
+    const handleAddToCart = () => {
+        if (isItemInCart()) {
+            toast(<ToastContentAlreadyInCart />, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                style: {
+                    marginBottom: '82px',
+                    marginRight: '16px',
+                    marginLeft: '16px',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    borderRadius: '16px',
+                }
+            });
+        } else {
+            // Code to add item to cart
+            toast(<ToastContent />, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                style: {
+                    marginBottom: '82px',
+                    marginRight: '16px',
+                    marginLeft: '16px',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    borderRadius: '16px',
+                }
+            });
+        }
+    };
+
+    return (
+        <HistoryItemContainer>
+            <Image src={imageUrl} alt={name} />
+            <InfoContainer>
+                <Info>
+                    <Name>{name}</Name>
+                    <DateText>{currentDate} 구매</DateText>
+                </Info>
+                <Price>{price.toLocaleString()} 원</Price>
+                <Info>
+                    <SelectPets />
+                    <CartButton onClick={handleAddToCart}>장바구니 담기</CartButton>
+                </Info>
+            </InfoContainer>
+        </HistoryItemContainer>
+    );
+};
+
+export default HistoryItem;

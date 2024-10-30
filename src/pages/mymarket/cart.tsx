@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import WishlistHeader from '@/components/header/CategoryHeader';
+import CartHeader from '@/components/header/CategoryHeader';
 import MyMarketFooterNav from '@/components/navbar/MyMarketFooterNav';
 import TabMenu from '@/components/header/TabMenu';
 import BoxSvg from '/public/svgs/element/box.svg';
@@ -11,14 +11,14 @@ import CheckBoxSvg from '/public/svgs/element/check_box.svg';
 import CartItem from '@/components/items/CartItem';
 import OrderSummary from '@/components/items/OrderSummary';
 
-interface Item {
+interface CartItem {
     id: number;
     imageUrl: string;
     name: string;
     price: number;
 };
 
-const initialItems: Item[] = [
+const initialItems: CartItem[] = [
     { id: 1, imageUrl: '/images/Son&Jeon.png', name: '왜저뤠ㅞㅞ~~', price: 34000 },
     { id: 2, imageUrl: '/images/Baek.png', name: '어얼얽--', price: 34000 },
     { id: 3, imageUrl: '/images/An.png', name: '고기가 이븐하게 익지 않아써여', price: 34000 },
@@ -28,7 +28,8 @@ const initialItems: Item[] = [
     { id: 7, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
     { id: 8, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
     { id: 9, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
-    { id: 10, imageUrl: '/images/product1.png', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000 }
+    { id: 10, imageUrl: '/images/product1.png', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000 },
+    { id: 11, imageUrl: '/images/Son&Jeon.png', name: '왜저뤠ㅞㅞ~~', price: 34000 }
 ];
 
 const ChoiceDelete = styled.div`
@@ -68,8 +69,8 @@ interface SelectedItems {
     [key: number]: boolean;
 }
 
-export default function Home() {
-    const [items, setItems] = useState<Item[]>(initialItems);
+export default function CartPage() {
+    const [items, setItems] = useState<CartItem[]>(initialItems);
     const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
     const [selectAll, setSelectAll] = useState(true);
 
@@ -99,12 +100,12 @@ export default function Home() {
 
     const removeItem = (id: number) => {
         const newItems = items.filter(item => item.id !== id);
+        setItems(newItems);
         setSelectedItems(prevState => {
             const newState = { ...prevState };
             delete newState[id];
             return newState;
         });
-        setItems(newItems);
     };
 
     const removeSelectedItems = () => {
@@ -119,7 +120,7 @@ export default function Home() {
 
     return (
         <div className="page">
-            <WishlistHeader />
+            <CartHeader itemCount={itemCount}/>
             <div className='content' style={{ paddingBottom: '163px' }}>
                 <TabMenu />
                 <ChoiceDelete onClick={toggleSelectAll}>
