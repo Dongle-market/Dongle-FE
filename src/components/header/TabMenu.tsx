@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const TabBarContainer = styled.div`
@@ -31,22 +32,40 @@ const Tab = styled.button<{ $isActive: boolean }>`
 `;
 
 export const TabMenu: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('wishlist');
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('');
 
-  const handleTabClick = (tab: string) => {
+  useEffect(() => {
+    switch (router.pathname) {
+      case '/mymarket/wishlist':
+        setActiveTab('wishlist');
+        break;
+      case '/mymarket/cart':
+        setActiveTab('cart');
+        break;
+      case '/mymarket/history':
+        setActiveTab('history');
+        break;
+      default:
+        setActiveTab('wishlist');
+    }
+  }, [router.pathname]);
+
+  const handleTabClick = (tab: string, url: string) => {
     setActiveTab(tab);
+    router.push(url);
   };
 
   return (
     <>
       <TabBarContainer>
-        <Tab $isActive={activeTab === 'wishlist'} onClick={() => handleTabClick('wishlist')}>
+        <Tab $isActive={activeTab === 'wishlist'} onClick={() => handleTabClick('wishlist', '/mymarket/wishlist')}>
           위시리스트
         </Tab>
-        <Tab $isActive={activeTab === 'cart'} onClick={() => handleTabClick('cart')}>
+        <Tab $isActive={activeTab === 'cart'} onClick={() => handleTabClick('cart', '/mymarket/cart')}>
           장바구니
         </Tab>
-        <Tab $isActive={activeTab === 'orders'} onClick={() => handleTabClick('orders')}>
+        <Tab $isActive={activeTab === 'history'} onClick={() => handleTabClick('history', '/mymarket/history')}>
           주문내역
         </Tab>
       </TabBarContainer>

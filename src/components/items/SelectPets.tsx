@@ -17,13 +17,13 @@ const SelectPetsContainer = styled.div`
 `;
 
 const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string }>`
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background-image: url(${props => props.$backgroundUrl});
   background-size: cover;
   background-position: center;
-  border: 1px solid ${props => props.$isSelected ? '#E55737' : '#F8F8F8'};
+  border: 2px solid ${props => props.$isSelected ? '#E55737' : '#F8F8F8'};
   cursor: pointer;
   display: flex;
   justify-content: center;

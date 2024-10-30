@@ -63,7 +63,7 @@ const MainFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
-        <IconContainer href="/mymarket/wishlist">
+        <IconContainer href="/category">
           <HamburgerSvg />
           <span>카테고리</span>
         </IconContainer>
