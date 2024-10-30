@@ -8,10 +8,6 @@ import ProductRow from "@/components/items/CategoryItemsRow";
 import SelectBox from "@/components/header/SelectBox";
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  padding-bottom: 100px;
-`;
-
 const ProductListContainer = styled.div`
   padding: 16px;
   display: flex;
@@ -109,7 +105,7 @@ export default function FoodPage() {
   return (
     <div className="page">
       <Header title={"간식"}/>
-      <Wrapper>
+      <div className="content">
         {/* 카테고리 선택 표시 */}
         <Content>
             {categoryOptions.map(option => (
@@ -141,7 +137,7 @@ export default function FoodPage() {
             <ProductRow key={index} items={rowProducts} />
             ))}
         </ProductListContainer>
-      </Wrapper>
+      </div>
       <FooterNav />
     </div>
   );
