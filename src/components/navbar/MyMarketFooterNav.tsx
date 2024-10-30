@@ -62,7 +62,7 @@ const MyMarketFooterNav = () => {
   return (
     <FooterNavContainer>
       <NavContainer>
-        <IconContainer href="/">
+        <IconContainer href="/category">
             <HamburgerSvg />
             <span>카테고리</span>
         </IconContainer>

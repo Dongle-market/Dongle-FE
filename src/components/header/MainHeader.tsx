@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import DongleSvg from '/public/svgs/logo/whitelogo_dongle.svg'
 import DogSvg from '/public/svgs/logo/logo_dog.svg';
 import ShoppingBasketSvg from '/public/svgs/header/white_shoppingbag.svg';
+import Link from 'next/link';
 
 const HeaderContainer = styled.div`
   position: fixed;
@@ -16,9 +17,10 @@ const HeaderContainer = styled.div`
   z-index: 1000;
   box-sizing: border-box;
 `;
-const LogoContainer = styled.div`
+const LogoContainer = styled(Link)`
   display: flex;
-  gap: 2px
+  gap: 2px;
+  text-decoration: none;
 `;
 
 const LogoWarpper = styled.div`
@@ -31,7 +33,7 @@ const MainHeader = () => {
   return (
     <HeaderContainer>
       <LogoWarpper>
-        <LogoContainer>
+        <LogoContainer href="/dog">
           <DongleSvg />
           <DogSvg />
         </LogoContainer>
