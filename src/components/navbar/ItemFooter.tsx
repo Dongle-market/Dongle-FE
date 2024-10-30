@@ -53,6 +53,7 @@ const QuantityContainer = styled.div`
   border-radius: 20px;
   font-size: 16px;
   font-weight: 600;
+  flex-grow: 1;
 `;
 
 const Button = styled.button`
