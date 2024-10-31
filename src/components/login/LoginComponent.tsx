@@ -30,16 +30,18 @@ const KakaoLoginButtonContainer = styled.div`
 
 interface LoginComponentProps {
   show: boolean;
+  kakaoLogin: () => void;
 }
 
 const LoginComponent: React.FC<LoginComponentProps> = ({
-  show
+  show,
+  kakaoLogin,
 }) => {
   return (
     <LogoWrapper show={show}>
       <BigLogoDongleSvg />
       <KakaoLoginButtonContainer>
-        <KakaoLoginButton />
+        <KakaoLoginButton onClick={kakaoLogin} />
       </KakaoLoginButtonContainer>
     </LogoWrapper>
   )

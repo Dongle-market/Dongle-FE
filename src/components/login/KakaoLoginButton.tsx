@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import KakaoLogoSvg from "/public/svgs/element/kakao_logo.svg";
-import { kakaoLogin } from "@/services/auth/kakaoLogin";
 
 const KaKaoLoginButtonContainer = styled.div`
   display: flex;
@@ -23,9 +22,13 @@ const TextContainer = styled.div`
   flex-grow: 1;
 `
 
-const KakaoLoginButton = () => {
+interface KakaoLoginButtonProps {
+  onClick: () => void;
+}
+
+const KakaoLoginButton: React.FC<KakaoLoginButtonProps> = ({ onClick }) => {
   return (
-    <KaKaoLoginButtonContainer onClick={kakaoLogin}>
+    <KaKaoLoginButtonContainer onClick={onClick}>
       <KakaoLogoSvg />
       <TextContainer>
         카카오로 시작하기
