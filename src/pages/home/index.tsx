@@ -1,4 +1,4 @@
-// /dog/pages.tsx
+// /home/index.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -80,7 +80,24 @@ const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
 `;
 
 
-export default function Home() {
+export default function DogHome() {
+  const [itemCount, setItemCount] = useState(0);
+
+  useEffect(() => {
+    const fetchCartItems = () => {
+      const cartItemCount = parseInt(localStorage.getItem('cartItemCount') || '0', 10);
+      setItemCount(cartItemCount);
+      console.log("현재 장바구니 아이템 수:", cartItemCount);
+    };
+  
+    fetchCartItems();
+    window.addEventListener('storage', fetchCartItems);
+  
+    return () => {
+      window.removeEventListener('storage', fetchCartItems);
+    };
+  }, []);
+
   const products = [
     { id: 1, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
     { id: 2, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
@@ -91,6 +108,7 @@ export default function Home() {
   ];
 
   const [isTop, setIsTop] = useState<boolean>(true);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -109,7 +127,7 @@ export default function Home() {
     <div className="page">
       <div className="mainpage">
         <MainHeaderContainer $isTop={isTop}>
-          <MainHeader />
+          <MainHeader itemCount={itemCount}/>
           <ButtonWrapper>
             <Toggle />
             <MenuBar />

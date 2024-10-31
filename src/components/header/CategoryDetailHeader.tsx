@@ -3,7 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation'; // useRouter를 import
+import { useRouter } from 'next/navigation';
 import BackSvg from '/public/svgs/header/back_arrow.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 

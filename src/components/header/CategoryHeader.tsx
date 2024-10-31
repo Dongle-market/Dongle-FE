@@ -36,15 +36,41 @@ const LogoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const CategoryHeader = () => {
+const BasketContainer = styled.div`
+  position: relative;
+`;
+
+const ItemCountBadge = styled.span`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #E55737;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+`;
+
+interface CategoryHeaderProps {
+  itemCount: number;
+}
+
+const CategoryHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
   return (
     <Wrapper>
       <LogoWrapper>
-        <LogoContainer href="/dog">
+        <LogoContainer href="/home">
           <DongleSvg />
           <DogSvg />
         </LogoContainer>
-        <ShoppingBasketSvg />
+        <BasketContainer>
+          <ShoppingBasketSvg />
+          {itemCount > 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+        </BasketContainer>
       </LogoWrapper>      
     </Wrapper>
   );

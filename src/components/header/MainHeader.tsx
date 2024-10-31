@@ -1,7 +1,7 @@
 // MainHeader.tsx
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DongleSvg from '/public/svgs/logo/whitelogo_dongle.svg'
 import DogSvg from '/public/svgs/logo/logo_dog.svg';
@@ -29,15 +29,41 @@ const LogoWarpper = styled.div`
   justify-content: space-between;
 `;
 
-const MainHeader = () => {
+const BasketContainer = styled.div`
+  position: relative;
+`;
+
+const ItemCountBadge = styled.span`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: white;
+  color: #E55737;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+`;
+
+interface CategoryHeaderProps {
+  itemCount: number;
+}
+
+const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
   return (
     <HeaderContainer>
       <LogoWarpper>
-        <LogoContainer href="/dog">
+        <LogoContainer href="/home">
           <DongleSvg />
           <DogSvg />
         </LogoContainer>
-        <ShoppingBasketSvg />
+        <BasketContainer>
+          <ShoppingBasketSvg />
+          {itemCount >= 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+        </BasketContainer>
       </LogoWarpper>      
     </HeaderContainer>
   );
