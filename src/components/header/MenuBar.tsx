@@ -6,10 +6,9 @@ import styled from 'styled-components';
 
 const MenuBarContainer = styled.div`
   display: flex;
-  gap: 12px;
+  gap: 8px;
   overflow-x: auto;
   white-space: nowrap;
-  margin-top: 60px;
 
   ::-webkit-scrollbar {
     display: none;
@@ -26,6 +25,7 @@ const MenuItem = styled.div`
   font-size: 14px;
   white-space: nowrap;
   color: white;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(229, 77, 41, 0.5);

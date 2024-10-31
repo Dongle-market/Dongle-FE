@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import CartHeader from '@/components/header/CategoryHeader';
 import MyMarketFooterNav from '@/components/navbar/MyMarketFooterNav';
 import TabMenu from '@/components/header/TabMenu';
-import BoxSvg from '/public/svgs/element/box.svg';
-import CheckBoxSvg from '/public/svgs/element/check_box.svg';
+import NonCheckSvg from '/public/svgs/element/non_check.svg';
+import CheckSvg from '/public/svgs/element/check.svg';
 import CartItem from '@/components/items/CartItem';
 import OrderSummary from '@/components/items/OrderSummary';
 
@@ -125,7 +125,7 @@ export default function CartPage() {
                 <TabMenu />
                 <ChoiceDelete onClick={toggleSelectAll}>
                     <CheckBoxContainer>
-                        {selectAll ? <CheckBoxSvg /> : <BoxSvg />}
+                        {selectAll ? <CheckSvg /> : <NonCheckSvg />}
                         <TotalChoiceText>전체선택</TotalChoiceText>
                     </CheckBoxContainer>
                     <DeleteText onClick={removeSelectedItems}>선택 삭제</DeleteText>

@@ -17,7 +17,7 @@ const Image = styled.img`
 
 const Price = styled.div`
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 4px;
 `;
 

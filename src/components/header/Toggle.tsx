@@ -15,7 +15,6 @@ const ToggleContainer = styled.div`
   border: 1.5px solid #E55737;
   padding: 4px;
   box-sizing: border-box;
-  margin-top: 60px;
 `;
 
 const Button = styled.button<{ selected: boolean }>`

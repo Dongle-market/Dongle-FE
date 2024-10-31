@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import AddSvg from '/public/svgs/element/add.svg';
 import RemoveSvg from '/public/svgs/element/remove.svg';
-import BoxSvg from '/public/svgs/element/box.svg';
-import CheckBoxSvg from '/public/svgs/element/check_box.svg';
+import NonCheckSvg from '/public/svgs/element/non_check.svg';
+import CheckSvg from '/public/svgs/element/check.svg';
 import CloseSvg from '/public/svgs/element/close.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -118,7 +118,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, re
     return (
         <ItemContainer>
             <InfoContainer onClick={toggleSelection}>
-                {selected ? <CheckBoxSvg /> : <BoxSvg />}
+                {selected ? <CheckSvg /> : <NonCheckSvg />}
                 <Thumbnail src={item.imageUrl} alt={item.name} />
                 <Info>
                     <Name>{item.name}</Name>

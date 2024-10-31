@@ -7,6 +7,7 @@ import DongleSvg from '/public/svgs/logo/blacklogo_dongle.svg'
 import DogSvg from '/public/svgs/logo/logo_dog.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 import Link from 'next/link';
+import router, { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -60,6 +61,12 @@ interface CategoryHeaderProps {
 }
 
 const CategoryHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+  const router = useRouter();
+
+  const handleCartClick = () => {
+    router.push('/mymarket/cart');
+  };
+  
   return (
     <Wrapper>
       <LogoWrapper>
@@ -67,11 +74,11 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
           <DongleSvg />
           <DogSvg />
         </LogoContainer>
-        <BasketContainer>
+        <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
           <ShoppingBasketSvg />
           {itemCount > 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
         </BasketContainer>
-      </LogoWrapper>      
+      </LogoWrapper>
     </Wrapper>
   );
 }
