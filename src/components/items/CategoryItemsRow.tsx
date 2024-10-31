@@ -9,21 +9,21 @@ const Row = styled.div`
 `;
 
 interface Item {
-    id: number;
-    imageUrl: string;
-    name: string;
-    price: number;
+    itemId: number;
+    image: string;
+    title: string;
+    lprice: string;
 }
 
 interface ItemRowProps {
     items: Item[];
 }
 
-export default function itemRow({ items }: ItemRowProps) {
+export default function CategoryItemsRow({ items }: ItemRowProps) {
     return (
         <Row>
             {items.map((item) => (
-                <CategoryItem key={item.id} item={item} />
+                <CategoryItem key={item.itemId} item={item} />
             ))}
         </Row>
     );

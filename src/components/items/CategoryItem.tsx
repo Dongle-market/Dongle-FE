@@ -1,15 +1,15 @@
 // CategoryItem.tsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import HeartSvg from '/public/svgs/element/heart.svg'
-import FullHeartSvg from '/public/svgs/element/heart_full.svg'
+import HeartSvg from '/public/svgs/element/heart.svg';
+import FullHeartSvg from '/public/svgs/element/heart_full.svg';
 import SelectPets from './SelectPets';
 
 interface Item {
-    id: number;
-    imageUrl: string;
-    name: string;
-    price: number;
+    itemId: number;
+    image: string;
+    title: string;
+    lprice: string;
 }
 
 const Card = styled.div`
@@ -79,14 +79,14 @@ export default function CategoryItem({ item, defaultLiked = false }: ItemCardPro
     return (
         <Card>
             <ThumbnailWrapper>
-                <Thumbnail src={item.imageUrl} alt={item.name} />
+                <Thumbnail src={item.image} alt={item.title} />
                 <HeartIconWrapper onClick={toggleLike}>
                     {isLiked ? <FullHeartSvg /> : <HeartSvg />}
                 </HeartIconWrapper>
             </ThumbnailWrapper>
             <Info>
-                <Name>{item.name}</Name>
-                <Price>{item.price.toLocaleString()} 원</Price>
+                <Name>{item.title}</Name>
+                <Price>{item.lprice.toLocaleString()} 원</Price>
             </Info>
         </Card>
     );
