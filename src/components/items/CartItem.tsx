@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 interface Item {
     id: number;
     imageUrl: string;
+    brand: string
     name: string;
     price: number;
 }
