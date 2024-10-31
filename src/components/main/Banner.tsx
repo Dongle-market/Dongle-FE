@@ -24,10 +24,10 @@ const CustomSlide = styled.div<{ $image: string }>`
 `;
 
 const BannerContainer = styled.div`
-  padding: 16px 16px 32px 16px;
+  padding: 0 16px 32px 16px;
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 96px;
+  margin-top: 112px;
 `;
 
 const SliderWrapper = styled.div`

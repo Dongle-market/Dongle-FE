@@ -5,10 +5,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainHeader from "@/components/header/MainHeader";
 import FooterNav from "@/components/navbar/MainFooterNav";
-import MenuBar from "@/components/header/MenuBar";
 import Banner from "@/components/main/Banner";
 import MainItem from "@/components/items/MainItem";
-import Toggle from '@/components/header/Toggle';
 
 const DogMainPage = styled.div`
   display: flex;
@@ -47,39 +45,6 @@ const ProductWrapper = styled.div`
   padding: 0 0 32px 16px;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 0 16px;
-  gap: 12px;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  max-width: 600px;
-  top: 0;
-  z-index: 1000;
-  box-sizing: border-box;
-`;
-
-interface MainHeaderContainerProps {
-  $isTop: boolean;
-}
-
-const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
-  position: fixed;
-  width: 100%;
-  max-width: 600px;
-  height: 102px;
-  top: 0;
-  box-sizing: border-box;
-  background-color: ${({ $isTop }) => ($isTop ? 'transparent' : '#ED6648')};
-  background-size: cover;
-  background-position: top;
-  z-index: 1000;
-  transition: background-color 0.25s ease;
-`;
-
-
 export default function DogHome() {
   const [itemCount, setItemCount] = useState(0);
 
@@ -89,10 +54,10 @@ export default function DogHome() {
       setItemCount(cartItemCount);
       console.log("현재 장바구니 아이템 수:", cartItemCount);
     };
-  
+
     fetchCartItems();
     window.addEventListener('storage', fetchCartItems);
-  
+
     return () => {
       window.removeEventListener('storage', fetchCartItems);
     };
@@ -107,32 +72,10 @@ export default function DogHome() {
     { id: 6, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" }
   ];
 
-  const [isTop, setIsTop] = useState<boolean>(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsTop(false);
-      } else {
-        setIsTop(true);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
-
   return (
     <div className="page">
+      <MainHeader itemCount={itemCount} />
       <div className="mainpage">
-        <MainHeaderContainer $isTop={isTop}>
-          <MainHeader itemCount={itemCount}/>
-          <ButtonWrapper>
-            <Toggle />
-            <MenuBar />
-          </ButtonWrapper>
-        </MainHeaderContainer>
         <DogMainPage>
           <Banner />
           <ProductWrapper>
