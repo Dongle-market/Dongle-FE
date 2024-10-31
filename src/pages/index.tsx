@@ -1,15 +1,27 @@
 // /pages.tsx
-import MainHeader from "@/components/header/MainHeader";
-import FooterNav from "@/components/navbar/MainFooterNav";
-import MenuBar from "@/components/header/MenuBar";
-import Banner from "@/components/main/Banner";
+'use client';
+
+import React, { useEffect, useState } from "react";
+
+import SplashComponent from "@/components/login/SplashComponent";
+import LoginComponent from "@/components/login/LoginComponent";
+import { kakaoLogin } from "@/services/auth/kakao";
 
 export default function Home() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="page">
-      <div className="mainpage">
-        안녕
-      </div>
+      <SplashComponent show={showSplash} />
+      <LoginComponent show={!showSplash} kakaoLogin={kakaoLogin} />
     </div>
   );
 }
