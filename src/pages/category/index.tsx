@@ -64,7 +64,7 @@ const Item = styled(Link)`  /* Link로 Item을 클릭 가능하게 만듦 */
 export default function Home() {
     return (
         <div className="page">
-            <Header />
+            <Header itemCount={0} />
             <div className="content">
             {/* 강아지 섹션 */}
             <TitleContainer $marginTop={16}>
@@ -75,9 +75,9 @@ export default function Home() {
                 <Subtitle>사료</Subtitle>
                 <Content>
                     <Item href="/category/food">전체</Item>
-                    <Item href="/category/food">습식사료</Item>
-                    <Item href="/category/food">소프트사료</Item>
-                    <Item href="/category/food">건식사료</Item>
+                    <Item href="/category/food?species=dog&sub=wet">습식사료</Item>
+                    <Item href="/category/food?species=dog&sub=soft">소프트사료</Item>
+                    <Item href="/category/food?species=dog&sub=dry">건식사료</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
