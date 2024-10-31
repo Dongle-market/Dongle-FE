@@ -7,3 +7,10 @@ export const Server = axios.create({
   },
   timeout: 3000,
 })
+
+Server.interceptors.request.use((config) => {
+    const token = localStorage.getItem('accessToken');
+    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    return config;
+  }
+)

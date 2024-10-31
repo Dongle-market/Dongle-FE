@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import SplashComponent from "@/components/login/SplashComponent";
 import LoginComponent from "@/components/login/LoginComponent";
-import { kakaoLogin } from "@/services/auth/kakaoLogin";
+import { kakaoLogin } from "@/services/auth/kakao";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
