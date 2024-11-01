@@ -235,7 +235,7 @@ export default function myDongle() {
 
   return (
     <div className="page">
-      {/* <Header /> */}
+      <Header />
       <PetHeader>
         <DogImg01 src={DogImg} alt="강아지 이미지" />
         <CatImg01 src={CatImg} alt="고양이 이미지" />
