@@ -10,6 +10,8 @@ import ErrorSvg from '/public/svgs/element/error.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
+import MyDongleAddHeader from '../../components/myDongle/myDongleHeader';
+import AddPetActiveSvg from '/public/svgs/pet/addpet_active.svg';
 
 interface CartItem {
     id: number;
@@ -38,29 +40,12 @@ interface SelectedItems {
     [key: number]: boolean;
 };
 
-// const PetProfile = styled.img`
-//     width: 100px;
-//     height: 100px;
-//     border-radius: 50%;
-// `;
-
-// const AddPetButton = styled.button`
-//     padding: 12px;
-//     background-color: #080808;
-//     color: white;
-//     border: none;
-//     border-radius: 10px;
-//     cursor: pointer;
-//     font-size: 16px;
-//     margin-top: 12px;
-// `;
-
 const TitleWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 0 16px 16px 16px;
 `;
 
 const Title = styled.span`
@@ -255,6 +240,7 @@ export default function MyDongleAddPage() {
                 toastStyle={{ margin: '16px', width: 'calc(100% - 32px)' }}
             />
             <div className='content'>
+                <MyDongleAddHeader />
                 <TitleWrapper>
                     <Title>ARRIVAL CARD</Title>
                     <SemiTitle>입국신고서 (댕냥전용)</SemiTitle>
