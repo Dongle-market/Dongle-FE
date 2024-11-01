@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import HeartSvg from '/public/svgs/element/heart.svg';
 import FullHeartSvg from '/public/svgs/element/heart_full.svg';
 import SelectPets from './SelectPets';
+import { removeHtmlTags } from '@/utils/removeHtmlTags';
 
 interface Item {
     itemId: number;
@@ -85,7 +86,7 @@ export default function CategoryItem({ item, defaultLiked = false }: ItemCardPro
                 </HeartIconWrapper>
             </ThumbnailWrapper>
             <Info>
-                <Name>{item.title}</Name>
+                <Name>{removeHtmlTags(item.title)}</Name>
                 <Price>{item.lprice.toLocaleString()} 원</Price>
             </Info>
         </Card>
