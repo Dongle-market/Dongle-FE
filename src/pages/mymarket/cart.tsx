@@ -82,7 +82,7 @@ export default function CartPage() {
             initialSelectedItems[item.id] = true;
         });
         setSelectedItems(initialSelectedItems);
-    }, []);
+    }, [items]);
 
     const toggleSelectAll = () => {
         const newSelectAll = !selectAll;
@@ -104,25 +104,35 @@ export default function CartPage() {
         const newItems = items.filter(item => item.id !== id);
         setItems(newItems);
         setSelectedItems(prevState => {
-            const newState = { ...prevState };
+            const newState: SelectedItems = { ...prevState };
             delete newState[id];
+            const allSelected = newItems.every(item => newState[item.id]);
+            setSelectAll(allSelected);
             return newState;
         });
     };
-
+    
     const removeSelectedItems = () => {
         const newItems = items.filter(item => !selectedItems[item.id]);
         setItems(newItems);
-        setSelectedItems({});
+        setSelectedItems(prevState => {
+            const newSelectedItems: SelectedItems = {};
+            newItems.forEach(item => {
+                newSelectedItems[item.id] = prevState[item.id] ?? false;
+            });
+            const allSelected = newItems.length > 0 && Object.values(newSelectedItems).every(value => value);
+            setSelectAll(allSelected);
+            return newSelectedItems;
+        });
     };
 
-    const itemCount = Object.values(selectedItems).filter(Boolean).length;
-
+    const itemCount = items.length;
+    const selectedCount = Object.values(selectedItems).filter(Boolean).length;
     const totalPrice = items.reduce((total, item) => total + (selectedItems[item.id] ? item.price : 0), 0);
 
     return (
         <div className="page">
-            <CartHeader itemCount={itemCount}/>
+            <CartHeader itemCount={items.length} />
             <div className='content' style={{ paddingBottom: '163px' }}>
                 <TabMenu />
                 <ChoiceDelete onClick={toggleSelectAll}>
@@ -136,7 +146,7 @@ export default function CartPage() {
                     <CartItem key={item.id} item={item} selected={selectedItems[item.id]} toggleSelection={() => toggleItemSelection(item.id)} removeItem={() => removeItem(item.id)} />
                 ))}
             </div>
-            {itemCount > 0 && <OrderSummary itemCount={itemCount} totalPrice={totalPrice} />}
+            {itemCount > 0 && <OrderSummary itemCount={selectedCount} totalPrice={totalPrice} />}
             <MyMarketFooterNav />
         </div>
     );
