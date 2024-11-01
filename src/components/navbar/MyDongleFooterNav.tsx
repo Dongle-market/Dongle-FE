@@ -78,7 +78,7 @@ const MyDongleFooterNav = () => {
             <BasketSvg />
             <span>마이 마켓</span>
         </IconContainer>
-        <IconContainer href="/">
+        <IconContainer href="/profile">
             <MySvg />
             <span>내 정보</span>
         </IconContainer>

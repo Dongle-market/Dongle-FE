@@ -10,7 +10,7 @@ import DogImg from "../../../public/images/dog01.png";
 import CatImg from "../../../public/images/cat01.png";
 import Addpet from "../../../public/svgs/pet/addpet.svg";
 import CodeBlock from "/public/svgs/pet/codeBlock.svg";
-import MyDongleHeader from "@/components/myDongle/MyDongleHeader";
+import MyDongleHeader from "../../components/myDongle/myDongleHeader"
 
 const PetHeader = styled.div`
   padding-top: 36px;
