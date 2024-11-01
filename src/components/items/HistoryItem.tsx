@@ -16,6 +16,10 @@ const HistoryItemContainer = styled.div`
   padding: 16px 0;
   background-color: #FFFFFF;
   border-bottom: 1px solid #D9D9D9;
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const Image = styled.img`
@@ -47,7 +51,7 @@ const Name = styled.div`
     overflow: hidden;
     flex-grow: 1;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     white-space: normal;
@@ -56,13 +60,6 @@ const Name = styled.div`
 const Price = styled.div`
   font-size: 16px;
   font-weight: 600;
-`;
-
-const DateText = styled.div`
-  font-size: 12px;
-  color: #545454;
-  padding-left: 4px;
-  white-space: nowrap;
 `;
 
 const CartButton = styled.button`
@@ -81,11 +78,11 @@ interface HistoryItemProps {
     imageUrl: string;
     name: string;
     price: number;
+    orderDate: string;
     cartItems: { name: string; price: number; }[];
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, cartItems }) => {
-    const currentDate = new Date().toLocaleDateString('ko-KR');
+const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderDate, cartItems }) => {
 
     const isItemInCart = () => {
         return cartItems.some(item => item.name === name && item.price === price);
@@ -188,7 +185,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, cartIt
             <InfoContainer>
                 <Info>
                     <Name>{name}</Name>
-                    <DateText>{currentDate} 구매</DateText>
                 </Info>
                 <Price>{price.toLocaleString()} 원</Price>
                 <Info>
