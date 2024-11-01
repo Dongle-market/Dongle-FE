@@ -1,56 +1,85 @@
-// /myDongle/myDongleHeader.tsx
+// myDongleHeader.tsx
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
-import Header from "@/components/header/CategoryHeader";
 import Image from "next/image";
-import DogImg from "../../../public/images/dog01.png";
-import CatImg from "../../../public/images/cat01.png";
-import Addpet from "../../../public/svgs/pet/addpet.svg";
+import AddPetSvg from "../../../public/svgs/pet/addpet.svg";
+import AddPetActiveSvg from "../../../public/svgs/pet/addpetactive.svg";
+import { useRouter } from "next/router";
 
 const PetHeader = styled.div`
   padding-top: 36px;
-  height: 124px;
   width: 100%;
-  background-color: #f8f8f8;
   display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
+  gap: 16px;
+  padding: 32px 16px 24px 16px;
+  box-sizing: border-box;
 `;
 
-const DogImg01 = styled(Image)`
-  margin-left: 16px;
+interface PetProfileProps {
+  selected: boolean;
+}
+
+const PetProfile = styled.div<PetProfileProps>`
+  position: relative;
   width: 64px;
   height: 64px;
-  border-radius: 100%;
-  border: 2px solid #e55737;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid ${({ selected }) => (selected ? '#e55737' : 'transparent')};
 `;
 
-const DogImg02 = styled(Image)`
-  margin-left: 20px;
-  width: 86px;
-  height: 86px;
-  border-radius: 10%;
-`;
-
-const CatImg01 = styled(Image)`
-  margin-left: 16px;
-  margin-right: 16px;
+const AddPetIcon = styled.div`
   width: 64px;
   height: 64px;
-  border-radius: 100%;
+  cursor: pointer;
 `;
+
+const petProfiles = [
+  { id: 1, src: "/images/dog01.png", alt: "Dog" },
+  { id: 2, src: "/images/cat01.png", alt: "Cat" }
+];
 
 const MyDongleHeader = () => {
+  const router = useRouter();
+  const [isActive, setIsActive] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (router.pathname === '/mydongle/add') {
+      setIsActive(true);
+    }
+  }, [router.pathname]);
+
+  const handleAddPetClick = () => {
+    if (!isActive) {
+      router.push('/mydongle/add');
+    }
+  };
+
+  const handleProfileClick = (id: number) => {
+    if (router.pathname !== '/mydongle/add') {
+      setSelectedProfile(id);
+    }
+  };
+
   return (
-    <>
-      <PetHeader>
-        <DogImg01 src={DogImg} alt="강아지 이미지" />
-        <CatImg01 src={CatImg} alt="고양이 이미지" />
-        <Addpet />
-      </PetHeader>
-    </>
+    <PetHeader>
+      {petProfiles.map((profile) => (
+        <PetProfile
+          key={profile.id}
+          selected={selectedProfile === profile.id}
+          onClick={() => handleProfileClick(profile.id)}
+        >
+          <Image src={profile.src} alt={profile.alt} layout="fill" objectFit="cover" />
+        </PetProfile>
+      ))}
+      <AddPetIcon onClick={handleAddPetClick}>
+        {isActive ? <AddPetActiveSvg /> : <AddPetSvg />}
+      </AddPetIcon>
+    </PetHeader>
   );
 };
 
