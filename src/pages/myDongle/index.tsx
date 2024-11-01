@@ -10,9 +10,10 @@ import DogImg from "../../../public/images/dog01.png";
 import CatImg from "../../../public/images/cat01.png";
 import Addpet from "../../../public/svgs/pet/addpet.svg";
 import CodeBlock from "/public/svgs/pet/codeBlock.svg";
+import MyDongleHeader from "@/components/myDongle/MyDongleHeader";
 
 const PetHeader = styled.div`
-  padding-top: 96px;
+  padding-top: 36px;
   height: 124px;
   width: 100%;
   background-color: #f8f8f8;
@@ -132,7 +133,6 @@ const TitleTextContianer = styled.div`
 
 const Position = styled.div`
   display: flex;
-  /* display: flex; */
 `;
 
 const LineComponent = styled.div`
@@ -143,11 +143,7 @@ const LineComponent = styled.div`
 `;
 const PetsPortContainer = styled.div`
   position: absolute;
-  z-index: 1;
-  /* width: 100%; */
-  left: 8px;
-  right: 8px;
-  padding: 0 20px;
+  width: 100%;
   height: 30px;
   bottom: 24px;
   /* background-image: url(/svgs/pet/codeBlock.svg);
@@ -189,7 +185,7 @@ const TabComponent = styled.div`
 
 const NoneComponent = styled.div`
   width: 100%;
-  height: 500px;
+  height: 300px;
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   justify-content: center; /* 세로 중앙 정렬 */
@@ -235,71 +231,69 @@ export default function myDongle() {
 
   return (
     <div className="page">
-      <Header />
-      <PetHeader>
-        <DogImg01 src={DogImg} alt="강아지 이미지" />
-        <CatImg01 src={CatImg} alt="고양이 이미지" />
-        <Addpet />
-      </PetHeader>
-      <PetsportComponent>
-        <Petsport>
-          <PetsportPage>
-            <TextLine>
-              <PetsportText>
-                여권 <BoldText>PETSPORT</BoldText>
-              </PetsportText>
-              <DongleText>동글월드 REPUBLIC OF DONGLE</DongleText>
-            </TextLine>
-            <Position>
-              <DogImg02 src={DogImg} alt="강아지 이미지" />
-              <TitleTextContianer>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <TitleText>이름</TitleText>
-                  <InfoText>동글이</InfoText>
-                </div>
+      <Header itemCount={5} />
+      <div className="content">
+        <MyDongleHeader />
+        <PetsportComponent>
+          <Petsport>
+            <PetsportPage>
+              <TextLine>
+                <PetsportText>
+                  여권 <BoldText>PETSPORT</BoldText>
+                </PetsportText>
+                <DongleText>동글월드 REPUBLIC OF DONGLE</DongleText>
+              </TextLine>
+              <Position>
+                <DogImg02 src={DogImg} alt="강아지 이미지" />
+                <TitleTextContianer>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <TitleText>이름</TitleText>
+                    <InfoText>동글이</InfoText>
+                  </div>
 
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <TitleText>국가코드</TitleText>
-                  <InfoText>KOR</InfoText>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <TitleText>여권번호</TitleText>
-                  <InfoText>DOG001</InfoText>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <TitleText>나이</TitleText>
-                  <InfoText>7세</InfoText>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <TitleText>성별</TitleText>
-                  <InfoText>여</InfoText>
-                </div>
-              </TitleTextContianer>
-            </Position>
-            <PetsPortContainer>
-              <img src="/svgs/pet/codeBlock.svg" alt="여권코드이미지" />
-              {/* <Image  fill /> */}
-            </PetsPortContainer>
-          </PetsportPage>
-        </Petsport>
-      </PetsportComponent>
-      <Position>
-        <LineComponent />
-        <LineComponent2 />
-      </Position>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <TitleText>국가코드</TitleText>
+                    <InfoText>KOR</InfoText>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <TitleText>여권번호</TitleText>
+                    <InfoText>DOG001</InfoText>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <TitleText>나이</TitleText>
+                    <InfoText>7세</InfoText>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <TitleText>성별</TitleText>
+                    <InfoText>여</InfoText>
+                  </div>
+                </TitleTextContianer>
+              </Position>
+              <PetsPortContainer>
+                <img src="/svgs/pet/codeBlock.svg" alt="여권코드이미지" />
+                {/* <Image  fill /> */}
+              </PetsPortContainer>
+            </PetsportPage>
+          </Petsport>
+        </PetsportComponent>
+        <Position>
+          <LineComponent />
+          <LineComponent2 />
+        </Position>
+        <TabComponent>
+          <Tab01>위시리스트</Tab01>
+          <Tab02>주문내역</Tab02>
+        </TabComponent>
+        <NoneComponent>
+          <NoneText>
+            내 아이에게 주고싶은 물건을
+            <br />
+            위시리스트에서 고를 수 있어요!
+          </NoneText>
+          <GoToWishListButton>위시리스트 바로가기</GoToWishListButton>
+        </NoneComponent>
+      </div>
       <MyDongleFooterNav />
-      <TabComponent>
-        <Tab01>위시리스트</Tab01>
-        <Tab02>주문내역</Tab02>
-      </TabComponent>
-      <NoneComponent>
-        <NoneText>
-          내 아이에게 주고싶은 물건을
-          <br />
-          위시리스트에서 고를 수 있어요!
-        </NoneText>
-        <GoToWishListButton>위시리스트 바로가기</GoToWishListButton>
-      </NoneComponent>
     </div>
   );
 }
