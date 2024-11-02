@@ -16,6 +16,7 @@ interface HistoryItem {
   imageUrl: string;
   name: string;
   price: number;
+  selectedPetIds: number[];
 };
 
 interface HistoryGroup {
@@ -29,22 +30,22 @@ const items: HistoryGroup[] = [
     date: '2024-10-30',
     status: '결제완료',
     items: [
-      { id: 1, imageUrl: '/images/An.png', name: '보류입니다.', price: 34000 },
-      { id: 2, imageUrl: '/images/Baek.png', name: '어얼얽--', price: 34000 },
-      { id: 3, imageUrl: '/images/An.png', name: '고기가 이븐하게 익지 않아써여', price: 34000 },
-      { id: 4, imageUrl: '/images/Baek.png', name: '이거는 장바구니에 없는 거지롱~~', price: 34000 },
+      { id: 1, imageUrl: '/images/An.png', name: '보류입니다.', price: 34000, selectedPetIds: [1, 2] },
+      { id: 2, imageUrl: '/images/Baek.png', name: '어얼얽--', price: 34000, selectedPetIds: [1] },
+      { id: 3, imageUrl: '/images/An.png', name: '고기가 이븐하게 익지 않아써여', price: 34000, selectedPetIds: [3] },
+      { id: 4, imageUrl: '/images/Baek.png', name: '이거는 장바구니에 없는 거지롱~~', price: 34000, selectedPetIds: [2, 3] },
     ]
   },
   {
     date: '2024-11-02',
     status: '배송완료',
     items: [
-      { id: 5, imageUrl: '/images/An.png', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000 },
-      { id: 6, imageUrl: '/images/Baek.png', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000 },
-      { id: 7, imageUrl: '/images/product1.png', name: '이건 장바구니에 없는 거지롱~~‼️', price: 34000 },
-      { id: 8, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
-      { id: 9, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
-      { id: 10, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 }
+      { id: 5, imageUrl: '/images/An.png', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selectedPetIds: [1, 2] },
+      { id: 6, imageUrl: '/images/Baek.png', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selectedPetIds: [2] },
+      { id: 7, imageUrl: '/images/product1.png', name: '이건 장바구니에 없는 거지롱~~‼️', price: 34000, selectedPetIds: [1, 2, 3] },
+      { id: 8, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000, selectedPetIds: [1, 2] },
+      { id: 9, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000, selectedPetIds: [1, 3] },
+      { id: 10, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000, selectedPetIds: [1, 2, 3] }
     ]
   }
 ];
@@ -242,6 +243,7 @@ export default function HistoryPage() {
                       name={item.name}
                       price={item.price}
                       orderDate={group.date}
+                      selectedPetIds={item.selectedPetIds}
                       cartItems={cartItems}
                     />
                   ))}

@@ -10,6 +10,7 @@ interface Item {
     imageUrl: string;
     name: string;
     price: number;
+    selectedPetIds?: number[];
 }
 
 const Card = styled.div`
@@ -96,6 +97,7 @@ interface CategoryItemWrapperProps {
     item: Item;
     hasAdditionalElement?: boolean;
     defaultLiked?: boolean;
+    isInteractive?: boolean;
 }
 
 const CategoryItemContainer = styled.div`
@@ -104,11 +106,11 @@ const CategoryItemContainer = styled.div`
   gap: 8px;
 `;
 
-export function CategoryItemWrapper({ item, hasAdditionalElement = false, defaultLiked = false }: CategoryItemWrapperProps) {
+export function CategoryItemWrapper({ item, hasAdditionalElement = false, defaultLiked = false, isInteractive = true }: CategoryItemWrapperProps) {
     return (
         <CategoryItemContainer>
             <CategoryItem item={item} defaultLiked={defaultLiked}/>
-            {hasAdditionalElement && <SelectPets />}
+            {hasAdditionalElement && <SelectPets selectedPetIds={item.selectedPetIds || []} isInteractive={isInteractive} />}
         </CategoryItemContainer>
     );
 }

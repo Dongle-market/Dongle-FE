@@ -80,9 +80,10 @@ interface HistoryItemProps {
     price: number;
     orderDate: string;
     cartItems: { name: string; price: number; }[];
+    selectedPetIds: number[];
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderDate, cartItems }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderDate, cartItems, selectedPetIds }) => {
 
     const isItemInCart = () => {
         return cartItems.some(item => item.name === name && item.price === price);
@@ -158,7 +159,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderD
                 }
             });
         } else {
-            // Code to add item to cart
             toast(<ToastContent />, {
                 position: "bottom-center",
                 autoClose: 3000,
@@ -188,7 +188,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderD
                 </Info>
                 <Price>{price.toLocaleString()} 원</Price>
                 <Info>
-                    <SelectPets />
+                    <SelectPets selectedPetIds={selectedPetIds} isInteractive={false} />
                     <CartButton onClick={handleAddToCart}>장바구니 담기</CartButton>
                 </Info>
             </InfoContainer>
