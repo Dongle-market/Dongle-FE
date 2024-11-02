@@ -118,7 +118,7 @@ export default function WishlistPage() {
                         <WishlistContainer>
                             {items.map((item) => (
                                 <Wrapper key={item.id} >
-                                    <CategoryItemWrapper item={item} hasAdditionalElement={true} defaultLiked={true} />
+                                    <CategoryItemWrapper item={item} hasAdditionalElement={true} defaultLiked={true} isInteractive={true} />
                                 </Wrapper>
                             ))}
                         </WishlistContainer>
