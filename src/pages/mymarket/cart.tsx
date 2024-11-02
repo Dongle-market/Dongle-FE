@@ -10,6 +10,8 @@ import NonCheckSvg from '/public/svgs/element/non_check.svg';
 import CheckSvg from '/public/svgs/element/check.svg';
 import CartItem from '@/components/items/CartItem';
 import OrderSummary from '@/components/items/OrderSummary';
+import EmptyCartSvg from '../../../public/svgs/element/empty_cart.svg';
+import Link from 'next/link';
 
 interface CartItem {
     id: number;
@@ -61,10 +63,49 @@ const TotalChoiceText = styled.span`
 `;
 
 const DeleteText = styled.span`
-    font-family: 'Pretendard';
     font-size: 12px;
     color: #545454;
     text-align: center;
+`;
+
+const PageContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: inherit;
+    height: calc(100vh - 300px);
+    position: fixed;
+    top: 108px;
+`;
+
+const EmptyContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
+const EmptyText = styled.span`
+    font-size: 16px;
+    color: #D9D9D9;
+    text-align: center;
+    margin-top: 16px;
+`;
+
+const DongleMarketButton = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1.5px solid #D9D9D9;
+    padding: 12px;
+    text-decoration: none;
+    margin-top: 8px;
 `;
 
 interface SelectedItems {
@@ -111,7 +152,7 @@ export default function CartPage() {
             return newState;
         });
     };
-    
+
     const removeSelectedItems = () => {
         const newItems = items.filter(item => !selectedItems[item.id]);
         setItems(newItems);
@@ -135,16 +176,34 @@ export default function CartPage() {
             <CartHeader itemCount={items.length} />
             <div className='content' style={{ paddingBottom: '163px' }}>
                 <TabMenu />
-                <ChoiceDelete onClick={toggleSelectAll}>
-                    <CheckBoxContainer>
-                        {selectAll ? <CheckSvg /> : <NonCheckSvg />}
-                        <TotalChoiceText>전체선택</TotalChoiceText>
-                    </CheckBoxContainer>
-                    <DeleteText onClick={removeSelectedItems}>선택 삭제</DeleteText>
-                </ChoiceDelete>
-                {items.map(item => (
-                    <CartItem key={item.id} item={item} selected={selectedItems[item.id]} toggleSelection={() => toggleItemSelection(item.id)} removeItem={() => removeItem(item.id)} />
-                ))}
+                {items.length === 0 ? (
+                    <PageContent>
+                        <EmptyContainer>
+                            <EmptyCartSvg />
+                            <EmptyText>장바구니가 텅 비었어요</EmptyText>
+                            <DongleMarketButton href='/home'>동글마켓 구경가기</DongleMarketButton>
+                        </EmptyContainer>
+                    </PageContent>
+                ) : (
+                    <>
+                        <ChoiceDelete onClick={toggleSelectAll}>
+                            <CheckBoxContainer>
+                                {selectAll ? <CheckSvg /> : <NonCheckSvg />}
+                                <TotalChoiceText>전체선택</TotalChoiceText>
+                            </CheckBoxContainer>
+                            <DeleteText onClick={removeSelectedItems}>선택 삭제</DeleteText>
+                        </ChoiceDelete>
+                        {items.map(item => (
+                            <CartItem
+                                key={item.id}
+                                item={item}
+                                selected={selectedItems[item.id]}
+                                toggleSelection={() => toggleItemSelection(item.id)}
+                                removeItem={() => removeItem(item.id)}
+                            />
+                        ))}
+                    </>
+                )}
             </div>
             {itemCount > 0 && <OrderSummary itemCount={selectedCount} totalPrice={totalPrice} />}
             <MyMarketFooterNav />
