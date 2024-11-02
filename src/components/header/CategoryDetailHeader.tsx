@@ -26,15 +26,36 @@ const Title = styled.div`
   font-weight: 600;
 `;
 
+const BasketContainer = styled.div`
+  position: relative;
+`;
+
+const ItemCountBadge = styled.span`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #E55737;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+`;
+
 interface CategoryDetailHeaderProps {
   title: string;
+  itemCount: number;
 }
 
-const CategoryDetailHeader: React.FC<CategoryDetailHeaderProps> = ({ title }) => {
+const CategoryDetailHeader: React.FC<CategoryDetailHeaderProps> = ({ title, itemCount }) => {
   const router = useRouter();
+  const history = useRouter();
 
   const handleBackClick = () => {
-    router.back(); // 이전 페이지로 이동
+    history.back();
   };
 
   const handleCartClick = () => {
@@ -45,7 +66,10 @@ const CategoryDetailHeader: React.FC<CategoryDetailHeaderProps> = ({ title }) =>
     <Wrapper>
       <BackSvg onClick={handleBackClick} style={{ cursor: 'pointer' }} />
       <Title>{title}</Title>
-      <ShoppingBasketSvg onClick={handleCartClick} style={{ cursor: 'pointer' }} />
+      <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
+          <ShoppingBasketSvg />
+          {itemCount > 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+        </BasketContainer>
     </Wrapper>
   );
 }
