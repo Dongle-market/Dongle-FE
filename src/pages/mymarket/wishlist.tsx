@@ -7,6 +7,8 @@ import WishlistHeader from '@/components/header/CategoryHeader';
 import MyMarketFooterNav from '@/components/navbar/MyMarketFooterNav';
 import TabMenu from '@/components/header/TabMenu';
 import { CategoryItemWrapper } from '@/components/items/CategoryItem';
+import EmptyWishlistSvg from '../../../public/svgs/element/empty_heart.svg';
+import Link from 'next/link';
 
 interface WishlistItem {
     id: number;
@@ -43,6 +45,46 @@ const Wrapper = styled.div`
     width: calc(50% - 16px);
 `;
 
+const PageContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: inherit;
+    height: calc(100vh - 300px);
+    position: fixed;
+    top: 108px;
+`;
+
+const EmptyContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
+const EmptyText = styled.span`
+    font-size: 16px;
+    color: #D9D9D9;
+    text-align: center;
+    margin-top: 16px;
+`;
+
+const DongleMarketButton = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1.5px solid #D9D9D9;
+    padding: 12px;
+    text-decoration: none;
+    margin-top: 8px;
+`;
+
 export default function WishlistPage() {
     const [itemCount, setItemCount] = useState(0);
 
@@ -60,16 +102,28 @@ export default function WishlistPage() {
 
     return (
         <div className="page">
-            <WishlistHeader itemCount={itemCount}/>
+            <WishlistHeader itemCount={itemCount} />
             <div className='content'>
                 <TabMenu />
-                <WishlistContainer>
-                    {items.map((item) => (
-                        <Wrapper key={item.id} >
-                            <CategoryItemWrapper item={item} hasAdditionalElement={true} defaultLiked={true} />
-                        </Wrapper>    
-                    ))}
-                </WishlistContainer>
+                {items.length === 0 ? (
+                    <PageContent>
+                        <EmptyContainer>
+                            <EmptyWishlistSvg />
+                            <EmptyText>위시리스트가 텅 비었어요</EmptyText>
+                            <DongleMarketButton href='/home'>동글마켓 구경가기</DongleMarketButton>
+                        </EmptyContainer>
+                    </PageContent>
+                ) : (
+                    <>
+                        <WishlistContainer>
+                            {items.map((item) => (
+                                <Wrapper key={item.id} >
+                                    <CategoryItemWrapper item={item} hasAdditionalElement={true} defaultLiked={true} />
+                                </Wrapper>
+                            ))}
+                        </WishlistContainer>
+                    </>
+                )}
             </div>
             <MyMarketFooterNav />
         </div>
