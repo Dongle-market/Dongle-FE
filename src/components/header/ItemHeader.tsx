@@ -5,6 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BackSvg from '/public/svgs/header/back_arrow.svg'
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
+import router, { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   padding: 14px 16px;
@@ -28,15 +29,52 @@ const LogoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const ItemHeader = () => {
+const BasketContainer = styled.div`
+  position: relative;
+`;
+
+const ItemCountBadge = styled.span`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #E55737;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+`;
+
+interface CategoryHeaderProps {
+  itemCount: number;
+}
+
+const ItemHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+  const router = useRouter();
+  const history = useRouter();
+
+  const handleBackClick = () => {
+    history.back();
+  };
+
+  const handleCartClick = () => {
+    router.push('/mymarket/cart');
+  };
+  
   return (
     <Wrapper>
       <LogoWrapper>
-        <LogoContainer>
+        <LogoContainer onClick={handleBackClick} style={{ cursor: 'pointer' }}>
           <BackSvg />
         </LogoContainer>
-        <ShoppingBasketSvg />
-      </LogoWrapper>      
+        <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
+          <ShoppingBasketSvg />
+          {itemCount > 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+        </BasketContainer>
+      </LogoWrapper>
     </Wrapper>
   );
 }
