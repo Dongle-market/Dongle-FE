@@ -67,7 +67,7 @@ const MainFooterNav = () => {
           <HamburgerSvg />
           <span>카테고리</span>
         </IconContainer>
-        <IconContainer href="/mymarket/wishlist">
+        <IconContainer href="/mydongle">
           <MyDongleSvg />
           <span>마이 동글</span>
         </IconContainer>
@@ -79,7 +79,7 @@ const MainFooterNav = () => {
           <MyMarketSvg />
           <span>마이 마켓</span>
         </IconContainer>
-        <IconContainer href="/mymarket/wishlist">
+        <IconContainer href="/profile">
           <MySvg />
           <span>내 정보</span>
         </IconContainer>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
-import ArrowSvg from "/public/svgs/element/down_arrow.svg";
+import ArrowSvg from "/public/svgs/element/arrow_down.svg";
 
 const SelectBoxContainer = styled.div`
   display: flex;

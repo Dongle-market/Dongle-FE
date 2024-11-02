@@ -67,7 +67,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ itemCount, totalPrice }) =>
                 <OrderInfo>총 <TotalCount>{itemCount}</TotalCount> 개 항목</OrderInfo>
                 <Price>{totalPrice.toLocaleString()} 원</Price>
             </OrderInfoContainer>
-            <OrderButton href="/dog">주문하기</OrderButton>
+            <OrderButton href="/item/payments">주문하기</OrderButton>
         </SummaryContainer>
     );
 }

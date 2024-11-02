@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 interface Item {
     id: number;
     imageUrl: string;
+    brand: string
     name: string;
     price: number;
 }
@@ -90,11 +91,13 @@ interface CartItemProps {
 const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, removeItem }) => {
     const [count, setCount] = useState(1);
 
-    const handleIncrement = () => {
+    const handleIncrement = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
         setCount(count + 1);
     };
 
-    const handleDecrement = () => {
+    const handleDecrement = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
         if (count > 1) {
             setCount(count - 1);
         } else {

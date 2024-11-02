@@ -35,7 +35,7 @@ export default function CallbackPage() {
     const data = await login({ authCode: code });
     if (data) {
       localStorage.setItem("accessToken", data.token);
-      router.push("/dog");
+      router.push("/home");
     }
   }
 

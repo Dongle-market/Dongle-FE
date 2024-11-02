@@ -16,7 +16,7 @@ const SelectPetsContainer = styled.div`
   scrollbar-width: none;
 `;
 
-const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string }>`
+const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string, $isInteractive: boolean }>`
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -24,35 +24,49 @@ const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string
   background-size: cover;
   background-position: center;
   border: 2px solid ${props => props.$isSelected ? '#E55737' : '#F8F8F8'};
-  cursor: pointer;
+  cursor: ${props => props.$isInteractive ? 'pointer' : 'default'};
   display: flex;
   justify-content: center;
   align-items: center;
   transition: border-color 0.2s;
 `;
 
+interface SelectPetsProps {
+  selectedPetIds: number[];
+  isInteractive: boolean;
+}
 
-const SelectPets = () => {
-  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
+const SelectPets = ({ selectedPetIds, isInteractive }: SelectPetsProps) => {
+  const [selectedIndexes, setSelectedIndexes] = React.useState<number[]>(selectedPetIds);
 
-  const toggleSelection = (index: number) => {
-    if (selectedIndexes.includes(index)) {
-      setSelectedIndexes(selectedIndexes.filter(i => i !== index));
-    } else {
-      setSelectedIndexes([...selectedIndexes, index]);
-    }
+  const toggleSelection = (petId: number) => {
+    if (!isInteractive) return;
+
+    setSelectedIndexes(prev => {
+      if (prev.includes(petId)) {
+        return prev.filter(id => id !== petId);
+      } else {
+        return [...prev, petId];
+      }
+    });
   };
 
-  const images = ['/images/DogEmoji.png', '/images/CatEmoji.png', '/images/RabbitEmoji.png'];
+  const pets = [
+    { id: 1, imageUrl: '/images/DogEmoji.png' },
+    { id: 2, imageUrl: '/images/CatEmoji.png' },
+    { id: 3, imageUrl: '/images/RabbitEmoji.png' }
+  ];
+
 
   return (
     <SelectPetsContainer>
-      {images.map((image, index) => (
+      {pets.map(pet => (
         <SelectPetsItem
-          key={index}
-          $isSelected={selectedIndexes.includes(index)}
-          onClick={() => toggleSelection(index)}
-          $backgroundUrl={image}
+          key={pet.id}
+          $isSelected={selectedIndexes.includes(pet.id)}
+          $backgroundUrl={pet.imageUrl}
+          $isInteractive={isInteractive}
+          onClick={() => toggleSelection(pet.id)}
         />
       ))}
     </SelectPetsContainer>
