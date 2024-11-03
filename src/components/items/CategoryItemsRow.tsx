@@ -12,7 +12,7 @@ interface Item {
     itemId: number;
     image: string;
     title: string;
-    lprice: string;
+    lprice: number;
 }
 
 interface ItemRowProps {

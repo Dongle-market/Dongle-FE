@@ -10,11 +10,11 @@ interface Item {
     itemId: number;
     image: string;
     title: string;
-    lprice: string;
-    id: number;
-    imageUrl: string;
-    name: string;
-    price: number;
+    lprice: number;
+    // id: number;
+    // imageUrl: string;
+    // name: string;
+    // price: number;
     selectedPetIds?: number[];
 }
 
