@@ -38,8 +38,8 @@ const AddPetIcon = styled.div`
 `;
 
 const petProfiles = [
-  { id: 1, src: "/images/dog01.png", alt: "Dog" },
-  { id: 2, src: "/images/cat01.png", alt: "Cat" }
+  { id: 1, src: "/images/selectpets/DogEmoji.png", alt: "Dog" },
+  { id: 2, src: "/images/selectpets/CatEmoji.png", alt: "Cat" }
 ];
 
 const MyDongleHeader = () => {

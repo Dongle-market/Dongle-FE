@@ -52,9 +52,9 @@ const SelectPets = ({ selectedPetIds, isInteractive }: SelectPetsProps) => {
   };
 
   const pets = [
-    { id: 1, imageUrl: '/images/DogEmoji.png' },
-    { id: 2, imageUrl: '/images/CatEmoji.png' },
-    { id: 3, imageUrl: '/images/RabbitEmoji.png' }
+    { id: 1, imageUrl: '/images/selectpets/DogEmoji.png' },
+    { id: 2, imageUrl: '/images/selectpets/CatEmoji.png' },
+    { id: 3, imageUrl: '/images/selectpets/MouseEmoji.png' }
   ];
 
 
