@@ -9,8 +9,7 @@ import Image from "next/image";
 import DogImg from "../../../public/images/dog01.png";
 import CatImg from "../../../public/images/cat01.png";
 import Addpet from "../../../public/svgs/pet/addpet.svg";
-import CodeBlock from "/public/svgs/pet/codeBlock.svg";
-import MyDongleHeader from "../../components/myDongle/myDongleHeader"
+import MyDongleHeader from "../../components/myDongle/myDongleHeader";
 
 const PetHeader = styled.div`
   padding-top: 36px;
@@ -19,6 +18,15 @@ const PetHeader = styled.div`
   background-color: #f8f8f8;
   display: flex;
   align-items: center; /* 세로 가운데 정렬 */
+`;
+
+const CodeBlock = styled.img`
+  width: 90%;
+`;
+
+const InfoBlock = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const DogImg01 = styled(Image)`
@@ -129,6 +137,9 @@ const TabTitle = styled.span`
 
 const TitleTextContianer = styled.div`
   display: flex;
+  flex-wrap: wrap; /* 줄바꿈을 자동으로 적용 */
+  gap: 20px;
+  margin-left: 20px;
 `;
 
 const Position = styled.div`
@@ -142,13 +153,12 @@ const LineComponent = styled.div`
   height: 1.5px;
 `;
 const PetsPortContainer = styled.div`
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
   position: absolute;
   width: 100%;
   height: 30px;
   bottom: 24px;
-  /* background-image: url(/svgs/pet/codeBlock.svg);
-  background-repeat: no-repeat; */
-  /* background-color: red; */
 `;
 const LineComponent2 = styled.div`
   margin-top: 10px;
@@ -246,32 +256,30 @@ export default function myDongle() {
               <Position>
                 <DogImg02 src={DogImg} alt="강아지 이미지" />
                 <TitleTextContianer>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  <InfoBlock>
                     <TitleText>이름</TitleText>
                     <InfoText>동글이</InfoText>
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  </InfoBlock>
+                  <InfoBlock>
                     <TitleText>국가코드</TitleText>
                     <InfoText>KOR</InfoText>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  </InfoBlock>
+                  <InfoBlock>
                     <TitleText>여권번호</TitleText>
                     <InfoText>DOG001</InfoText>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  </InfoBlock>
+                  <InfoBlock>
                     <TitleText>나이</TitleText>
                     <InfoText>7세</InfoText>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  </InfoBlock>
+                  <InfoBlock>
                     <TitleText>성별</TitleText>
                     <InfoText>여</InfoText>
-                  </div>
+                  </InfoBlock>
                 </TitleTextContianer>
               </Position>
               <PetsPortContainer>
-                <img src="/svgs/pet/codeBlock.svg" alt="여권코드이미지" />
-                {/* <Image  fill /> */}
+                <CodeBlock src="/svgs/pet/codeBlock.svg" alt="여권코드" />
               </PetsPortContainer>
             </PetsportPage>
           </Petsport>
