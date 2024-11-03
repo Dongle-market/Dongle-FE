@@ -1,4 +1,5 @@
 // /category/food/page.tsx
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -14,13 +15,13 @@ import styled from 'styled-components';
 interface CartItem {
   id: number;
   imageUrl: string;
-  brand: string
+  brand: string;
   name: string;
   price: number;
   selected: boolean;
 };
 
-const initialItems: CartItem[] = [
+const initialItems: CartItem[] = [  
   { id: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
   { id: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
   { id: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
@@ -85,57 +86,58 @@ const Item = styled.div<{ $isSelected?: boolean }>`
   }
 `;
 
-
 export default function FoodPage() {
   const [items, setItems] = useState<CartItem[]>(initialItems);
   const router = useRouter();
-  const { species = 'dog', sub = 'all' } = router.query;
-  
+  const { species = 'dog', sub = 'all', order = 'default' } = router.query;
+
   const speciesValue = Array.isArray(species) ? species[0] : species;
   const subValue = Array.isArray(sub) ? sub[0] : sub;
-  
-  const [category, setCategory] = useState("전체");
+  const orderValue = Array.isArray(order) ? order[0] : order;
+
+  const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
+    animal: speciesValue === 'cat' ? '고양이' : '강아지',
+    sort: "가격순",
+  });
+
   const [products, setProducts] = useState([]);
   
   useEffect(() => {
-    if (speciesValue && subValue) {
-      const fetchData = async () => {
-        try {
-          const data = await fetchCategoryData(speciesValue, subValue);
-          setProducts(data);
-        } catch (error) {
-          console.error("Failed to fetch data:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [speciesValue, subValue]);
+    const fetchData = async () => {
+      try {
+        const data = await fetchCategoryData(speciesValue, subValue, orderValue);
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [speciesValue, subValue, orderValue]);
+
+  // 동물에 따른 카테고리 옵션 설정
+  const categoryOptions = speciesValue === 'cat'
+    ? [
+        { label: "전체", sub: "all" },
+        { label: "캔/통조림", sub: "can" },
+        { label: "건식사료", sub: "dry" },
+        { label: "습식사료", sub: "wet" },
+        { label: "에어/동결사료", sub: "air" },
+      ]
+    : [
+        { label: "전체", sub: "all" },
+        { label: "습식사료", sub: "wet" },
+        { label: "소프트사료", sub: "soft" },
+        { label: "건식사료", sub: "dry" },
+      ];
 
   const filters = [
     { id: "animal", options: ["강아지", "고양이"] },
     { id: "sort", options: ["가격순", "저가순", "고가순"] },
   ];
 
-  const categoryOptions = [
-    { label: "전체", sub: "all" },
-    { label: "습식사료", sub: "wet" },
-    { label: "소프트사료", sub: "soft" },
-    { label: "건식사료", sub: "dry" }
-  ];
-
-  
-  const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
-    animal: "강아지",
-    sort: "가격순",
-  });
-  
   const handleSelectChange = (id: string, value: string) => {
-    // 필터 상태 업데이트
     setSelectedItems((prev) => ({ ...prev, [id]: value }));
-  
-    // 동물 필터가 변경될 때
     if (id === "animal") {
-      // sort를 기본값인 "가격순"으로 초기화
       setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
       if (value === "강아지") {
         router.push(`/category/food`);
@@ -143,26 +145,20 @@ export default function FoodPage() {
         router.push(`/category/food?species=cat`);
       }
     }
-  
-    // 정렬 옵션이 변경될 때
     if (id === "sort") {
-      const order = value === "저가순" ? "low" : value === "고가순" ? "high" : null;
+      const order = value === "저가순" ? "low" : value === "고가순" ? "high" : "default";
       const baseURL = `/category/food?species=${speciesValue}`;
       const subParam = subValue !== 'all' ? `&sub=${subValue}` : '';
-      const orderParam = order ? `&order=${order}` : '';
-  
+      const orderParam = order !== 'default' ? `&order=${order}` : '';
       router.push(`${baseURL}${subParam}${orderParam}`);
     }
   };
-  
+
   const handleCategoryChange = (sub: string) => {
-    // 카테고리 변경 시 sort를 기본값인 "가격순"으로 초기화
     setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
     const url = sub === 'all' ? `/category/food?species=${speciesValue}` : `/category/food?species=${speciesValue}&sub=${sub}`;
     router.push(url);
   };
-  
-  
 
   const rows = useMemo(() => {
     const result = [];
@@ -176,7 +172,6 @@ export default function FoodPage() {
     <div className="page">
       <Header title={"사료"} itemCount={items.length} />
       <div className="content">
-        {/* 카테고리 선택 표시 */}
         <Content>
           {categoryOptions.map(option => (
             <Item
@@ -188,20 +183,16 @@ export default function FoodPage() {
             </Item>
           ))}
         </Content>
-
-        {/* 필터링 및 정렬 컨트롤 */}
         <FilterContainer>
-        {filters.map((filter) => (
-          <SelectBox
-            key={filter.id}
-            options={filter.options}
-            selectedOption={selectedItems[filter.id]}
-            onChange={(value) => handleSelectChange(filter.id, value)}
-          />
-        ))}
+          {filters.map((filter) => (
+            <SelectBox
+              key={filter.id}
+              options={filter.options}
+              selectedOption={selectedItems[filter.id]}
+              onChange={(value) => handleSelectChange(filter.id, value)}
+            />
+          ))}
         </FilterContainer>
-
-        {/* 제품 리스트 */}
         <ProductListContainer>
           {rows.map((rowProducts, index) => (
             <ProductRow key={index} items={rowProducts} />
