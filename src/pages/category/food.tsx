@@ -107,11 +107,25 @@ export default function FoodPage() {
   
   const handleSelectChange = (id: string, value: string) => {
     setSelectedItems((prev) => ({ ...prev, [id]: value }));
+  
+    if (id === "animal") {
+      if (value === "강아지") {
+        // 강아지 선택 시 기본 URL로 이동
+        router.push(`/category/food`);
+      } else {
+        // 고양이 선택 시 species=cat만 추가하여 이동
+        router.push(`/category/food?species=cat`);
+      }
+    }
   };
+  
+  
 
   const handleCategoryChange = (sub: string) => {
-    router.push(`/category/food?species=${speciesValue}&sub=${sub}`);
+    const url = sub === 'all' ? `/category/food?species=${speciesValue}` : `/category/food?species=${speciesValue}&sub=${sub}`;
+    router.push(url);
   };
+  
 
   const rows = useMemo(() => {
     const result = [];
