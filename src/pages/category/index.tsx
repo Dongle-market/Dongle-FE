@@ -109,19 +109,19 @@ export default function CategoryPage() {
             <Subtitle>간식</Subtitle>
                 <Content>
                     <Item href="/category/snack">전체</Item>
-                    <Item href="/category/snack">수제간식</Item>
-                    <Item href="/category/snack">빵/케이크</Item>
-                    <Item href="/category/snack">뼈간식</Item>
-                    <Item href="/category/snack">껌</Item>
+                    <Item href="/category/snack?species=dog&sub=hand">수제간식</Item>
+                    <Item href="/category/snack?species=dog&sub=bread">빵/케이크</Item>
+                    <Item href="/category/snack?species=dog&sub=bone">뼈간식</Item>
+                    <Item href="/category/snack?species=dog&sub=kkum">껌</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>용품</Subtitle>
                 <Content>
                     <Item href="/category/goods">전체</Item>
-                    <Item href="/category/goods">위생용품</Item>
-                    <Item href="/category/goods">목욕용품</Item>
-                    <Item href="/category/goods">훈련용품</Item>
+                    <Item href="/category/goods?species=dog&sub=clean">위생용품</Item>
+                    <Item href="/category/goods?species=dog&sub=bath">목욕용품</Item>
+                    <Item href="/category/goods?species=dog&sub=practice">훈련용품</Item>
                 </Content>
             </ContentContainer>
 
@@ -133,29 +133,29 @@ export default function CategoryPage() {
             <ContentContainer>
                 <Subtitle>사료</Subtitle>
                 <Content>
-                    <Item href="/category/food">전체</Item>
-                    <Item href="/category/food">캔/통조림</Item>
-                    <Item href="/category/food">건식사료</Item>
-                    <Item href="/category/food">습식사료</Item>
-                    <Item href="/category/food">에어/동결사료</Item>
+                    <Item href="/category/food?species=cat">전체</Item>
+                    <Item href="/category/food?species=cat&sub=can">캔/통조림</Item>
+                    <Item href="/category/food?species=cat&sub=dry">건식사료</Item>
+                    <Item href="/category/food?species=cat&sub=wet">습식사료</Item>
+                    <Item href="/category/food?species=cat&sub=air">에어/동결사료</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>간식</Subtitle>
                 <Content>
-                    <Item href="/category/snack">전체</Item>
-                    <Item href="/category/snack">파우치/츄르</Item>
-                    <Item href="/category/snack">수제간식</Item>
-                    <Item href="/category/snack">캣닢/캣그라스</Item>
+                    <Item href="/category/snack?species=cat">전체</Item>
+                    <Item href="/category/snack?species=cat&sub=chur">파우치/츄르</Item>
+                    <Item href="/category/snack?species=cat&sub=hand">수제간식</Item>
+                    <Item href="/category/snack?species=cat&sub=catnip">캣닢/캣그라스</Item>
                 </Content>
             </ContentContainer>
             <ContentContainer>
             <Subtitle>용품</Subtitle>
                 <Content>
-                    <Item href="/category/goods">전체</Item>
-                    <Item href="/category/goods">캣타워</Item>
-                    <Item href="/category/goods">급수기</Item>
-                    <Item href="/category/goods">목욕용품</Item>
+                    <Item href="/category/goods?species=cat">전체</Item>
+                    <Item href="/category/goods?species=cat&sub=tower">캣타워</Item>
+                    <Item href="/category/goods?species=cat&sub=water">급수기</Item>
+                    <Item href="/category/goods?species=cat&sub=bath">목욕용품</Item>
                 </Content>
             </ContentContainer>
             </div>
