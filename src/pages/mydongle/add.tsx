@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import MyDongleAddHeader from '../../components/myDongle/myDongleHeader';
 import AddPetActiveSvg from '/public/svgs/pet/addpet_active.svg';
+import { profile } from 'console';
 
 interface CartItem {
     id: number;
@@ -136,6 +137,49 @@ const AgeLabel = styled.span`
     font-size: 16px;
 `;
 
+const PetProfileImageOptionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  box-sizing: border-box;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+`;
+
+const PetProfileImageOptionButton = styled.button<{ selected: boolean, imageUrl: string }>`
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  background-image: url(${props => props.imageUrl});
+  background-size: cover;
+  background-position: center;
+  color: ${props => props.selected ? '#E55737' : '#5E5E5E'};
+  border: ${props => props.selected ? '2px solid #E55737' : '1px solid #D9D9D9'};
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #FFE6DD;
+    color: #E55737;
+    border: 2px solid #E55737
+  }
+`;
+
+const pets = [
+    { id: 1, imageUrl: '/images/petprofileimages/dog1.png' },
+    { id: 2, imageUrl: '/images/petprofileimages/cat1.png' },
+    { id: 3, imageUrl: '/images/petprofileimages/dog2.png' },
+    { id: 4, imageUrl: '/images/petprofileimages/cat2.png' },
+    { id: 5, imageUrl: '/images/petprofileimages/dog3.png' },
+    { id: 6, imageUrl: '/images/petprofileimages/cat3.png' },
+];
+
 const RegistButton = styled.button`
   padding: 15px;
   background-color: #080808;
@@ -165,10 +209,11 @@ export default function MyDongleAddPage() {
     const [animalType, setAnimalType] = useState('');
     const [gender, setGender] = useState('');
     const [age, setAge] = useState('');
+    const [profileImage, setProfileImage] = useState('');
     const [nameError, setNameError] = useState('');
     const [ageError, setAgeError] = useState('');
 
-    const isFormFilled = name && animalType && gender && age;
+    const isFormFilled = name && animalType && gender && age && profileImage;
 
     const router = useRouter();
 
@@ -221,6 +266,11 @@ export default function MyDongleAddPage() {
         setGender(gender);
     };
 
+    const handleProfileImageChange = (profileImage: string, event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        setProfileImage(profileImage);
+    };
+
     useEffect(() => {
         const initialSelectedItems: SelectedItems = {};
         items.forEach(item => {
@@ -248,6 +298,19 @@ export default function MyDongleAddPage() {
                 <Wrapper>
                     <form onSubmit={handleSubmit}>
                         <RegistrationCard>
+                            <InfoContainer>
+                                <Question>반려동물의 프로필 사진을 선택해주세요.</Question>
+                                <PetProfileImageOptionContainer>
+                                    {pets.map(pet => (
+                                        <PetProfileImageOptionButton
+                                            key={pet.id}
+                                            selected={profileImage === `profileImage${pet.id}`}
+                                            imageUrl={pet.imageUrl}
+                                            onClick={(e) => handleProfileImageChange(`profileImage${pet.id}`, e)}
+                                        />
+                                    ))}
+                                </PetProfileImageOptionContainer>
+                            </InfoContainer>
                             <InfoContainer>
                                 <Question>반려동물의 이름을 입력하세요.</Question>
                                 {nameError && (
