@@ -7,6 +7,7 @@ import styled from 'styled-components';
 const ItemContainer = styled.div`
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 `;
 
 const Image = styled.img`

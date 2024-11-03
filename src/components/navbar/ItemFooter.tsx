@@ -8,6 +8,7 @@ import HeartSvg from '/public/svgs/element/heart.svg';
 import HeartFullSvg from '/public/svgs/element/heart_full.svg';
 import PlusSvg from '/public/svgs/element/plus.svg';
 import MinusSvg from '/public/svgs/element/minus.svg';
+import { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   padding: 24px 16px;
@@ -106,6 +107,8 @@ interface ItemFooterProps {
 }
 
 const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
+  const router = useRouter();
+  
   const [quantity, setQuantity] = useState(1);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [selectedProfiles, setSelectedProfiles] = useState<boolean[]>(() =>
@@ -137,6 +140,21 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
       prevSelected.map((isSelected, i) => (i === index ? !isSelected : isSelected))
     );
   };
+
+  const handleAddToCart = () => {
+    toast(
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        장바구니에 상품을 담았습니다.
+        <button onClick={() => router.push('/mymarket/cart')} style={{ background: 'none', border: 'none', color: 'white', textDecoration: 'underline' }}>
+          바로가기
+        </button>
+      </div>
+    );
+  };
+
+  const handleOrderClick = () => {
+    router.push('/item/payments');
+  }
 
   return (
     <>
@@ -180,8 +198,8 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
             <span>{quantity}개</span>
             <PlusSvg onClick={handleIncrease} style={{ cursor: 'pointer' }}>+</PlusSvg>
           </QuantityContainer>
-          <BasketButton>장바구니</BasketButton>
-          <BuyButton>주문하기</BuyButton>
+          <BasketButton onClick={handleAddToCart}>장바구니</BasketButton>
+          <BuyButton onClick={handleOrderClick}>주문하기</BuyButton>
         </BottomContainer>
       </Wrapper>
       {/* Custom CSS for toast style */}
