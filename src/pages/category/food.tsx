@@ -113,7 +113,7 @@ export default function FoodPage() {
 
   const filters = [
     { id: "animal", options: ["강아지", "고양이"] },
-    { id: "sort", options: ["추천순", "최신순"] },
+    { id: "sort", options: ["가격순", "저가순", "고가순"] },
   ];
 
   const categoryOptions = [
@@ -126,29 +126,42 @@ export default function FoodPage() {
   
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
     animal: "강아지",
-    sort: "추천순",
+    sort: "가격순",
   });
   
   const handleSelectChange = (id: string, value: string) => {
+    // 필터 상태 업데이트
     setSelectedItems((prev) => ({ ...prev, [id]: value }));
   
+    // 동물 필터가 변경될 때
     if (id === "animal") {
+      // sort를 기본값인 "가격순"으로 초기화
+      setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
       if (value === "강아지") {
-        // 강아지 선택 시 기본 URL로 이동
         router.push(`/category/food`);
       } else {
-        // 고양이 선택 시 species=cat만 추가하여 이동
         router.push(`/category/food?species=cat`);
       }
     }
+  
+    // 정렬 옵션이 변경될 때
+    if (id === "sort") {
+      const order = value === "저가순" ? "low" : value === "고가순" ? "high" : null;
+      const baseURL = `/category/food?species=${speciesValue}`;
+      const subParam = subValue !== 'all' ? `&sub=${subValue}` : '';
+      const orderParam = order ? `&order=${order}` : '';
+  
+      router.push(`${baseURL}${subParam}${orderParam}`);
+    }
   };
   
-  
-
   const handleCategoryChange = (sub: string) => {
+    // 카테고리 변경 시 sort를 기본값인 "가격순"으로 초기화
+    setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
     const url = sub === 'all' ? `/category/food?species=${speciesValue}` : `/category/food?species=${speciesValue}&sub=${sub}`;
     router.push(url);
   };
+  
   
 
   const rows = useMemo(() => {
