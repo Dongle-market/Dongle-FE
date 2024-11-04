@@ -17,10 +17,10 @@ const ToggleContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const Button = styled.button<{ selected: boolean }>`
+const Button = styled.button<{ $isSelected: boolean }>`
   flex: 1;
   border: none;
-  background-color: ${({ selected }) => (selected ? '#E55737' : 'transparent')};
+  background-color: ${({ $isSelected }) => ($isSelected ? '#E55737' : 'transparent')};
   color: white;
   border-radius: 18px;
   font-size: 12px;
@@ -33,25 +33,29 @@ const Button = styled.button<{ selected: boolean }>`
   }
 `;
 
-const ToggleButton = () => {
-  const [selected, setSelected] = useState('dog');
+interface ToggleProps {
+  selected: string;
+  onToggleChange: (newToggle: string) => void;
+}
 
+const ToggleButton: React.FC<ToggleProps> = ({ selected, onToggleChange }) => {
   return (
     <ToggleContainer>
       <Button
-        selected={selected === 'dog'}
-        onClick={() => setSelected('dog')}
+        $isSelected={selected === 'dog'}
+        onClick={() => onToggleChange('dog')}
       >
         강아지
       </Button>
       <Button
-        selected={selected === 'cat'}
-        onClick={() => setSelected('cat')}
+        $isSelected={selected === 'cat'}
+        onClick={() => onToggleChange('cat')}
       >
         고양이
       </Button>
     </ToggleContainer>
   );
 };
+
 
 export default ToggleButton;

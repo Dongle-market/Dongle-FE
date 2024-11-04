@@ -1,5 +1,4 @@
 // MainHeader.tsx
-'use client';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -90,12 +89,23 @@ const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
 
 const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
   const router = useRouter();
+  const [isTop, setIsTop] = useState<boolean>(true);
+  const [selectedToggle, setSelectedToggle] = useState('dog');
+  const [selectedMenuItem, setSelectedMenuItem] = useState<string | null>(null);
 
   const handleCartClick = () => {
     router.push('/mymarket/cart');
   };
 
-  const [isTop, setIsTop] = useState<boolean>(true);
+  const handleToggleChange = (newToggle: string) => {
+    setSelectedToggle(newToggle);
+    setSelectedMenuItem(null); // Reset MenuBar selection when Toggle changes
+  };
+
+  const handleMenuItemClick = (item: string) => {
+    setSelectedMenuItem(item);
+  };
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,8 +135,8 @@ const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
           </BasketContainer>
         </LogoWarpper>
         <ButtonWrapper>
-          <Toggle />
-          <MenuBar />
+          <Toggle selected={selectedToggle} onToggleChange={handleToggleChange} />
+          <MenuBar $selectedItem={selectedMenuItem} onItemClick={handleMenuItemClick} />
         </ButtonWrapper>
       </HeaderContainer>
     </MainHeaderContainer>
