@@ -13,3 +13,12 @@ export const postOrder = async (orderData: OrderRequestType): Promise<OrderRespo
     throw new Error();
   }
 }
+
+export const patchOrderStatus = async (orderId: number) => {
+  try {
+    const response = await Server.patch(`/order/${orderId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error();
+  }
+}
