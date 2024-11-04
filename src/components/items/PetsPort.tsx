@@ -3,13 +3,11 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BadgeSvg from '/public/svgs/element/badge.svg';
-import Link from 'next/link';
 
 const PassportContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 230px;
   padding: 0 16px;
 `;
 
@@ -32,7 +30,7 @@ const FirstPassport = styled(Passport)`
 `;
 
 const SecondPassport = styled(Passport)`
-  background-color: DCDCDC;
+  background-color: #DCDCDC;
   border: 1.5px solid #C2C2C2;
   width: 100%;
   height: 100%;
@@ -43,7 +41,7 @@ const PassportBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 24px;
+  gap: 38px;
   padding: 16px;
 `;
 
@@ -51,6 +49,7 @@ const PassPortHeaderContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 `;
 
 const PassportHeaderLeftWrapper = styled.div`
@@ -71,16 +70,17 @@ const BoldText = styled.div`
 `;
 
 const PassportHeaderRight = styled.div`
-  font-size: 12px;
-  font-weight: 600;
-  color: #0B0D83;
+  font-size: 8px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
 `;
 
 const PassportInfoContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     margin-right: 12px;
+    gap: 32px;
+    align-items: center;
 `;
 
 const InputBody = styled.div`
@@ -94,60 +94,34 @@ const InputContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 `;
 
 const InputWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2px;
+    width: 48%;
 `;
 
 const InputTitle = styled.span`
     font-size: 8px;
     font-weight: 600;
-    color: #0B0D83;
+    color: #FFFFFF;
 `;
 
 const InputContent = styled.span`
-    font-size: 16px;
-    font-weight: 400;
-    color: #000000;
+    font-size: 14px;
+    font-weight: 600;
+    color: #FF9E7E;
     text-decoration: none;
 `;
 
-const ClubBadge = styled.div`
-    display: flex;
-    align-items: center;
-    background-color: #0B0D83;
-    border-radius: 50px;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 0 4px;
-    margin: 10px 0 0 0;
-    color: white;
-`;
-
 const PassportImage = styled.img`
-  width: 128px;
-  height: 160px;
-  margin-right: 24px;
+  width: 85px;
+  height: 85px;
+  border-radius: 10px;
   object-fit: cover;
-`;
-
-const UserEditButton = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 40px;
-  border-radius: 8px;
-  background-color: rgba(11, 13, 131, 0.75);
-  color: white;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
 `;
 
 const PetsPortCode = styled.img`
@@ -162,11 +136,11 @@ const PetsPortCode = styled.img`
   box-sizing: border-box;
 `;
 
-const User = {
-    name: '최우진',
-    imageUrl: '/images/babodaejang.png',
-    email: 'ureca@kakao.com',
-    phone: '010-1234-5678'
+const Pet = {
+    imageUrl: '/images/petprofileimages/dog1.png',
+    name: '동글이',
+    age: 7,
+    gender: '여'
 };
 
 const PetsPort = () => {
@@ -179,12 +153,16 @@ const PetsPort = () => {
                             <PassportHeaderLeft>여권</PassportHeaderLeft>
                             <BoldText>PETSPORT</BoldText>
                         </PassportHeaderLeftWrapper>
-                        <PassportHeaderRight>동글민국 REPUBLIC OF DONGLE</PassportHeaderRight>
+                        <PassportHeaderRight>동글월드 REPUBLIC OF DONGLE</PassportHeaderRight>
                     </PassPortHeaderContainer>
                     <PassportInfoContainer>
-                        <PassportImage src={User.imageUrl} />
+                        <PassportImage src={Pet.imageUrl} />
                         <InputBody>
                             <InputContainer>
+                                <InputWrapper>
+                                    <InputTitle>이름</InputTitle>
+                                    <InputContent>{Pet.name}</InputContent>
+                                </InputWrapper>
                                 <InputWrapper>
                                     <InputTitle>국가코드</InputTitle>
                                     <InputContent>KOR</InputContent>
@@ -196,16 +174,18 @@ const PetsPort = () => {
                             </InputContainer>
                             <InputContainer>
                                 <InputWrapper>
-                                    <InputTitle>이름</InputTitle>
-                                    <InputContent>{User.name}</InputContent>
+                                    <InputTitle></InputTitle>
+                                    <InputContent></InputContent>
                                 </InputWrapper>
-                                <ClubBadge><BadgeSvg /> 댕니버스 클럽</ClubBadge>
+                                <InputWrapper>
+                                    <InputTitle>나이</InputTitle>
+                                    <InputContent>{Pet.age}세</InputContent>
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputTitle>성별</InputTitle>
+                                    <InputContent>{Pet.gender}</InputContent>
+                                </InputWrapper>
                             </InputContainer>
-                            <InputWrapper>
-                                <InputTitle>전화번호</InputTitle>
-                                <InputContent>010-1234-5678</InputContent>
-                            </InputWrapper>
-                            <UserEditButton href="/profile/edit">✈️ 회원정보 수정</UserEditButton>
                         </InputBody>
                     </PassportInfoContainer>
                 </PassportBody>

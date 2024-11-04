@@ -5,9 +5,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
 import Header from "@/components/header/CategoryHeader";
-import Image from "next/image";
-import { CategoryItemWrapper } from "@/components/items/CategoryItem";
-import DogImg from "../../../public/images/dog01.png";
 import MyDongleHeader from "../../components/header/MyDongleHeader";
 import CategoryItem from "@/components/items/CategoryItem";
 import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
@@ -43,15 +40,6 @@ interface MyDongleHistoryItemProps {
   selectedPetIds?: number[];
 };
 
-interface CartItem {
-  id: number;
-  imageUrl: string;
-  brand: string
-  name: string;
-  price: number;
-  selected: boolean;
-};
-
 const initialHistoryItems: MyDongleHistoryItemProps[] = [
   { itemId: 1, image: '/images/An.png', title: '보류입니다.', lprice: 34000, date: '2024-10-30', selectedPetIds: [1, 2] },
   { itemId: 2, image: '/images/Baek.png', title: '어얼얽--', lprice: 34000, date: '2024-10-30', selectedPetIds: [2] },
@@ -82,147 +70,6 @@ const initialCartItems = [
 const PetsPortWrapper = styled.div`
   display: flex;
   padding: 0 16px 16px 16px;
-`;
-
-const PassportContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 300px;
-  box-sizing: border-box;
-`;
-
-const Passport = styled.div`
-  position: absolute;
-  bottom: 0;
-  border-top-right-radius: 14px;
-  border-top-left-radius: 14px;
-  width: 100%;
-  height: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const FirstPassport = styled(Passport)`
-  background-color: #35241E;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-`;
-
-const SecondPassport = styled(Passport)`
-  background-color: #DCDCDC;
-  width: 98%;
-  height: 98%;
-  z-index: 1;
-  border: 1.5px solid #C2C2C2;
-`;
-
-const CodeBlock = styled.img`
-  width: 90%;
-`;
-
-const InfoBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const DogImg02 = styled(Image)`
-  width: 86px;
-  height: 86px;
-  border-radius: 10%;
-`;
-
-const PetsportComponent = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`;
-
-const Petsport = styled.div`
-  display: flex;
-  justify-content: center;
-  border-radius: 22px 22px 0 0;
-  margin: 0 16px;
-  width: 100%;
-  height: 238.5px;
-  background-color: #dcdcdc;
-  border: 1.5px solid #c2c2c2;
-`;
-
-const PetsportPage = styled.div`
-  position: relative;
-  border-radius: 15px 15px 0 0;
-  width: 100%;
-  padding: 16px;
-  height: 232px;
-  background-color: #35241e;
-`;
-const TextLine = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const PetsportText = styled.span`
-  font-size: 10px;
-  color: #ff9e7e;
-  font-weight: 400;
-`;
-
-const BoldText = styled.span`
-  font-weight: 700;
-`;
-
-const DongleText = styled.span`
-  font-size: 10px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  opacity: 0.6;
-  font-weight: 400;
-`;
-
-const TitleText = styled.span`
-  margin-bottom: 4px;
-  margin-left: 20px;
-  font-size: 8px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-weight: 500;
-`;
-
-const InfoText = styled.span`
-  margin-left: 20px;
-  font-size: 14px;
-  color: #ff9e7e;
-  font-family: "Pretendard";
-  font-weight: 500;
-`;
-
-const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-`;
-
-const TitleTextContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-`;
-
-const Position = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const PetsPortContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  width: 100%;
-  height: 30px;
-  bottom: 24px;
 `;
 
 const Tab = styled.div<{ $isActive: boolean }>`

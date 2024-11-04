@@ -5,7 +5,7 @@ export const Server = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 3000,
+  timeout: 10000,
 })
 
 Server.interceptors.request.use((config) => {
