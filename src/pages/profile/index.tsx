@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import UserHeader from '@/components/header/CategoryHeader';
 import UserInfoFooterNav from '@/components/navbar/UserInfoFooterNav';
 import CartItem from '@/components/items/CartItem';
-import PetsPort from '@/components/items/PetsPort';
+import PassPort from '@/components/items/PassPort';
 import LogoutModal from '@/components/items/LogoutModal';
 
 interface CartItem {
@@ -84,7 +84,7 @@ export default function ProfilePage() {
             <div className='content'>
                 <Wrapper>
                     <MyProfileTitle>IDENTIFICATION CARD</MyProfileTitle>
-                    <PetsPort />
+                    <PassPort />
                 </Wrapper>
                 <LogOutButton onClick={handleLogoutClick}>로그아웃</LogOutButton>
                 {showModal && <LogoutModal onClose={handleClose} onLogout={handleLogout} />}
