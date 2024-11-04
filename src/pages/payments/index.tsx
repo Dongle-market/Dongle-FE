@@ -18,6 +18,7 @@ import { getUserInfo } from '@/services/users/users';
 import { CartItemType } from '@/types/item';
 import { UserResponse } from '@/services/users/users.type';
 import { postOrder } from '@/services/payments/payments';
+import { requestPayment } from '@/services/payments/toss';
 
 const TossPayButtonWrapper = styled.div`
     display: flex;
@@ -131,6 +132,7 @@ export default function PaymentsPage() {
     const [orderData, setOrderData] = useState<OrderRequestType>(); // 서버에 보낼 주문 데이터
     const [showDetails, setShowDetails] = useState(false); // 주문상품 펼치기
     const [check, setCheck] = useState(false); // 결제 동의 선택
+    const [orderName, setOrderName] = useState('');
 
     useEffect(() => {
       const cartItemsString = localStorage.getItem('cartItems');
@@ -150,11 +152,12 @@ export default function PaymentsPage() {
         setShowDetails(cartItems.length < 5); // 장바구니 상품이 5개 이하일 경우 펼치기
         if (cartItems && userData) {
             setTotalPrice(cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0));
+            setOrderName(`${cartItems[0].name} 외 ${cartItems.length}건`); // 토스 전송용 order name
             setOrderData({
                 receiverName: userData.userName,
                 addr: userData.addr || '서울특별시 강남구 선릉로 428',
                 addrDetail: userData.addrDetail || '멀티캠퍼스 선릉 402호',
-                phoneNumber: userData.phoneNumber || '010-1234-5678',
+                phoneNumber: userData.phoneNumber || '01012345678',
                 totalPrice: cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0),
                 orderItems: {
                     ...cartItems.map(item => {
@@ -181,9 +184,15 @@ export default function PaymentsPage() {
     const handleOrder = async (orderData: OrderRequestType) => {
       try {
         const orderResponse = await postOrder(orderData);
-        
+        await requestPayment({
+            amountValue: orderResponse.totalPrice,
+            orderId: orderResponse.orderId.toString(),
+            orderName: orderName,
+            customerName: orderResponse.receiverName,
+            customerMobilePhone: orderResponse.phoneNumber
+        })
       } catch (error) {
-        
+        console.error(error);
       }
     }
 

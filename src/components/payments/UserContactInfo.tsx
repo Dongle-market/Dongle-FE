@@ -53,12 +53,14 @@ interface UserInfoProps {
 }
 
 const UserContactInfo: React.FC<UserInfoProps> = ({ orderUser, contactUser, phoneNum, contactAdd }) => {
+    const displayPhoneNum = phoneNum && phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+
     return (
         <OrderInfoContainer>
             <RecentOrderWrapper><RecentOrderText>최근</RecentOrderText></RecentOrderWrapper>
             <ContactInfoContainer>
                 <OrderUserText>{orderUser}</OrderUserText>
-                <ContactUserPhone>{contactUser} | {phoneNum}</ContactUserPhone>
+                <ContactUserPhone>{contactUser} | {displayPhoneNum}</ContactUserPhone>
                 <ContactAdd>{contactAdd}</ContactAdd>
             </ContactInfoContainer>
         </OrderInfoContainer>
