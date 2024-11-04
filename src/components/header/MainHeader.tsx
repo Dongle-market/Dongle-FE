@@ -121,7 +121,7 @@ const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
           </LogoContainer>
           <BasketContainer onClick={handleCartClick}>
             <ShoppingBasketSvg />
-            {itemCount >= 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+            {<ItemCountBadge>{itemCount}</ItemCountBadge>}
           </BasketContainer>
         </LogoWarpper>
         <ButtonWrapper>

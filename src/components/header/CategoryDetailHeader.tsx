@@ -68,7 +68,7 @@ const CategoryDetailHeader: React.FC<CategoryDetailHeaderProps> = ({ title, item
       <Title>{title}</Title>
       <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
           <ShoppingBasketSvg />
-          {itemCount > 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+          {<ItemCountBadge>{itemCount}</ItemCountBadge>}
         </BasketContainer>
     </Wrapper>
   );

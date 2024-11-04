@@ -11,23 +11,24 @@ import EmptyWishlistSvg from '../../../public/svgs/element/empty_heart.svg';
 import Link from 'next/link';
 
 interface WishlistItem {
-    id: number;
-    imageUrl: string;
-    name: string;
-    price: number;
+    itemId: number;
+    image: string;
+    title: string;
+    lprice: number;
+    selectedPetIds?: number[];
 };
 
 const items: WishlistItem[] = [
-    { id: 1, imageUrl: '/images/An.png', name: '보류입니다.', price: 34000 },
-    { id: 2, imageUrl: '/images/Baek.png', name: '어얼얽--', price: 34000 },
-    { id: 3, imageUrl: '/images/An.png', name: '고기가 이븐하게 익지 않아써여', price: 34000 },
-    { id: 4, imageUrl: '/images/Son&Jeon.png', name: '왜저뤠ㅞㅞㅞ~~', price: 34000 },
-    { id: 5, imageUrl: '/images/An.png', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000 },
-    { id: 6, imageUrl: '/images/Baek.png', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000 },
-    { id: 7, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
-    { id: 8, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
-    { id: 9, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 },
-    { id: 10, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000 }
+    { itemId: 1, image: '/images/An.png', title: '보류입니다.', lprice: 34000 },
+    { itemId: 2, image: '/images/Baek.png', title: '어얼얽--', lprice: 34000 },
+    { itemId: 3, image: '/images/An.png', title: '고기가 이븐하게 익지 않아써여', lprice: 34000 },
+    { itemId: 4, image: '/images/Son&Jeon.png', title: '왜저뤠ㅞㅞㅞ~~', lprice: 34000 },
+    { itemId: 5, image: '/images/An.png', title: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', lprice: 34000 },
+    { itemId: 6, image: '/images/Baek.png', title: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', lprice: 34000 },
+    { itemId: 7, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
+    { itemId: 8, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
+    { itemId: 9, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
+    { itemId: 10, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 }
 ];
 
 const WishlistContainer = styled.div`
@@ -117,7 +118,7 @@ export default function WishlistPage() {
                     <>
                         <WishlistContainer>
                             {items.map((item) => (
-                                <Wrapper key={item.id} >
+                                <Wrapper key={item.itemId} >
                                     <CategoryItemWrapper item={item} hasAdditionalElement={true} defaultLiked={true} isInteractive={true} />
                                 </Wrapper>
                             ))}
