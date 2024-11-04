@@ -13,6 +13,7 @@ import OrderSummary from '@/components/items/OrderSummary';
 import EmptyCartSvg from '../../../public/svgs/element/empty_cart.svg';
 import Link from 'next/link';
 import { CartItemType } from '@/types/item';
+import { useRouter } from 'next/router';
 
 const initialItems: CartItemType[] = [
     { itemId: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, itemCount: 1 },
@@ -100,86 +101,74 @@ const DongleMarketButton = styled(Link)`
     margin-top: 8px;
 `;
 
-interface SelectedItems {
-    [key: number]: boolean;
-}
-
 export default function CartPage() {
-    const [cartItems, setCartItems] = useState<CartItemType[]>(initialItems); // 장바구니 상품 목록
-    const [selectedItems, setSelectedItems] = useState<SelectedItems>({}); // 선택된 상품 boolean
+    const router = useRouter();
+    const [cartItems, setCartItems] = useState<CartItemType[]>(initialItems); // 장바구니 상품 목록 (삭제시 여기서 삭제)
+    const [selectedItems, setSelectedItems] = useState<CartItemType[]>(initialItems); // 선택된 상품 목록
     const [selectAll, setSelectAll] = useState(true); // 전체선택용 boolean
 
-    useEffect(() => {
-        const initialSelectedItems: SelectedItems = {};
-        cartItems.forEach(item => {
-            initialSelectedItems[item.itemId] = true;
-        });
-        setSelectedItems(initialSelectedItems);
-    }, [cartItems]);
+    const initialTotalPrice = initialItems.reduce((acc, cur) => acc + (cur.price*cur.itemCount), 0);
+    const [totalPrice, setTotalPrice] = useState(initialTotalPrice); // 총 가격
 
     /** selectedItem 감지 */
     useEffect(() => {
-        const selectedItemsLength = Object.values(selectedItems).filter((value) => (value === true)).length;
-        if (cartItems.length === selectedItemsLength) {
+        if (cartItems.length === selectedItems.length) {
             setSelectAll(true); // 전체선택 시 true
         } else {
             setSelectAll(false); // 전체선택 아닐 시 false
         }
+
+        const sumPrice = selectedItems.reduce((acc, cur) => acc + (cur.price*cur.itemCount), 0);
+        console.log(selectedItems, sumPrice);
+        setTotalPrice(sumPrice);
     }, [selectedItems])
 
+    /** 전체선택 토글 */
     const toggleSelectAll = () => {
-        const newSelectAll = !selectAll;
-        setSelectAll(newSelectAll);
-        const newSelectedItems: SelectedItems = {};
-        cartItems.forEach(item => {
-            newSelectedItems[item.itemId] = newSelectAll;
-        });
+        if (selectAll) {
+            setSelectAll(false);
+            setSelectedItems([]);
+        } else {
+            setSelectAll(true);
+            setSelectedItems(cartItems);
+        }
+    };
+
+    /** 개별 선택 토글 */
+    const toggleItemSelection = (item: CartItemType) => {
+        let newSelectedItems: CartItemType[] = [];
+        if (selectedItems.includes(item)) {
+            newSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+        } else {
+            newSelectedItems = [...selectedItems, item];
+        }
         setSelectedItems(newSelectedItems);
+        return;
     };
 
-    const toggleItemSelection = (id: number) => {
-        const newSelectedItems = { ...selectedItems, [id]: !selectedItems[id] };
-        setSelectedItems(newSelectedItems);
+    /** 상품 삭제 및 selectedItem에서도 제거 */
+    const removeItem = (item: CartItemType) => {
+        if (selectedItems.includes(item)) { // 선택된 상품이면 selectedItems에서도 제거
+            const newSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+            setSelectedItems(newSelectedItems);
+        }
+        setCartItems(cartItems.filter(cartItem => cartItem !== item)); // cartItem에서 삭제
     };
 
-    const removeItem = (id: number) => {
-        const newItems = cartItems.filter(item => item.itemId !== id);
-        setCartItems(newItems);
-        setSelectedItems(prevState => {
-            const newState: SelectedItems = { ...prevState };
-            delete newState[id];
-            const allSelected = newItems.every(item => newState[item.itemId]);
-            setSelectAll(allSelected);
-            return newState;
-        });
-    };
-
+    /** 선택된 상품 삭제 */
     const removeSelectedItems = () => {
-        const newItems = cartItems.filter(item => !selectedItems[item.itemId]);
-        setCartItems(newItems);
-        setSelectedItems(prevState => {
-            const newSelectedItems: SelectedItems = {};
-            newItems.forEach(item => {
-                newSelectedItems[item.itemId] = prevState[item.itemId] ?? false;
-            });
-            const allSelected = newItems.length > 0 && Object.values(newSelectedItems).every(value => value);
-            setSelectAll(allSelected);
-            return newSelectedItems;
-        });
+        setCartItems(cartItems.filter(cartItem => !selectedItems.includes(cartItem)));
+        setSelectedItems([]);
     };
 
     /** 선택한 상품 세션에 담기 */
     const handleOrder = () => {
-        const orderItems = cartItems.map((item) => {
-            if (selectedItems[item.itemId]) {
-                console.log(item);
-            }
-        })
+        localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+        router.push('/payments');
     }
 
     const itemCount = cartItems.length;
     const selectedCount = Object.values(selectedItems).filter(Boolean).length;
-    const totalPrice = cartItems.reduce((total, item) => total + (selectedItems[item.itemId] ? item.price : 0), 0);
 
     return (
         <div className="page">
@@ -207,9 +196,9 @@ export default function CartPage() {
                             <CartItem
                                 key={item.itemId}
                                 item={item}
-                                selected={selectedItems[item.itemId]}
-                                toggleSelection={() => toggleItemSelection(item.itemId)}
-                                removeItem={() => removeItem(item.itemId)}
+                                selected={selectedItems.includes(item)}
+                                toggleSelection={() => toggleItemSelection(item)}
+                                removeItem={() => removeItem(item)}
                             />
                         ))}
                     </>
