@@ -13,6 +13,8 @@ import ArrowUpSvg from '/public/svgs/element/arrow_up.svg';
 import ArrowDownSvg from '/public/svgs/element/arrow_down.svg';
 import NonCheckSvg from '/public/svgs/element/non_check.svg';
 import CheckSvg from '/public/svgs/element/check.svg';
+import { OrderRequestType } from '@/services/payments/payments.type';
+import { getUserInfo } from '@/services/users/users';
 
 const TossPayButtonWrapper = styled.div`
     display: flex;
@@ -22,8 +24,6 @@ const TossPayButtonWrapper = styled.div`
     bottom: 0;
     box-sizing: border-box;
 `;
-
-const userInfo = { orderUser: '최우진', contactUser: '심승보', phoneNum: '010-1234-5678', contactAdd: '서울 강남구 선릉로 428' };
 
 interface CartItem {
     id: number;
@@ -143,7 +143,19 @@ const CheckText = styled.div`
     color: #919191;
 `;
 
+// TODO : 장바구니 혹은 단일 상품 정보를 navigator로 받아오기
 export default function PaymentsPage() {
+    const [orderData, setOrderData] = useState<OrderRequest>();
+
+    useEffect(() => {
+      const cartItems = localStorage.getItem('cartItems');
+      if (cartItems) {
+        const parsedCartItems = JSON.parse(cartItems);
+        setCartItems(parsedCartItems);
+      }
+
+    }, [])
+
     const [cartItems, setCartItems] = useState<CartItem[]>(initialItems);
     const [showDetails, setShowDetails] = useState(false);
     const [check, setCheck] = useState(false);
@@ -159,16 +171,20 @@ export default function PaymentsPage() {
         setCheck(!check);
     }
 
+    // const handleOrder = async (orderData: OrderRequest) => {
+      
+    // }
+
     return (
         <div className="page">
             <PaymentsHeader itemCount={cartItems.length} />
             <div className='content'>
-                <UserContactInfo
+                {/* <UserContactInfo
                     orderUser={userInfo.orderUser}
                     contactUser={userInfo.contactUser}
                     phoneNum={userInfo.phoneNum}
                     contactAdd={userInfo.contactAdd}
-                />
+                /> */}
                 <OrderProduct>
                     주문 상품
                     <OrderCountContainer onClick={toggleDetails}>

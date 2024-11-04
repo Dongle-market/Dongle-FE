@@ -42,7 +42,7 @@ const Price = styled.div`
   font-weight: 600;
 `;
 
-const OrderButton = styled(Link)`
+const OrderButton = styled.div`
   background-color: #ED6648;
   font-family: "Pretendard";
   font-size: 16px;
@@ -58,16 +58,17 @@ const OrderButton = styled(Link)`
 interface OrderSummaryProps {
     itemCount: number;
     totalPrice: number;
+    onClick?: () => void;
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ itemCount, totalPrice }) => {
+const OrderSummary: React.FC<OrderSummaryProps> = ({ itemCount, totalPrice, onClick }) => {
     return (
         <SummaryContainer>
             <OrderInfoContainer>
                 <OrderInfo>총 <TotalCount>{itemCount}</TotalCount> 개 항목</OrderInfo>
                 <Price>{totalPrice.toLocaleString()} 원</Price>
             </OrderInfoContainer>
-            <OrderButton href="/item/payments">주문하기</OrderButton>
+            <OrderButton onClick={onClick}>주문하기</OrderButton>
         </SummaryContainer>
     );
 }

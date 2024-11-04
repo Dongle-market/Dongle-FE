@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface Item {
-    id: number;
+    itemId: number;
     imageUrl: string;
     brand: string
     name: string;
