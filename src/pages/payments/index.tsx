@@ -189,7 +189,7 @@ export default function PaymentsPage() {
                     <OrderProduct>
                         주문 상품
                         <OrderCountContainer onClick={toggleDetails}>
-                            <OrderProductCount>{cartItems.length}개</OrderProductCount>
+                            <OrderProductCount>{cartItems.length}개 항목</OrderProductCount>
                             {showDetails ? <ArrowUpSvg /> : <ArrowDownSvg />}
                         </OrderCountContainer>
                     </OrderProduct>
@@ -205,7 +205,7 @@ export default function PaymentsPage() {
                     <PriceWrapper>
                         <PriceContainer>
                             <PriceText>상품 금액</PriceText>
-                            <PriceText>{cartItems.reduce((acc, item) => acc + item.price, 0).toLocaleString()} 원</PriceText>
+                            <PriceText>{cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0).toLocaleString()} 원</PriceText>
                         </PriceContainer>
                         <PriceContainer>
                             <PriceText>배송비</PriceText>
@@ -214,7 +214,7 @@ export default function PaymentsPage() {
                     </PriceWrapper>
                     <PriceContainer>
                         <TotalPriceText>총 결제 금액</TotalPriceText>
-                        <TotalPrice>{cartItems.reduce((acc, item) => acc + item.price, 0).toLocaleString()} 원</TotalPrice>
+                        <TotalPrice>{cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0).toLocaleString()} 원</TotalPrice>
                     </PriceContainer>
                 </TotalPriceContainer>
                 <CheckWrapper>
