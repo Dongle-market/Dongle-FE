@@ -1,6 +1,6 @@
 // MenuBar.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const MenuBarContainer = styled.div`
@@ -17,9 +17,9 @@ const MenuBarContainer = styled.div`
 
 const MenuItem = styled.div<{ $isSelected: boolean }>`
   background-color: ${({ $isSelected }) => ($isSelected ? 'rgba(229, 77, 41, 0.5)' : 'rgba(255, 214, 205, 0.3)')};
-  border: solid 2px ${({ $isSelected }) => ($isSelected ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.3)')};
+  border: solid 1.5px ${({ $isSelected }) => ($isSelected ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.3)')};
   border-radius: 20px;
-  padding: 8px 16px;
+  padding: 6px 14px;
   font-family: 'Pretendard';
   font-size: 14px;
   white-space: nowrap;
@@ -28,7 +28,7 @@ const MenuItem = styled.div<{ $isSelected: boolean }>`
 
   &:hover {
     background-color: rgba(229, 77, 41, 0.5);
-    border: solid 2px rgba(255, 255, 255, 0.7);
+    border: solid 1.5px rgba(255, 255, 255, 0.7);
     color: white;
   }
 `;
