@@ -8,16 +8,7 @@ import RemoveSvg from '/public/svgs/element/remove.svg';
 import NonCheckSvg from '/public/svgs/element/non_check.svg';
 import CheckSvg from '/public/svgs/element/check.svg';
 import CloseSvg from '/public/svgs/element/close.svg';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-interface Item {
-    id: number;
-    imageUrl: string;
-    brand: string
-    name: string;
-    price: number;
-}
+import { CartItemType } from '@/types/item';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -82,53 +73,28 @@ const Count = styled.div`
 `;
 
 interface CartItemProps {
-    item: Item;
+    item: CartItemType;
     selected: boolean;
     toggleSelection: () => void;
     removeItem: () => void;
+    handleIncrement: () => void;
+    handleDecrement: () => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, removeItem }) => {
-    const [count, setCount] = useState(1);
-
-    const handleIncrement = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation();
-        setCount(count + 1);
-    };
-
-    const handleDecrement = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation();
-        if (count > 1) {
-            setCount(count - 1);
-        } else {
-            toast.error("1개부터 구매가능합니다", {
-                position: "bottom-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                style: {
-                    marginBottom: '32px',
-                    marginRight: '16px',
-                    marginLeft: '16px'
-                }
-            });
-        }
-    };
-
+const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, removeItem, handleIncrement, handleDecrement }) => {
     return (
         <ItemContainer>
-            <InfoContainer onClick={toggleSelection}>
-                {selected ? <CheckSvg /> : <NonCheckSvg />}
+            <InfoContainer>
+                <div onClick={toggleSelection}>
+                    {selected ? <CheckSvg /> : <NonCheckSvg />}
+                </div>
                 <Thumbnail src={item.imageUrl} alt={item.name} />
                 <Info>
                     <Name>{item.name}</Name>
                     <Price>{item.price.toLocaleString()} 원</Price>
                     <CountContainer>
                         <RemoveSvg onClick={handleDecrement} />
-                        <Count>{count}</Count>
+                        <Count>{item.itemCount}</Count>
                         <AddSvg onClick={handleIncrement} />
                     </CountContainer>
                 </Info>

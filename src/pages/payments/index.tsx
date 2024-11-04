@@ -13,6 +13,12 @@ import ArrowUpSvg from '/public/svgs/element/arrow_up.svg';
 import ArrowDownSvg from '/public/svgs/element/arrow_down.svg';
 import NonCheckSvg from '/public/svgs/element/non_check.svg';
 import CheckSvg from '/public/svgs/element/check.svg';
+import { OrderRequestType } from '@/services/payments/payments.type';
+import { getUserInfo } from '@/services/users/users';
+import { CartItemType } from '@/types/item';
+import { UserResponse } from '@/services/users/users.type';
+import { postOrder } from '@/services/payments/payments';
+import { requestPayment } from '@/services/payments/toss';
 
 const TossPayButtonWrapper = styled.div`
     display: flex;
@@ -22,31 +28,6 @@ const TossPayButtonWrapper = styled.div`
     bottom: 0;
     box-sizing: border-box;
 `;
-
-const userInfo = { orderUser: '최우진', contactUser: '심승보', phoneNum: '010-1234-5678', contactAdd: '서울 강남구 선릉로 428' };
-
-interface CartItem {
-    id: number;
-    imageUrl: string;
-    brand: string
-    name: string;
-    price: number;
-    selected: boolean;
-};
-
-const initialItems: CartItem[] = [
-    { id: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
-    { id: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
-    { id: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
-    { id: 4, imageUrl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, selected: true },
-    { id: 5, imageUrl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selected: true },
-    { id: 6, imageUrl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selected: true },
-    { id: 7, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-    { id: 8, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-    { id: 9, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-    { id: 10, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, selected: false },
-    { id: 11, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: false }
-];
 
 const OrderProduct = styled.div`
     display: flex;
@@ -143,13 +124,54 @@ const CheckText = styled.div`
     color: #919191;
 `;
 
+// TODO : 장바구니 혹은 단일 상품 정보를 navigator로 받아오기
 export default function PaymentsPage() {
-    const [cartItems, setCartItems] = useState<CartItem[]>(initialItems);
-    const [showDetails, setShowDetails] = useState(false);
-    const [check, setCheck] = useState(false);
+    const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+    const [userData, setUserData] = useState<UserResponse>();
+    const [totalPrice, setTotalPrice] = useState(0); // 총 가격
+    const [orderData, setOrderData] = useState<OrderRequestType>(); // 서버에 보낼 주문 데이터
+    const [showDetails, setShowDetails] = useState(false); // 주문상품 펼치기
+    const [check, setCheck] = useState(false); // 결제 동의 선택
+    const [orderName, setOrderName] = useState('');
 
-    const selectedCartItems = cartItems.filter(item => item.selected);
-    const orderCount = selectedCartItems.length;
+    useEffect(() => {
+      const cartItemsString = localStorage.getItem('cartItems');
+      if (cartItemsString) {
+        const parsedCartItems = JSON.parse(cartItemsString);
+        setCartItems(parsedCartItems);
+      }
+      
+      getUserInfo().then((data) => {
+        setUserData(data);
+      }).catch((error) => {
+        console.error(error);
+      })
+    }, [])
+
+    useEffect(() => {
+        setShowDetails(cartItems.length < 5); // 장바구니 상품이 5개 이하일 경우 펼치기
+        if (cartItems && userData) {
+            setTotalPrice(cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0));
+            setOrderName(`${cartItems[0].name} 외 ${cartItems.length}건`); // 토스 전송용 order name
+            setOrderData({
+                receiverName: userData.userName,
+                addr: userData.addr || '서울특별시 강남구 선릉로 428',
+                addrDetail: userData.addrDetail || '멀티캠퍼스 선릉 402호',
+                phoneNumber: userData.phoneNumber || '01012345678',
+                totalPrice: cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0),
+                orderItems: {
+                    ...cartItems.map(item => {
+                        return {
+                            itemId: item.itemId,
+                            itemCount: item.itemCount,
+                            price: item.price
+                        }
+                    })
+                }
+            })
+        }
+    }, [cartItems, userData])
+
 
     const toggleDetails = () => {
         setShowDetails(!showDetails);
@@ -159,25 +181,46 @@ export default function PaymentsPage() {
         setCheck(!check);
     }
 
+    const handleOrder = async (orderData: OrderRequestType) => {
+      try {
+        const orderResponse = await postOrder(orderData);
+        await requestPayment({
+            amountValue: orderResponse.totalPrice,
+            orderId: orderResponse.orderId.toString(),
+            orderName: orderName,
+            customerName: orderResponse.receiverName,
+            customerMobilePhone: orderResponse.phoneNumber
+        })
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     return (
         <div className="page">
             <PaymentsHeader itemCount={cartItems.length} />
             <div className='content'>
-                <UserContactInfo
-                    orderUser={userInfo.orderUser}
-                    contactUser={userInfo.contactUser}
-                    phoneNum={userInfo.phoneNum}
-                    contactAdd={userInfo.contactAdd}
-                />
-                <OrderProduct>
-                    주문 상품
-                    <OrderCountContainer onClick={toggleDetails}>
-                        <OrderProductCount>{orderCount}개</OrderProductCount>
-                        {showDetails ? <ArrowUpSvg /> : <ArrowDownSvg />}
-                    </OrderCountContainer>
-                </OrderProduct>
+
+                {/** 주문자 정보 */}
+                {orderData && <UserContactInfo
+                    orderUser={orderData.receiverName}
+                    contactUser={orderData.receiverName}
+                    phoneNum={orderData.phoneNumber}
+                    contactAdd={orderData.addr + ' ' + orderData.addrDetail}
+                />}
+
+                {/** 주문 상품 */}
+                {cartItems && 
+                    <OrderProduct>
+                        주문 상품
+                        <OrderCountContainer onClick={toggleDetails}>
+                            <OrderProductCount>{cartItems.length}개 항목</OrderProductCount>
+                            {showDetails ? <ArrowUpSvg /> : <ArrowDownSvg />}
+                        </OrderCountContainer>
+                    </OrderProduct>
+                }
                 {showDetails ? (
-                    <OrderItem cartItems={selectedCartItems} />
+                    <OrderItem cartItems={cartItems} />
                 ) : (
                     <DeliveryMessage>
                         판매자 배송 상품을 여러 개 구매한 경우, 구매한 상품은 함께 배송 될 수 있으며 늦은 발송일에 맞춰 발송될 수 있습니다.
@@ -187,7 +230,7 @@ export default function PaymentsPage() {
                     <PriceWrapper>
                         <PriceContainer>
                             <PriceText>상품 금액</PriceText>
-                            <PriceText>{selectedCartItems.reduce((acc, item) => acc + item.price, 0).toLocaleString()} 원</PriceText>
+                            <PriceText>{totalPrice.toLocaleString()} 원</PriceText>
                         </PriceContainer>
                         <PriceContainer>
                             <PriceText>배송비</PriceText>
@@ -196,7 +239,7 @@ export default function PaymentsPage() {
                     </PriceWrapper>
                     <PriceContainer>
                         <TotalPriceText>총 결제 금액</TotalPriceText>
-                        <TotalPrice>{selectedCartItems.reduce((acc, item) => acc + item.price, 0).toLocaleString()} 원</TotalPrice>
+                        <TotalPrice>{totalPrice.toLocaleString()} 원</TotalPrice>
                     </PriceContainer>
                 </TotalPriceContainer>
                 <CheckWrapper>
@@ -206,8 +249,9 @@ export default function PaymentsPage() {
                     </CheckContainer>
                 </CheckWrapper>
             </div>
+
             <TossPayButtonWrapper>
-                {check ? <TossPayButton /> : <NoTossPayButton />}
+                {check && orderData ? <TossPayButton onClick={() => handleOrder(orderData)} /> : <NoTossPayButton />}
             </TossPayButtonWrapper>
         </div>
     );

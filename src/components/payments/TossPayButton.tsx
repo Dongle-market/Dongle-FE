@@ -25,9 +25,13 @@ const TossPayButtonText = styled.span`
     color: white;
 `;
 
-const TossPayButton = () => {
+interface TossPayButtonProps {
+    onClick?: () => void;
+}
+
+const TossPayButton: React.FC<TossPayButtonProps> = ({ onClick }) => {
     return (
-        <TossPayButtonContainer>
+        <TossPayButtonContainer onClick={onClick}>
             <TossPayLogoSvg />
             <TossPayButtonText>로 5초만에 결제</TossPayButtonText>
         </TossPayButtonContainer>
