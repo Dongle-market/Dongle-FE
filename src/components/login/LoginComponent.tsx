@@ -3,7 +3,7 @@ import styled from "styled-components";
 import KakaoLoginButton from "@/components/login/KakaoLoginButton";
 import BigLogoDongleSvg from '/public/svgs/logo/biglogo_dongle_eng.svg';
 
-const LogoWrapper = styled.div<{show: boolean}>`
+const LogoWrapper = styled.div<{$show: boolean}>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +15,7 @@ const LogoWrapper = styled.div<{show: boolean}>`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  opacity: ${props => props.show ? 1 : 0};
+  opacity: ${props => props.$show ? 1 : 0};
   transition: opacity 0.5s;
 `;
 
@@ -38,7 +38,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
   kakaoLogin,
 }) => {
   return (
-    <LogoWrapper show={show}>
+    <LogoWrapper $show={show}>
       <BigLogoDongleSvg />
       <KakaoLoginButtonContainer>
         <KakaoLoginButton onClick={kakaoLogin} />
