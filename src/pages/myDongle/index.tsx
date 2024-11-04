@@ -1,4 +1,4 @@
-// /myDongle/pages.tsx
+// /mydongle/index.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -6,21 +6,115 @@ import styled from "styled-components";
 import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
 import Header from "@/components/header/CategoryHeader";
 import Image from "next/image";
-import Link from "next/link";
 import { CategoryItemWrapper } from "@/components/items/CategoryItem";
 import DogImg from "../../../public/images/dog01.png";
-import CatImg from "../../../public/images/cat01.png";
-import Addpet from "../../../public/svgs/pet/addpet.svg";
-import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
 import MyDongleHeader from "../../components/header/MyDongleHeader";
+import CategoryItem from "@/components/items/CategoryItem";
+import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
+import PetsPort from "@/components/items/PetsPort";
 
-const PetHeader = styled.div`
-  padding-top: 36px;
-  height: 124px;
-  width: 100%;
-  background-color: #f8f8f8;
+interface WishlistItem {
+  itemId: number;
+  image: string;
+  title: string;
+  lprice: number;
+  selectedPetIds?: number[];
+};
+
+const items: WishlistItem[] = [
+  { itemId: 1, image: '/images/An.png', title: '보류입니다.', lprice: 34000 },
+  { itemId: 2, image: '/images/Baek.png', title: '어얼얽--', lprice: 34000 },
+  { itemId: 3, image: '/images/An.png', title: '고기가 이븐하게 익지 않아써여', lprice: 34000 },
+  { itemId: 4, image: '/images/Son&Jeon.png', title: '왜저뤠ㅞㅞㅞ~~', lprice: 34000 },
+  { itemId: 5, image: '/images/An.png', title: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', lprice: 34000 },
+  { itemId: 6, image: '/images/Baek.png', title: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', lprice: 34000 },
+  { itemId: 7, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
+  { itemId: 8, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
+  { itemId: 9, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
+  { itemId: 10, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 }
+];
+
+interface MyDongleHistoryItemProps {
+  itemId: number;
+  image: string;
+  title: string;
+  lprice: number;
+  date: string;
+  selectedPetIds?: number[];
+};
+
+interface CartItem {
+  id: number;
+  imageUrl: string;
+  brand: string
+  name: string;
+  price: number;
+  selected: boolean;
+};
+
+const initialHistoryItems: MyDongleHistoryItemProps[] = [
+  { itemId: 1, image: '/images/An.png', title: '보류입니다.', lprice: 34000, date: '2024-10-30', selectedPetIds: [1, 2] },
+  { itemId: 2, image: '/images/Baek.png', title: '어얼얽--', lprice: 34000, date: '2024-10-30', selectedPetIds: [2] },
+  { itemId: 3, image: '/images/An.png', title: '고기가 이븐하게 익지 않아써여', lprice: 34000, date: '2024-10-30' },
+  { itemId: 4, image: '/images/Son&Jeon.png', title: '왜저뤠ㅞㅞㅞ~~', lprice: 34000, date: '2024-10-30', selectedPetIds: [3] },
+  { itemId: 5, image: '/images/An.png', title: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2] },
+  { itemId: 6, image: '/images/Baek.png', title: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', lprice: 34000, date: '2024-11-04', selectedPetIds: [2] },
+  { itemId: 7, image: '/images/product1.png', title: '이건 장바구니에 없는 거지롱~~‼️', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2, 3] },
+  { itemId: 8, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2] },
+  { itemId: 9, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 3] },
+  { itemId: 10, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2, 3] }
+];
+
+const initialCartItems = [
+  { id: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
+  { id: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
+  { id: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
+  { id: 4, imageUrl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, selected: true },
+  { id: 5, imageUrl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selected: true },
+  { id: 6, imageUrl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selected: true },
+  { id: 7, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
+  { id: 8, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
+  { id: 9, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
+  { id: 10, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, selected: false },
+  { id: 11, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: false }
+];
+
+const PetsPortWrapper = styled.div`
   display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
+  padding: 0 16px 16px 16px;
+`;
+
+const PassportContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 300px;
+  box-sizing: border-box;
+`;
+
+const Passport = styled.div`
+  position: absolute;
+  bottom: 0;
+  border-top-right-radius: 14px;
+  border-top-left-radius: 14px;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const FirstPassport = styled(Passport)`
+  background-color: #35241E;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+`;
+
+const SecondPassport = styled(Passport)`
+  background-color: #DCDCDC;
+  width: 98%;
+  height: 98%;
+  z-index: 1;
+  border: 1.5px solid #C2C2C2;
 `;
 
 const CodeBlock = styled.img`
@@ -32,32 +126,10 @@ const InfoBlock = styled.div`
   flex-direction: column;
 `;
 
-const DogImg01 = styled(Image)`
-  margin-left: 16px;
-  width: 64px;
-  height: 64px;
-  border-radius: 100%;
-  border: 2px solid #e55737;
-`;
-
 const DogImg02 = styled(Image)`
-  margin-left: 20px;
   width: 86px;
   height: 86px;
   border-radius: 10%;
-`;
-
-const CatImg01 = styled(Image)`
-  margin-left: 16px;
-  margin-right: 16px;
-  width: 64px;
-  height: 64px;
-  border-radius: 100%;
-`;
-
-const CodeBlockImg = styled(Image)`
-  width: 64px;
-  height: 64px;
 `;
 
 const PetsportComponent = styled.div`
@@ -81,36 +153,31 @@ const PetsportPage = styled.div`
   position: relative;
   border-radius: 15px 15px 0 0;
   width: 100%;
-  margin: 8px 8px;
+  padding: 16px;
   height: 232px;
   background-color: #35241e;
 `;
 const TextLine = styled.div`
   display: flex;
-  justify-content: space-between; /* 양쪽 끝에 요소 배치 */
+  justify-content: space-between;
 `;
 
 const PetsportText = styled.span`
-  margin: 20px;
   font-size: 10px;
   color: #ff9e7e;
-  font-family: "Pretendard";
   font-weight: 400;
-  text-align: left;
 `;
 
 const BoldText = styled.span`
-  font-weight: 700; /* "PETSPORT" 부분만 굵게 */
+  font-weight: 700;
 `;
 
 const DongleText = styled.span`
-  margin: 20px;
   font-size: 10px;
   color: #ffffff;
   font-family: "Pretendard";
   opacity: 0.6;
   font-weight: 400;
-  text-align: right;
 `;
 
 const TitleText = styled.span`
@@ -130,26 +197,28 @@ const InfoText = styled.span`
   font-weight: 500;
 `;
 
-const TitleTextContianer = styled.div`
+const InfoWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap; /* 줄바꿈을 자동으로 적용 */
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const TitleTextContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  margin-left: 20px;
 `;
 
 const Position = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
-// const LineComponent = styled.div`
-//   margin-top: 10px;
-//   background-color: #080808;
-//   width: 50%;
-//   height: 1.5px;
-// `;
 const PetsPortContainer = styled.div`
   display: flex;
-  justify-content: center; /* 가로 중앙 정렬 */
+  justify-content: center;
   position: absolute;
   width: 100%;
   height: 30px;
@@ -157,38 +226,33 @@ const PetsPortContainer = styled.div`
 `;
 
 const Tab = styled.div<{ $isActive: boolean }>`
-  margin-top: 10px;
   text-align: center;
   font-size: 16px;
-  font-family: "Pretendard";
-  font-weight: 600;
   width: 50%;
   line-height: 48px;
   font-weight: ${(props) => (props.$isActive ? "600" : "400")};
-  color: ${(props) =>
-    props.$isActive ? "#080808" : "#5e5e5e"}; /* 선택된 탭 색상 */
-  border-top: ${(props) =>
-    props.$isActive
-      ? "1.5px solid #080808"
-      : "1.5px solid #d9d9d9"}; /* 선택된 탭 밑줄 */
+  color: ${(props) => (props.$isActive ? "#080808" : "#5e5e5e")};
+  border-top: ${(props) => (props.$isActive ? "1.5px solid #080808" : "1.5px solid #d9d9d9")};
+  background-color: ${(props) => (props.$isActive ? "#ffffff" : "transparent")};
   cursor: pointer;
 `;
 
 const TabComponent = styled.div`
   display: flex;
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: center;
+  align-items: center;
 `;
 
 const NoneComponent = styled.div`
   width: 100%;
   height: 300px;
   display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  justify-content: center; /* 세로 중앙 정렬 */
-  align-items: center; /* 가로 중앙 정렬 */
-  gap: 16px; /* 텍스트와 버튼 사이 여백 */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
   text-align: center;
+  background-color: #FFFFFF;
 `;
 
 const NoneText = styled.span`
@@ -208,12 +272,16 @@ const GoToWishListButton = styled.a`
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.5s ease;
-  text-decoration: none; /* 기본 밑줄 제거 */
+  text-decoration: none;
 
   &:hover {
-    background-color: #080808; /* 버튼 호버 색상 */
+    background-color: #080808;
     color: white;
   }
+`;
+
+const TabContent = styled.div`
+  background-color: #FFFFFF;
 `;
 
 const WishlistContainer = styled.div`
@@ -231,174 +299,86 @@ const Wrapper = styled.div`
   width: calc(50% - 16px);
 `;
 
-export default function myDongle() {
-  const items = [
-    { id: 1, imageUrl: "/images/An.png", name: "보류입니다.", price: 34000 },
-    { id: 2, imageUrl: "/images/Baek.png", name: "어얼얽--", price: 34000 },
-    {
-      id: 3,
-      imageUrl: "/images/An.png",
-      name: "고기가 이븐하게 익지 않아써여",
-      price: 34000,
-    },
-    {
-      id: 4,
-      imageUrl: "/images/Son&Jeon.png",
-      name: "왜저뤠ㅞㅞㅞ~~",
-      price: 34000,
-    },
-    {
-      id: 5,
-      imageUrl: "/images/An.png",
-      name: "저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여",
-      price: 34000,
-    },
-    {
-      id: 6,
-      imageUrl: "/images/Baek.png",
-      name: "이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ",
-      price: 34000,
-    },
-    {
-      id: 7,
-      imageUrl: "/images/product1.png",
-      name: "도치빌 리더스",
-      price: 34000,
-    },
-    {
-      id: 8,
-      imageUrl: "/images/product1.png",
-      name: "도치빌 리더스",
-      price: 34000,
-    },
-    {
-      id: 9,
-      imageUrl: "/images/product1.png",
-      name: "도치빌 리더스",
-      price: 34000,
-    },
-    {
-      id: 10,
-      imageUrl: "/images/product1.png",
-      name: "도치빌 리더스",
-      price: 34000,
-    },
-  ];
+const HistoryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+`;
 
+interface SelectedItems {
+  [key: number]: boolean;
+}
+
+export default function MyDonglePage() {
   const [activeTab, setActiveTab] = useState(0);
+  const [items, setItems] = useState(initialHistoryItems);
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+  const [cartItems, setCartItems] = useState(initialCartItems);
 
-  const tabContents = [
-    <>
-      <NoneText>
-        내 아이에게 주고싶은 물건을
-        <br />
-        위시리스트에서 고를 수 있어요!
-      </NoneText>
-      <GoToWishListButton href="/mymarket/wishlist">
-        위시리스트 바로가기
-      </GoToWishListButton>
-    </>,
-    <>
-      <NoneText>
-        내 아이에게 준 물건을
-        <br />
-        실제 주문내역에서 고를 수 있어요!
-      </NoneText>
-      <GoToWishListButton href="/mymarket/history">
-        주문내역 바로가기
-      </GoToWishListButton>
-    </>,
-  ];
+  const removeItem = (id: number) => {
+    const newItems = items.filter(item => item.itemId !== id);
+    setItems(newItems);
+    setSelectedItems(prevState => {
+      const newState: SelectedItems = { ...prevState };
+      delete newState[id];
+      return newState;
+    });
+  };
 
   return (
     <div className="page">
-      <Header itemCount={5} />
-      <div className="content">
+      <Header itemCount={items.length} />
+      <div className="mydonglecontent">
         <MyDongleHeader />
-        <PetsportComponent>
-          <Petsport>
-            <PetsportPage>
-              <TextLine>
-                <PetsportText>
-                  여권 <BoldText>PETSPORT</BoldText>
-                </PetsportText>
-                <DongleText>동글월드 REPUBLIC OF DONGLE</DongleText>
-              </TextLine>
-              <Position>
-                <DogImg02 src={DogImg} alt="강아지 이미지" />
-                <TitleTextContianer>
-                  <InfoBlock>
-                    <TitleText>이름</TitleText>
-                    <InfoText>동글이</InfoText>
-                  </InfoBlock>
-                  <InfoBlock>
-                    <TitleText>국가코드</TitleText>
-                    <InfoText>KOR</InfoText>
-                  </InfoBlock>
-                  <InfoBlock>
-                    <TitleText>여권번호</TitleText>
-                    <InfoText>DOG001</InfoText>
-                  </InfoBlock>
-                  <InfoBlock>
-                    <TitleText>나이</TitleText>
-                    <InfoText>7세</InfoText>
-                  </InfoBlock>
-                  <InfoBlock>
-                    <TitleText>성별</TitleText>
-                    <InfoText>여</InfoText>
-                  </InfoBlock>
-                </TitleTextContianer>
-              </Position>
-              <PetsPortContainer>
-                <CodeBlock src="/svgs/pet/codeBlock.svg" alt="여권코드" />
-              </PetsPortContainer>
-            </PetsportPage>
-          </Petsport>
-        </PetsportComponent>
+        <PetsPortWrapper>
+          <PetsPort />
+        </PetsPortWrapper>
         <TabComponent>
-          <Tab $isActive={activeTab === 0} onClick={() => setActiveTab(0)}>
-            위시리스트
-          </Tab>
-          <Tab $isActive={activeTab === 1} onClick={() => setActiveTab(1)}>
-            주문내역
-          </Tab>
+          <Tab $isActive={activeTab === 0} onClick={() => setActiveTab(0)}>위시리스트</Tab>
+          <Tab $isActive={activeTab === 1} onClick={() => setActiveTab(1)}>주문내역</Tab>
         </TabComponent>
-        <div $isActive={activeTab === 0} onClick={() => setActiveTab(0)}>
-          {items.length !== 0 ? (
-            <WishlistContainer>
-              {items.map((item) => (
-                <Wrapper key={item.id}>
-                  <CategoryItemWrapper
-                    item={item}
-                    hasAdditionalElement={true}
-                    defaultLiked={true}
-                    isInteractive={true}
+        <TabContent>
+          {activeTab === 0 && (
+            items.length > 0 ? (
+              <WishlistContainer>
+                {items.map((item) => (
+                  <Wrapper key={item.itemId}>
+                    <CategoryItem item={item} defaultLiked={true} />
+                  </Wrapper>
+                ))}
+              </WishlistContainer>
+            ) : (
+              <NoneComponent>
+                <NoneText>내 아이에게 주고싶은 물건을<br />위시리스트에서 고를 수 있어요!</NoneText>
+                <GoToWishListButton href="/mymarket/wishlist">위시리스트 바로가기</GoToWishListButton>
+              </NoneComponent>
+            )
+          )}
+          {activeTab === 1 && (
+            initialHistoryItems.length > 0 ? (
+              <HistoryContainer>
+                {initialHistoryItems.map(item => (
+                  <MyDongleHistoryItem
+                    key={item.itemId}
+                    imageUrl={item.image}
+                    name={item.title}
+                    price={item.lprice}
+                    orderDate={item.date}
+                    cartItems={cartItems}
+                    removeItem={() => removeItem(item.itemId)}
                   />
-                </Wrapper>
-              ))}
-            </WishlistContainer>
-          ) : (
-            <NoneComponent> {tabContents[activeTab]} </NoneComponent>
+                ))}
+              </HistoryContainer>
+            ) : (
+              <NoneComponent>
+                <NoneText>내 아이에게 준 물건을<br />실제 주문내역에서 고를 수 있어요!</NoneText>
+                <GoToWishListButton href="/mymarket/history">주문내역 바로가기</GoToWishListButton>
+              </NoneComponent>
+            )
           )}
-        </div>
-        <div onClick={() => setActiveTab(1)}>
-          {items.length !== 0 ? (
-            <WishlistContainer>
-              {items.map((item) => (
-                <Wrapper key={item.id}>
-                  {/* <MyDongleHistoryItem
-                    key={item.id}
-                    imageUrl={item.imageUrl}
-                    name={item.name}
-                    price={item.price}
-                  /> */}
-                </Wrapper>
-              ))}
-            </WishlistContainer>
-          ) : (
-            <NoneComponent> {tabContents[activeTab]} </NoneComponent>
-          )}
-        </div>
+        </TabContent>
       </div>
       <MyDongleFooterNav />
     </div>

@@ -10,14 +10,14 @@ const PassportContainer = styled.div`
   position: relative;
   width: 100%;
   height: 300px;
-  box-sizing: border-box;
+  padding: 0 16px;
 `;
 
 const Passport = styled.div`
   position: absolute;
   bottom: 0;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+  border-top-right-radius: 14px;
+  border-top-left-radius: 14px;
   width: 100%;
   height: 100%;
   left: 50%;
@@ -25,27 +25,18 @@ const Passport = styled.div`
 `;
 
 const FirstPassport = styled(Passport)`
-  background-color: #FFE5DD;
-  width: 96%;
-  height: 96%;
-  z-index: 3;
-  box-shadow: 3px -3px 6px rgba(0, 0, 0, 0.2);
-`;
-
-const SecondPassport = styled(Passport)`
-  background-color: white;
+  background-color: #35241E;
   width: 98%;
   height: 98%;
   z-index: 2;
-  box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.3);
 `;
 
-const ThirdPassport = styled(Passport)`
-  background-color: #3D3E92;
+const SecondPassport = styled(Passport)`
+  background-color: DCDCDC;
+  border: 1.5px solid #C2C2C2;
   width: 100%;
   height: 100%;
   z-index: 1;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
 `;
 
 const PassportBody = styled.div`
@@ -62,10 +53,21 @@ const PassPortHeaderContainer = styled.div`
     justify-content: space-between;
 `;
 
+const PassportHeaderLeftWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+`;
+
 const PassportHeaderLeft = styled.div`
   font-size: 10px;
-  font-weight: 600;
-  color: #0B0D83;
+  color: #FF9E7E;
+`;
+
+const BoldText = styled.div`
+    font-size: 10px;
+    color: #FF9E7E;
+    font-weight: 600;
 `;
 
 const PassportHeaderRight = styled.div`
@@ -161,55 +163,57 @@ const PetsPortCode = styled.img`
 `;
 
 const User = {
-  name: '최우진',
-  imageUrl: '/images/babodaejang.png',
-  email: 'ureca@kakao.com',
-  phone: '010-1234-5678'
+    name: '최우진',
+    imageUrl: '/images/babodaejang.png',
+    email: 'ureca@kakao.com',
+    phone: '010-1234-5678'
 };
 
 const PetsPort = () => {
-  return (
-    <PassportContainer>
-      <FirstPassport>
-        <PassportBody>
-          <PassPortHeaderContainer>
-            <PassportHeaderLeft>여권 PETSPORT</PassportHeaderLeft>
-            <PassportHeaderRight>동글민국 REPUBLIC OF DONGLE</PassportHeaderRight>
-          </PassPortHeaderContainer>
-          <PassportInfoContainer>
-            <PassportImage src={User.imageUrl} />
-            <InputBody>
-              <InputContainer>
-                <InputWrapper>
-                  <InputTitle>국가코드</InputTitle>
-                  <InputContent>KOR</InputContent>
-                </InputWrapper>
-                <InputWrapper>
-                  <InputTitle>여권번호</InputTitle>
-                  <InputContent>URECA001</InputContent>
-                </InputWrapper>
-              </InputContainer>
-              <InputContainer>
-                <InputWrapper>
-                  <InputTitle>이름</InputTitle>
-                  <InputContent>{User.name}</InputContent>
-                </InputWrapper>
-                <ClubBadge><BadgeSvg/> 댕니버스 클럽</ClubBadge>
-              </InputContainer>
-              <InputWrapper>
-                <InputTitle>전화번호</InputTitle>
-                <InputContent>010-1234-5678</InputContent>
-              </InputWrapper>
-              <UserEditButton href="/profile/edit">✈️ 회원정보 수정</UserEditButton>
-            </InputBody>
-          </PassportInfoContainer>
-        </PassportBody>
-        <PetsPortCode src='/svgs/pet/petsportcode.svg' />
-      </FirstPassport>
-      <SecondPassport />
-      <ThirdPassport />
-    </PassportContainer>
-  )
+    return (
+        <PassportContainer>
+            <FirstPassport>
+                <PassportBody>
+                    <PassPortHeaderContainer>
+                        <PassportHeaderLeftWrapper>
+                            <PassportHeaderLeft>여권</PassportHeaderLeft>
+                            <BoldText>PETSPORT</BoldText>
+                        </PassportHeaderLeftWrapper>
+                        <PassportHeaderRight>동글민국 REPUBLIC OF DONGLE</PassportHeaderRight>
+                    </PassPortHeaderContainer>
+                    <PassportInfoContainer>
+                        <PassportImage src={User.imageUrl} />
+                        <InputBody>
+                            <InputContainer>
+                                <InputWrapper>
+                                    <InputTitle>국가코드</InputTitle>
+                                    <InputContent>KOR</InputContent>
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputTitle>여권번호</InputTitle>
+                                    <InputContent>URECA001</InputContent>
+                                </InputWrapper>
+                            </InputContainer>
+                            <InputContainer>
+                                <InputWrapper>
+                                    <InputTitle>이름</InputTitle>
+                                    <InputContent>{User.name}</InputContent>
+                                </InputWrapper>
+                                <ClubBadge><BadgeSvg /> 댕니버스 클럽</ClubBadge>
+                            </InputContainer>
+                            <InputWrapper>
+                                <InputTitle>전화번호</InputTitle>
+                                <InputContent>010-1234-5678</InputContent>
+                            </InputWrapper>
+                            <UserEditButton href="/profile/edit">✈️ 회원정보 수정</UserEditButton>
+                        </InputBody>
+                    </PassportInfoContainer>
+                </PassportBody>
+                <PetsPortCode src='/svgs/pet/passportcode.svg' />
+            </FirstPassport>
+            <SecondPassport />
+        </PassportContainer>
+    )
 };
 
 export default PetsPort;

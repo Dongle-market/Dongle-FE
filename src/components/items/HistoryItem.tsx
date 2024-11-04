@@ -121,24 +121,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderD
         );
     };
 
-    const commonToastOptions = {
-        position: "bottom-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        style: {
-            marginBottom: '82px',
-            marginRight: '16px',
-            marginLeft: '16px',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            borderRadius: '16px',
-        }
-    };
-
     const handleAddToCart = () => {
         if (isItemInCart()) {
             toast(<ToastContentAlreadyInCart />, {
