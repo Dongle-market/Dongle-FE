@@ -1,6 +1,7 @@
 // OrderItem.tsx
 'use client';
 
+import { CartItemType } from '@/types/item';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -39,17 +40,8 @@ const ItemPrice = styled.div`
   font-weight: 600;
 `;
 
-interface CartItem {
-    id: number;
-    imageUrl: string;
-    brand: string
-    name: string;
-    price: number;
-    selected: boolean;
-}
-
 interface OrderItemProps {
-    cartItems: CartItem[];
+    cartItems: CartItemType[];
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ cartItems }) => {

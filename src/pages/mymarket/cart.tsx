@@ -1,7 +1,7 @@
 // /mymarket/cart/pages.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CartHeader from '@/components/header/CategoryHeader';
 import MyMarketFooterNav from '@/components/navbar/MyMarketFooterNav';
@@ -14,6 +14,8 @@ import EmptyCartSvg from '../../../public/svgs/element/empty_cart.svg';
 import Link from 'next/link';
 import { CartItemType } from '@/types/item';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialItems: CartItemType[] = [
     { itemId: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, itemCount: 1 },
@@ -112,11 +114,7 @@ export default function CartPage() {
 
     /** selectedItem 감지 */
     useEffect(() => {
-        if (cartItems.length === selectedItems.length) {
-            setSelectAll(true); // 전체선택 시 true
-        } else {
-            setSelectAll(false); // 전체선택 아닐 시 false
-        }
+        setSelectAll(cartItems.length === selectedItems.length); // 전체 선택
 
         const sumPrice = selectedItems.reduce((acc, cur) => acc + (cur.price*cur.itemCount), 0);
         console.log(selectedItems, sumPrice);
@@ -135,35 +133,90 @@ export default function CartPage() {
     };
 
     /** 개별 선택 토글 */
-    const toggleItemSelection = (item: CartItemType) => {
+    const toggleItemSelection = (itemId: number) => {
         let newSelectedItems: CartItemType[] = [];
-        if (selectedItems.includes(item)) {
-            newSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+        if (selectedItems.some(selectedItem => selectedItem.itemId === itemId)) {
+            newSelectedItems = selectedItems.filter(selectedItem => selectedItem.itemId !== itemId);
         } else {
-            newSelectedItems = [...selectedItems, item];
+            const newSelectedItem = cartItems.find(item => item.itemId === itemId);
+            if (newSelectedItem) { newSelectedItems = [...selectedItems, newSelectedItem]; }
         }
         setSelectedItems(newSelectedItems);
         return;
     };
 
     /** 상품 삭제 및 selectedItem에서도 제거 */
-    const removeItem = (item: CartItemType) => {
-        if (selectedItems.includes(item)) { // 선택된 상품이면 selectedItems에서도 제거
-            const newSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
-            setSelectedItems(newSelectedItems);
-        }
-        setCartItems(cartItems.filter(cartItem => cartItem !== item)); // cartItem에서 삭제
+    const removeItem = (itemId: number) => {
+        const newSelectedItems = selectedItems.filter(selectedItem => selectedItem.itemId !== itemId);
+        const newCartItems = cartItems.filter(cartItem => cartItem.itemId !== itemId); // cartItem에서 삭제
+        setCartItems(newCartItems);
+        setSelectedItems(newSelectedItems);
     };
 
     /** 선택된 상품 삭제 */
     const removeSelectedItems = () => {
-        setCartItems(cartItems.filter(cartItem => !selectedItems.includes(cartItem)));
+        setCartItems(cartItems.filter(cartItem => !selectedItems.some(selectedItem => selectedItem.itemId === cartItem.itemId)));
         setSelectedItems([]);
     };
 
+    const updateItemUtil = (items: any[], itemId: number, increment: boolean) => {
+        let isError = false;
+        const newItems = items.map(item => {
+            if (item.itemId === itemId) {
+                const newCount = increment ? item.itemCount+1 : item.itemCount-1;
+                if (newCount < 1) {
+                    isError = true;
+                    return item;
+                }
+                return { ...item, itemCount: newCount };
+            } else {
+                return item;
+            }
+        })
+        return { newItems, isError };
+    }
+
+    const handleIncrement = (itemId: number) => {
+        const { newItems: newCartItems, } = updateItemUtil(cartItems, itemId, true);
+        const { newItems: newSelectedItems, } = updateItemUtil(selectedItems, itemId, true);
+
+        setCartItems(newCartItems);
+        setSelectedItems(newSelectedItems);
+    };
+
+    const handleDecrement = (itemId: number) => {
+        const { newItems: newCartItems, isError: err1 } = updateItemUtil(cartItems, itemId, false);
+        const { newItems: newSelectedItems, isError: err2 } = updateItemUtil(selectedItems, itemId, false);
+
+        if (err1 || err2) {
+            handleToast();
+            return;
+        }
+
+        setCartItems(newCartItems);
+        setSelectedItems(newSelectedItems);
+    };
+
+    const handleToast = useCallback(() => {
+        toast.error("1개부터 구매가능합니다", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+                marginBottom: '32px',
+                marginRight: '16px',
+                marginLeft: '16px'
+            }
+        });
+    }, []);
+
     /** 선택한 상품 세션에 담기 */
     const handleOrder = () => {
-        localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+        localStorage.setItem('cartItems', JSON.stringify(selectedItems));
         router.push('/payments');
     }
 
@@ -196,9 +249,11 @@ export default function CartPage() {
                             <CartItem
                                 key={item.itemId}
                                 item={item}
-                                selected={selectedItems.includes(item)}
-                                toggleSelection={() => toggleItemSelection(item)}
-                                removeItem={() => removeItem(item)}
+                                selected={selectedItems.some(selectedItem => selectedItem.itemId === item.itemId)}
+                                toggleSelection={() => toggleItemSelection(item.itemId)}
+                                removeItem={() => removeItem(item.itemId)}
+                                handleIncrement={() => handleIncrement(item.itemId)}
+                                handleDecrement={() => handleDecrement(item.itemId)}
                             />
                         ))}
                     </>
