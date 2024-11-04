@@ -1,7 +1,11 @@
 // /category/food/page.tsx
+
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { fetchCategoryData } from '@/services/api/categoryAPI';
+
 import Header from "@/components/header/CategoryDetailHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";
 import ProductRow from "@/components/items/CategoryItemsRow";
@@ -11,13 +15,13 @@ import styled from 'styled-components';
 interface CartItem {
   id: number;
   imageUrl: string;
-  brand: string
+  brand: string;
   name: string;
   price: number;
   selected: boolean;
 };
 
-const initialItems: CartItem[] = [
+const initialItems: CartItem[] = [  
   { id: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
   { id: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
   { id: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
@@ -82,40 +86,78 @@ const Item = styled.div<{ $isSelected?: boolean }>`
   }
 `;
 
-const dummyProducts = [
-  { id: 1, imageUrl: "https://shopping-phinf.pstatic.net/main_3752457/37524570621.20230130114937.jpg", name: "잘먹잘싸 강아지사료 기호성좋은 연어", price: 23900 },
-  { id: 2, imageUrl: "https://shopping-phinf.pstatic.net/main_8398538/83985387325.21.jpg", name: "강아지 사료 눈물 가수분해 피부 알러지 말티즈 비숑 푸들 라비앙독 연어", price: 20900 },
-  { id: 3, imageUrl: "https://shopping-phinf.pstatic.net/main_1564506/15645061501.20240411092625.jpg", name: "로얄캐닌 하이포알러제닉 스몰독", price: 21960 },
-  { id: 4, imageUrl: "https://shopping-phinf.pstatic.net/main_1456236/14562361991.20240903141927.jpg", name: "NOW 그레인프리 스몰브리드 시니어", price: 19980 },
-  { id: 5, imageUrl: "https://shopping-phinf.pstatic.net/main_8358452/83584527138.7.jpg", name: "슈퍼벳 리퀴드잇 노령견 강아지 습식사료 액상사료 회복식 노견", price: 29000 },
-  { id: 6, imageUrl: "https://shopping-phinf.pstatic.net/main_1140991/11409916892.24.jpg", name: "나우 눈물 사료 프레쉬 스몰브리드 어덜트", price: 39000 },
-  { id: 7, imageUrl: "https://shopping-phinf.pstatic.net/main_1232582/12325828530.20240903142042.jpg", name: "NOW 그레인프리 스몰브리드 어덜트", price: 22700 },
-  { id: 8, imageUrl: "https://shopping-phinf.pstatic.net/main_3095766/30957669618.20240829092620.jpg", name: "본아페티 강아지 다이어트 관절 소프트 반습식 사료", price: 18800 },
-];
-
-
 export default function FoodPage() {
   const [items, setItems] = useState<CartItem[]>(initialItems);
-  const [category, setCategory] = useState("전체");
-  const [products, setProducts] = useState(dummyProducts);
+  const router = useRouter();
+  const { species = 'dog', sub = 'all', order = 'default' } = router.query;
+
+  const speciesValue = Array.isArray(species) ? species[0] : species;
+  const subValue = Array.isArray(sub) ? sub[0] : sub;
+  const orderValue = Array.isArray(order) ? order[0] : order;
+
+  const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
+    animal: speciesValue === 'cat' ? '고양이' : '강아지',
+    sort: "가격순",
+  });
+
+  const [products, setProducts] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchCategoryData(speciesValue, subValue, orderValue);
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [speciesValue, subValue, orderValue]);
+
+  // 동물에 따른 카테고리 옵션 설정
+  const categoryOptions = speciesValue === 'cat'
+    ? [
+        { label: "전체", sub: "all" },
+        { label: "캔/통조림", sub: "can" },
+        { label: "건식사료", sub: "dry" },
+        { label: "습식사료", sub: "wet" },
+        { label: "에어/동결사료", sub: "air" },
+      ]
+    : [
+        { label: "전체", sub: "all" },
+        { label: "습식사료", sub: "wet" },
+        { label: "소프트사료", sub: "soft" },
+        { label: "건식사료", sub: "dry" },
+      ];
+
   const filters = [
     { id: "animal", options: ["강아지", "고양이"] },
-    { id: "sort", options: ["추천순", "최신순"] },
+    { id: "sort", options: ["가격순", "저가순", "고가순"] },
   ];
 
-  const categoryOptions = ["전체", "습식사료", "소프트사료", "건식사료"];
-
-  
-  const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>({
-    animal: "강아지",
-    sort: "추천순",
-  });
-  
   const handleSelectChange = (id: string, value: string) => {
     setSelectedItems((prev) => ({ ...prev, [id]: value }));
+    if (id === "animal") {
+      setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
+      if (value === "강아지") {
+        router.push(`/category/food`);
+      } else {
+        router.push(`/category/food?species=cat`);
+      }
+    }
+    if (id === "sort") {
+      const order = value === "저가순" ? "low" : value === "고가순" ? "high" : "default";
+      const baseURL = `/category/food?species=${speciesValue}`;
+      const subParam = subValue !== 'all' ? `&sub=${subValue}` : '';
+      const orderParam = order !== 'default' ? `&order=${order}` : '';
+      router.push(`${baseURL}${subParam}${orderParam}`);
+    }
   };
-  const handleCategoryChange = (option: string) => {
-    setCategory(option);
+
+  const handleCategoryChange = (sub: string) => {
+    setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
+    const url = sub === 'all' ? `/category/food?species=${speciesValue}` : `/category/food?species=${speciesValue}&sub=${sub}`;
+    router.push(url);
   };
 
   const rows = useMemo(() => {
@@ -130,32 +172,27 @@ export default function FoodPage() {
     <div className="page">
       <Header title={"사료"} itemCount={items.length} />
       <div className="content">
-        {/* 카테고리 선택 표시 */}
         <Content>
           {categoryOptions.map(option => (
             <Item
-              key={option}
-              $isSelected={category === option}
-              onClick={() => handleCategoryChange(option)}
+              key={option.label}
+              $isSelected={subValue === option.sub}
+              onClick={() => handleCategoryChange(option.sub)}
             >
-              {option}
+              {option.label}
             </Item>
           ))}
         </Content>
-
-        {/* 필터링 및 정렬 컨트롤 */}
         <FilterContainer>
-        {filters.map((filter) => (
-          <SelectBox
-            key={filter.id}
-            options={filter.options}
-            selectedOption={selectedItems[filter.id]}
-            onChange={(value) => handleSelectChange(filter.id, value)}
-          />
-        ))}
+          {filters.map((filter) => (
+            <SelectBox
+              key={filter.id}
+              options={filter.options}
+              selectedOption={selectedItems[filter.id]}
+              onChange={(value) => handleSelectChange(filter.id, value)}
+            />
+          ))}
         </FilterContainer>
-
-        {/* 제품 리스트 */}
         <ProductListContainer>
           {rows.map((rowProducts, index) => (
             <ProductRow key={index} items={rowProducts} />
