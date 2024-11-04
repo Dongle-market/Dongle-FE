@@ -1,7 +1,6 @@
 // MenuBar.tsx
-'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const MenuBarContainer = styled.div`
@@ -16,9 +15,9 @@ const MenuBarContainer = styled.div`
   scrollbar-width: none;
 `;
 
-const MenuItem = styled.div`
-  background-color: transparent;
-  border: solid 1.5px rgba(255, 255, 255, 0.3);
+const MenuItem = styled.div<{ $isSelected: boolean }>`
+  background-color: ${({ $isSelected }) => ($isSelected ? 'rgba(229, 77, 41, 0.5)' : 'rgba(255, 214, 205, 0.3)')};
+  border: solid 2px ${({ $isSelected }) => ($isSelected ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.3)')};
   border-radius: 20px;
   padding: 8px 16px;
   font-family: 'Pretendard';
@@ -29,19 +28,33 @@ const MenuItem = styled.div`
 
   &:hover {
     background-color: rgba(229, 77, 41, 0.5);
-    border: solid 1.5px rgba(255, 255, 255, 0.7);
+    border: solid 2px rgba(255, 255, 255, 0.7);
     color: white;
   }
 `;
 
+
 const MenuBar = () => {
+  const menuItems = ['사료', '간식', '용품'];
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  const handleItemClick = (item: string) => {
+    setSelectedItem(item);
+  };
+
   return (
     <MenuBarContainer>
-      <MenuItem>사료</MenuItem>
-      <MenuItem>간식</MenuItem>
-      <MenuItem>용품</MenuItem>
+      {menuItems.map((item) => (
+        <MenuItem
+          key={item}
+          $isSelected={selectedItem === item}
+          onClick={() => handleItemClick(item)}
+        >
+          {item}
+        </MenuItem>
+      ))}
     </MenuBarContainer>
   );
-}
+};
 
 export default MenuBar;
