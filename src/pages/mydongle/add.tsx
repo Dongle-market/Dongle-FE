@@ -10,9 +10,7 @@ import ErrorSvg from '/public/svgs/element/error.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
-import MyDongleAddHeader from '../../components/myDongle/myDongleHeader';
-import AddPetActiveSvg from '/public/svgs/pet/addpet_active.svg';
-import { profile } from 'console';
+import MyDongleAddHeader from '../../components/header/MyDongleHeader';
 
 interface CartItem {
     id: number;

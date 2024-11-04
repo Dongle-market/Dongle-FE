@@ -66,7 +66,7 @@ const PaymentsHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
             <Title>결제하기</Title>
             <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
                 <ShoppingBasketSvg />
-                {itemCount > 0 && <ItemCountBadge>{itemCount}</ItemCountBadge>}
+                {<ItemCountBadge>{itemCount}</ItemCountBadge>}
             </BasketContainer>
         </Wrapper>
     );
