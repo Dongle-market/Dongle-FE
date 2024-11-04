@@ -194,19 +194,21 @@ export default function MyDongleAddPage() {
   const [ageError, setAgeError] = useState("");
   const [petData, setPetData] = useState<PetPostRequestType>();
 
-  const isFormFilled = name && animalType && gender && age && profileImage;
+  const isFormFilled = (name && animalType && gender && age && profileImage);
 
   const router = useRouter();
 
   useEffect(() => {
     if (isFormFilled) {
-      setPetData({
-        petName: name,
-        profileImg: profileImage,
-        type: animalType,
-        gender: gender,
-        age: parseInt(age),
-      });
+      setPetData(
+        {
+            petName: name,
+            profileImg: profileImage,
+            type: animalType,
+            gender: gender,
+            age: parseInt(age),
+        }
+      );
     }
   }, [name, animalType, gender, age, profileImage]);
 
@@ -214,7 +216,9 @@ export default function MyDongleAddPage() {
     if (isFormFilled && petData) {
       const data = await postPet(petData);
       router.push(`/mydongle/${data.petId}`);
-    } else {
+    } 
+    
+    else {
       toast.error("모든 입력 필드를 채워주세요.", {
         position: "top-center",
         autoClose: 1000,
@@ -274,7 +278,7 @@ export default function MyDongleAddPage() {
   };
 
   return (
-    <div className="page">
+    <div className="page">;
       <MyDongleHeader itemCount={5} />
       <ToastContainer
         position="top-center"
