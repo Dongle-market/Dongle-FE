@@ -65,8 +65,11 @@ const ButtonWrapper = styled.div`
   max-width: 600px;
 `;
 
-interface CategoryHeaderProps {
+interface MainHeaderProps {
   itemCount: number;
+  onCategoryChange: (category: string) => void;
+  onMainCategoryChange: (mainCategory: string | null) => void;
+  onSubCategoryChange: (subCategory: string | null) => void;
 }
 
 interface MainHeaderContainerProps {
@@ -87,7 +90,11 @@ const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
   transition: background-color 0.25s ease;
 `;
 
-const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+const MainHeader: React.FC<MainHeaderProps> = ({   itemCount,
+  onCategoryChange,
+  onMainCategoryChange,
+  onSubCategoryChange,
+}) => {
   const router = useRouter();
   const [isTop, setIsTop] = useState<boolean>(true);
   const [selectedToggle, setSelectedToggle] = useState('dog');
@@ -100,12 +107,16 @@ const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
   const handleToggleChange = (newToggle: string) => {
     setSelectedToggle(newToggle);
     setSelectedMenuItem(null); // Reset MenuBar selection when Toggle changes
+    onCategoryChange(newToggle); // Notify parent of category change
+    onMainCategoryChange(null); // Reset main category in parent
+    onSubCategoryChange(null); // Reset subcategory in parent
   };
 
   const handleMenuItemClick = (item: string) => {
     setSelectedMenuItem(item);
+    onMainCategoryChange(item); // Update main category in parent component
+    onSubCategoryChange(null); // Reset subcategory in parent
   };
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,8 +146,11 @@ const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
           </BasketContainer>
         </LogoWarpper>
         <ButtonWrapper>
-          <Toggle selected={selectedToggle} onToggleChange={handleToggleChange} />
-          <MenuBar $selectedItem={selectedMenuItem} onItemClick={handleMenuItemClick} />
+        <Toggle selected={selectedToggle} onToggleChange={handleToggleChange} />
+          <MenuBar
+            selectedItem={selectedMenuItem}
+            onItemClick={handleMenuItemClick}
+          />
         </ButtonWrapper>
       </HeaderContainer>
     </MainHeaderContainer>

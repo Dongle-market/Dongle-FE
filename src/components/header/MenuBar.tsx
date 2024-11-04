@@ -34,12 +34,12 @@ const MenuItem = styled.div<{ $isSelected: boolean }>`
 `;
 
 interface MenuBarProps {
-  $selectedItem: string | null;
+  selectedItem: string | null;
   onItemClick: (item: string) => void;
 }
 
 
-const MenuBar: React.FC<MenuBarProps> = ({ $selectedItem, onItemClick }) => {
+const MenuBar: React.FC<MenuBarProps> = ({ selectedItem, onItemClick }) => {
   const menuItems = ['사료', '간식', '용품'];
 
   return (
@@ -47,7 +47,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ $selectedItem, onItemClick }) => {
       {menuItems.map((item) => (
         <MenuItem
           key={item}
-          $isSelected={$selectedItem === item}
+          $isSelected={selectedItem === item}
           onClick={() => onItemClick(item)}
         >
           {item}
