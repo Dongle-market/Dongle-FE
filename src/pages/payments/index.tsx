@@ -17,6 +17,7 @@ import { OrderRequestType } from '@/services/payments/payments.type';
 import { getUserInfo } from '@/services/users/users';
 import { CartItemType } from '@/types/item';
 import { UserResponse } from '@/services/users/users.type';
+import { postOrder } from '@/services/payments/payments';
 
 const TossPayButtonWrapper = styled.div`
     display: flex;
@@ -126,6 +127,7 @@ const CheckText = styled.div`
 export default function PaymentsPage() {
     const [cartItems, setCartItems] = useState<CartItemType[]>([]);
     const [userData, setUserData] = useState<UserResponse>();
+    const [totalPrice, setTotalPrice] = useState(0); // 총 가격
     const [orderData, setOrderData] = useState<OrderRequestType>(); // 서버에 보낼 주문 데이터
     const [showDetails, setShowDetails] = useState(false); // 주문상품 펼치기
     const [check, setCheck] = useState(false); // 결제 동의 선택
@@ -147,13 +149,22 @@ export default function PaymentsPage() {
     useEffect(() => {
         setShowDetails(cartItems.length < 5); // 장바구니 상품이 5개 이하일 경우 펼치기
         if (cartItems && userData) {
+            setTotalPrice(cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0));
             setOrderData({
                 receiverName: userData.userName,
                 addr: userData.addr || '서울특별시 강남구 선릉로 428',
                 addrDetail: userData.addrDetail || '멀티캠퍼스 선릉 402호',
                 phoneNumber: userData.phoneNumber || '010-1234-5678',
-                totalPrice: cartItems.reduce((acc, item) => acc + item.price, 0),
-                orderItems: cartItems
+                totalPrice: cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0),
+                orderItems: {
+                    ...cartItems.map(item => {
+                        return {
+                            itemId: item.itemId,
+                            itemCount: item.itemCount,
+                            price: item.price
+                        }
+                    })
+                }
             })
         }
     }, [cartItems, userData])
@@ -168,7 +179,12 @@ export default function PaymentsPage() {
     }
 
     const handleOrder = async (orderData: OrderRequestType) => {
-      
+      try {
+        const orderResponse = await postOrder(orderData);
+        
+      } catch (error) {
+        
+      }
     }
 
     return (
@@ -205,7 +221,7 @@ export default function PaymentsPage() {
                     <PriceWrapper>
                         <PriceContainer>
                             <PriceText>상품 금액</PriceText>
-                            <PriceText>{cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0).toLocaleString()} 원</PriceText>
+                            <PriceText>{totalPrice.toLocaleString()} 원</PriceText>
                         </PriceContainer>
                         <PriceContainer>
                             <PriceText>배송비</PriceText>
@@ -214,7 +230,7 @@ export default function PaymentsPage() {
                     </PriceWrapper>
                     <PriceContainer>
                         <TotalPriceText>총 결제 금액</TotalPriceText>
-                        <TotalPrice>{cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0).toLocaleString()} 원</TotalPrice>
+                        <TotalPrice>{totalPrice.toLocaleString()} 원</TotalPrice>
                     </PriceContainer>
                 </TotalPriceContainer>
                 <CheckWrapper>
@@ -226,7 +242,7 @@ export default function PaymentsPage() {
             </div>
 
             <TossPayButtonWrapper>
-                {check ? <TossPayButton /> : <NoTossPayButton />}
+                {check && orderData ? <TossPayButton onClick={() => handleOrder(orderData)} /> : <NoTossPayButton />}
             </TossPayButtonWrapper>
         </div>
     );

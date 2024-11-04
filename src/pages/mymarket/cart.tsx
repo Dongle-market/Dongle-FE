@@ -18,17 +18,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const initialItems: CartItemType[] = [
-    { itemId: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, itemCount: 1 },
-    { itemId: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, itemCount: 1 },
-    { itemId: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, itemCount: 1 },
-    { itemId: 4, imageUrl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, itemCount: 1 },
-    { itemId: 5, imageUrl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, itemCount: 1 },
-    { itemId: 6, imageUrl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, itemCount: 1 },
-    { itemId: 7, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, itemCount: 1 },
-    { itemId: 8, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, itemCount: 1 },
-    { itemId: 9, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, itemCount: 1 },
-    { itemId: 10, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, itemCount: 1 },
-    { itemId: 11, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, itemCount: 1 }
+    { itemId: 21, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, itemCount: 1 },
+    { itemId: 22, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, itemCount: 1 },
+    { itemId: 23, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, itemCount: 1 },
+    { itemId: 24, imageUrl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, itemCount: 1 },
+    { itemId: 25, imageUrl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, itemCount: 1 },
+    { itemId: 26, imageUrl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, itemCount: 1 },
+    { itemId: 27, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, itemCount: 1 },
+    { itemId: 28, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, itemCount: 1 },
+    { itemId: 29, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, itemCount: 1 },
+    { itemId: 30, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, itemCount: 1 },
+    { itemId: 31, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, itemCount: 1 }
 ];
 
 const ChoiceDelete = styled.div`

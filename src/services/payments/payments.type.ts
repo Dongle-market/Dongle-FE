@@ -16,3 +16,15 @@ export interface OrderRequestType {
   totalPrice: number;
   orderItems: ItemType[];
 }
+
+export interface OrderResponseType {
+  userId: number;
+  receiverName: string;
+  status: string,
+  addr: string;
+  addrDetail: string;
+  phoneNumber: string;
+  totalPrice: number;
+  orderId: number;
+  orderDate: Date;
+}
