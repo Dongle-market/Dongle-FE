@@ -1,7 +1,5 @@
-// /home/index.tsx
-
 import React, { useEffect, useState } from 'react';
-import { fetchItemData } from "@/services/api/itemAPI";
+import { fetchCategoryData } from '@/services/api/categoryAPI';
 import styled from 'styled-components';
 import MainHeader from "@/components/header/MainHeader";
 import FooterNav from "@/components/navbar/MainFooterNav";
@@ -19,7 +17,6 @@ interface Item {
     species: string;
   };
 }
-
 
 const DogMainPage = styled.div`
   display: flex;
@@ -44,11 +41,11 @@ const Title = styled.div`
 `;
 
 const BoldText = styled.span`
-    font-family: 'Pretendard';
-    font-size: 16px;
-    color: black;
-    text-align: center;
-    font-weight: 600;
+  font-family: 'Pretendard';
+  font-size: 16px;
+  color: black;
+  text-align: center;
+  font-weight: 600;
 `;
 
 const ProductWrapper = styled.div`
@@ -60,19 +57,40 @@ const ProductWrapper = styled.div`
 
 export default function DogHome() {
   const [itemCount, setItemCount] = useState(0);
-  const [species, setSpecies] = useState('dog'); // Default to 'dog'
+  const [species, setSpecies] = useState('dog');
   const [mainCategory, setMainCategory] = useState<string | null>(null);
-  const [subCategory, setSubCategory] = useState<string | null>(null);
-  const [products, setProducts] = useState<Item[]>([]);
+  const [products, setProducts] = useState<{ [key: string]: Item[] }>({ wet: [], dry: [], soft: [] });
 
-
+  // fetch data based on category
   useEffect(() => {
-    fetchItemData()
-      .then((data) => setProducts(data))
-      .catch((error) => console.error(error.message));
-  }, []);
+    if (mainCategory === '사료' && species) {
+      // 사료가 선택되었을 때, wet, dry, soft 각각의 데이터를 가져옴
+      const subCategories = ['wet', 'dry', 'soft'];
+      const fetchAllSubCategories = async () => {
+        const results = await Promise.all(
+          subCategories.map((sub) => fetchCategoryData(species, sub, '').catch(() => []))
+        );
+        
+        const dataBySubCategory = subCategories.reduce((acc, sub, index) => {
+          acc[sub] = results[index];
+          return acc;
+        }, {} as { [key: string]: Item[] });
 
-    // 동적 Title 설정
+        setProducts(dataBySubCategory);
+      };
+
+      fetchAllSubCategories();
+    } else {
+      // 강아지 토글만 선택 시
+      fetchCategoryData(species, '', '')
+        .then(data => {
+          setProducts({ food: data, snack: [], product: [] });
+        })
+        .catch(console.error);
+    }
+  }, [mainCategory, species]);
+
+  // 동적 Title 설정
   const getTitle = (category: string, isSubCategory = false) => {
     if (isSubCategory) {
       switch (category) {
@@ -112,43 +130,28 @@ export default function DogHome() {
     }
   };
 
-
- // 카테고리별 및 하위 카테고리 정렬
-  const getCategoryItems = (mainCategory: string, subCategory: string | null = null) => {
-    return products.filter(
-      (product) =>
-        product.category.species === species &&
-        product.category.mainCategory === mainCategory &&
-        (subCategory ? product.category.subCategory === subCategory : true)
-    );
-};
-
-
   return (
     <div className="page">
       <MainHeader
         itemCount={itemCount}
-        onCategoryChange={(newSpecies) => {
+        onSpeciesChange={(newSpecies) => {
           setSpecies(newSpecies);
-          setMainCategory(null); // 토글 변경 시 메인 카테고리 초기화
-          setSubCategory(null); // 서브 카테고리 초기화
+          setMainCategory(null); // 토글 변경 시 mainCategory 초기화
         }}
         onMainCategoryChange={(newMainCategory) => {
           setMainCategory(newMainCategory);
-          setSubCategory(null); // 메인 카테고리 변경 시 서브 카테고리 초기화
         }}
-        onSubCategoryChange={setSubCategory}
       />
 
       <div className="mainpage">
         <DogMainPage>
           <Banner />
-          {mainCategory === 'food' && !subCategory
+          {mainCategory === '사료'
             ? ['wet', 'dry', 'soft'].map((sub) => (
                 <ProductWrapper key={sub}>
                   <Title>{getTitle(sub, true)}</Title>
                   <ProductContainer>
-                    {getCategoryItems('food', sub).map((product) => (
+                    {products[sub]?.map((product) => (
                       <MainItem key={product.itemId} item={product} />
                     ))}
                   </ProductContainer>
@@ -158,12 +161,12 @@ export default function DogHome() {
                 <ProductWrapper key={main}>
                   <Title>{getTitle(main)}</Title>
                   <ProductContainer>
-                    {getCategoryItems(main).map((product) => (
+                    {products[main]?.map((product) => (
                       <MainItem key={product.itemId} item={product} />
                     ))}
                   </ProductContainer>
                 </ProductWrapper>
-              ))}
+            ))}
         </DogMainPage>
         <FooterNav />
       </div>
