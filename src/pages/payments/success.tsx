@@ -41,7 +41,8 @@ export default function SuccessPage() {
   const [isFinished, setIsFinished] = useState(false);
   
   useEffect(() => {
-    orderId && patchOrderStatus(parseInt(orderId[0])).then(() => {
+    orderId && typeof orderId === 'string' && 
+    patchOrderStatus(parseInt(orderId)).then(() => {
       setIsFinished(true);
     }).catch(() => {
       throw new Error();
