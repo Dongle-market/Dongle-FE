@@ -1,3 +1,5 @@
+//
+
 export interface PetPostRequestType {
   petName: string;
   profileImg: number;
