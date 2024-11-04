@@ -47,6 +47,8 @@ export default function SuccessPage() {
     }).catch(() => {
       throw new Error();
     })
+
+    sessionStorage.removeItem('cartItems');
   })
 
   return (
