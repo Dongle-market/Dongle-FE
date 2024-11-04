@@ -1,4 +1,4 @@
-'use client';
+//category.tsx
 
 import Header from "@/components/header/CategoryHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";

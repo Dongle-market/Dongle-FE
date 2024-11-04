@@ -1,7 +1,5 @@
 // /category/food/page.tsx
 
-'use client';
-
 import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { fetchCategoryData } from '@/services/api/categoryAPI';
