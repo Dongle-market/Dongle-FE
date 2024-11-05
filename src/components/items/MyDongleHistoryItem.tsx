@@ -1,5 +1,4 @@
 // MyDongleHistoryItem.tsx
-'use client';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -7,6 +6,8 @@ import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CloseSvg from '../../../public/svgs/element/close.svg';
+import { ItemType } from '@/types/item';
+import { useItemRouting } from '@/utils/itemIdRouting';
 
 const MyDongleHistoryItemContainer = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const Image = styled.img`
   width: 84px;
   height: 84px;
   border-radius: 16px;
+  cursor: pointer;
 `;
 
 const InfoContainer = styled.div`
@@ -55,11 +57,13 @@ const Name = styled.div`
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     white-space: normal;
+    cursor: pointer;
 `;
 
 const Price = styled.div`
   font-size: 16px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const OrderDate = styled.div`
@@ -80,6 +84,7 @@ const CartButton = styled.button`
 `;
 
 interface MyDongleHistoryItemProps {
+  itemId: ItemType['itemId'];
   imageUrl: string;
   name: string;
   price: number;
@@ -89,7 +94,9 @@ interface MyDongleHistoryItemProps {
   removeItem: () => void;
 }
 
-const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ imageUrl, name, price, orderDate, cartItems, removeItem }) => {
+const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, removeItem }) => {
+
+  const routeToItem = useItemRouting();
 
   const isItemInCart = () => {
     return cartItems.some(item => item.name === name && item.price === price);
@@ -169,13 +176,13 @@ const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ imageUrl, nam
 
   return (
     <MyDongleHistoryItemContainer>
-      <Image src={imageUrl} alt={name} />
+      <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)} />
       <InfoContainer>
         <Info>
-          <Name>{name}</Name>
+          <Name onClick={() => routeToItem(itemId)}>{name}</Name>
           <CloseSvg onClick={removeItem} style={{ cursor: 'pointer' }}/>
         </Info>
-        <Price>{price.toLocaleString()} 원</Price>
+        <Price onClick={() => routeToItem(itemId)}>{price.toLocaleString()} 원</Price>
         <Info>
           <OrderDate>{orderDate} 구매</OrderDate>
           <CartButton onClick={handleAddToCart}>장바구니 담기</CartButton>

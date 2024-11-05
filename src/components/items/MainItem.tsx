@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { removeHtmlTags } from '@/utils/removeHtmlTags';
 import { MainItemType } from '@/types/item';
+import { useItemRouting } from '@/utils/itemIdRouting';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -40,8 +41,10 @@ interface MainItemProps {
 }
 
 const MainItem: React.FC<MainItemProps> = ({ item }) => {
+  const routeToItem = useItemRouting();
+
     return (
-        <ItemContainer key={item.itemId}>
+        <ItemContainer onClick={() => routeToItem(item.itemId)} key={item.itemId}>
             <Image src={item.image} alt={item.title} />
             <Name>{removeHtmlTags(item.title)}</Name>
             <Price>{item.lprice.toLocaleString()} 원</Price>

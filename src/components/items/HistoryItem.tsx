@@ -1,5 +1,4 @@
 // HistoryItem.tsx
-'use client';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -7,6 +6,8 @@ import SelectPets from './SelectPets';
 import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useItemRouting } from '@/utils/itemIdRouting';
+import { ItemType } from '@/types/item';
 
 const HistoryItemContainer = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const Image = styled.img`
   width: 84px;
   height: 84px;
   border-radius: 16px;
+  cursor: pointer;
 `;
 
 const InfoContainer = styled.div`
@@ -55,11 +57,13 @@ const Name = styled.div`
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     white-space: normal;
+    cursor: pointer;
 `;
 
 const Price = styled.div`
   font-size: 16px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const CartButton = styled.button`
@@ -75,6 +79,7 @@ const CartButton = styled.button`
 `;
 
 interface HistoryItemProps {
+    itemId: ItemType['itemId'];
     imageUrl: string;
     name: string;
     price: number;
@@ -83,7 +88,9 @@ interface HistoryItemProps {
     selectedPetIds: number[];
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderDate, cartItems, selectedPetIds }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, selectedPetIds }) => {
+
+    const routeToItem = useItemRouting();
 
     const isItemInCart = () => {
         return cartItems.some(item => item.name === name && item.price === price);
@@ -163,12 +170,12 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderD
 
     return (
         <HistoryItemContainer>
-            <Image src={imageUrl} alt={name} />
+            <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)}/>
             <InfoContainer>
                 <Info>
-                    <Name>{name}</Name>
+                    <Name onClick={() => routeToItem(itemId)}>{name}</Name>
                 </Info>
-                <Price>{price.toLocaleString()} 원</Price>
+                <Price onClick={() => routeToItem(itemId)}>{price.toLocaleString()} 원</Price>
                 <Info>
                     <SelectPets selectedPetIds={selectedPetIds} isInteractive={false} />
                     <CartButton onClick={handleAddToCart}>장바구니 담기</CartButton>

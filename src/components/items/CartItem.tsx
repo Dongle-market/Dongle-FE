@@ -9,6 +9,7 @@ import NonCheckSvg from '/public/svgs/element/non_check.svg';
 import CheckSvg from '/public/svgs/element/check.svg';
 import CloseSvg from '/public/svgs/element/close.svg';
 import { CartItemType } from '@/types/item';
+import { useItemRouting } from '@/utils/itemIdRouting';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -25,6 +26,7 @@ const Thumbnail = styled.img`
     width: 84px;
     height: 84px;
     border-radius: 16px;
+    cursor: pointer;
 `;
 
 const InfoContainer = styled.div`
@@ -49,11 +51,13 @@ const Name = styled.div`
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     white-space: normal;
+    cursor: pointer;
 `;
 
 const Price = styled.div`
     font-size: 16px;
     font-weight: 600;
+    cursor: pointer;
 `;
 
 const CountContainer = styled.div`
@@ -82,16 +86,19 @@ interface CartItemProps {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, removeItem, handleIncrement, handleDecrement }) => {
+
+    const routeToItem = useItemRouting();
+
     return (
         <ItemContainer>
             <InfoContainer>
                 <div onClick={toggleSelection}>
                     {selected ? <CheckSvg /> : <NonCheckSvg />}
                 </div>
-                <Thumbnail src={item.imageUrl} alt={item.name} />
+                <Thumbnail src={item.imageUrl} alt={item.name} onClick={() => routeToItem(item.itemId)} />
                 <Info>
-                    <Name>{item.name}</Name>
-                    <Price>{item.price.toLocaleString()} 원</Price>
+                    <Name onClick={() => routeToItem(item.itemId)}>{item.name}</Name>
+                    <Price onClick={() => routeToItem(item.itemId)}>{item.price.toLocaleString()} 원</Price>
                     <CountContainer>
                         <RemoveSvg onClick={handleDecrement} />
                         <Count>{item.itemCount}</Count>
