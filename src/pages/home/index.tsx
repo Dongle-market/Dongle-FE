@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchItemData } from '@/services/api/itemAPI';
+import { ItemAPI } from '@/services/item/item';
 import styled from 'styled-components';
 import MainHeader from "@/components/header/MainHeader";
 import FooterNav from "@/components/navbar/MainFooterNav";
@@ -94,7 +94,7 @@ export default function PetHome() {
           const subCategoryList = subCategories[species][mainCategory];
           const results = await Promise.all(
             subCategoryList.map((sub) =>
-              fetchItemData(species, sub, mainCategoryMapping[mainCategory]).catch(() => [])
+              ItemAPI.fetchItemData(species, sub, mainCategoryMapping[mainCategory]).catch(() => [])
             )
           );
   
@@ -109,7 +109,7 @@ export default function PetHome() {
           const categories = ['food', 'snack', 'product'];
           const results = await Promise.all(
             categories.map((category) =>
-              fetchItemData(species, '', category).catch(() => [])
+              ItemAPI.fetchItemData(species, '', category).catch(() => [])
             )
           );
   

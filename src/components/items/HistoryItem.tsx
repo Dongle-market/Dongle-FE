@@ -1,5 +1,4 @@
 // HistoryItem.tsx
-'use client';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -7,8 +6,11 @@ import SelectPets from './SelectPets';
 import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useItemRouting } from '@/utils/itemIdRouting';
+import { ItemType } from '@/types/item';
 import OrderCancelModal from './OrderCancelModal';
 import XxsmallSvg from '/public/svgs/element/x_xsmall.svg';
+
 
 const HistoryItemContainer = styled.div`
   display: flex;
@@ -28,6 +30,7 @@ const Image = styled.img`
   width: 84px;
   height: 84px;
   border-radius: 16px;
+  cursor: pointer;
 `;
 
 const InfoContainer = styled.div`
@@ -65,6 +68,7 @@ const Name = styled.div`
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     white-space: normal;
+    cursor: pointer;
 `;
 
 const OrderCancel = styled.div`
@@ -76,6 +80,7 @@ const OrderCancel = styled.div`
 const Price = styled.div`
   font-size: 16px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const BarText = styled.div`
@@ -108,6 +113,7 @@ const CartButton = styled.button`
 `;
 
 interface HistoryItemProps {
+    itemId: ItemType['itemId'];
     imageUrl: string;
     name: string;
     price: number;
@@ -117,9 +123,9 @@ interface HistoryItemProps {
     amount: number;
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderDate, cartItems, selectedPetIds, amount }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, selectedPetIds, amount }) => {
+    const routeToItem = useItemRouting();
     const [showModal, setShowModal] = useState(false);
-
     const handleOrderCancelClick = () => {
         setShowModal(true);
     };
@@ -243,15 +249,15 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ imageUrl, name, price, orderD
 
     return (
         <HistoryItemContainer>
-            <Image src={imageUrl} alt={name} />
+            <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)}/>
             <InfoContainer>
                 <Info>
-                    <Name>{name}</Name>
+                    <Name onClick={() => routeToItem(itemId)}>{name}</Name>
                     <OrderCancel onClick={handleOrderCancelClick}>주문취소</OrderCancel>
                     {showModal && <OrderCancelModal onClose={handleClose} onOrderCancel={handleOrderCancel} />}
                 </Info>
                 <Info2>
-                    <Price>{price.toLocaleString()} 원</Price>
+                    <Price onClick={() => routeToItem(itemId)}>{price.toLocaleString()} 원</Price>
                     <BarText>|</BarText>
                     <AmountWrapper>
                         <Amount>{amount}개</Amount>
