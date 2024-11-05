@@ -1,8 +1,9 @@
 // PetsPort.tsx
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const PassportContainer = styled.div`
   position: relative;
@@ -23,15 +24,15 @@ const Passport = styled.div`
 `;
 
 const FirstPassport = styled(Passport)`
-  background-color: #35241E;
+  background-color: #35241e;
   width: 98%;
   height: 98%;
   z-index: 2;
 `;
 
 const SecondPassport = styled(Passport)`
-  background-color: #DCDCDC;
-  border: 1.5px solid #C2C2C2;
+  background-color: #dcdcdc;
+  border: 1.5px solid #c2c2c2;
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -46,27 +47,27 @@ const PassportBody = styled.div`
 `;
 
 const PassPortHeaderContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const PassportHeaderLeftWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 2px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
 `;
 
 const PassportHeaderLeft = styled.div`
   font-size: 10px;
-  color: #FF9E7E;
+  color: #ff9e7e;
 `;
 
 const BoldText = styled.div`
-    font-size: 10px;
-    color: #FF9E7E;
-    font-weight: 600;
+  font-size: 10px;
+  color: #ff9e7e;
+  font-weight: 600;
 `;
 
 const PassportHeaderRight = styled.div`
@@ -103,16 +104,16 @@ const InputWrapper = styled.div`
 `;
 
 const InputTitle = styled.span`
-    font-size: 8px;
-    font-weight: 600;
-    color: #FFFFFF;
+  font-size: 8px;
+  font-weight: 600;
+  color: #ffffff;
 `;
 
 const InputContent = styled.span`
-    font-size: 14px;
-    font-weight: 600;
-    color: #FF9E7E;
-    text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff9e7e;
+  text-decoration: none;
 `;
 
 const PassportImage = styled.img`
@@ -134,62 +135,102 @@ const PetsPortCode = styled.img`
   box-sizing: border-box;
 `;
 
-const Pet = {
-    imageUrl: '/images/petprofileimages/dog1.png',
-    name: '동글이',
-    age: 7,
-    gender: '여'
-};
+// petId: 1,
+// petName: "동글이",
+// profileImg: "/images/petprofileimages/dog1.png",
+// type: "Dog",
+// gender: "Male",
+// age: 3,
+// userId: 1,
+
+const Pet = [
+  {
+    pet: {
+      petId: 13,
+      petName: "동글이",
+      profileImg: "/images/petprofileimages/dog1.png",
+      // profileImg: 3,
+      type: "dog",
+      gender: "male",
+      age: 5,
+      userId: 2,
+    },
+    orderItems: [
+      {
+        itemId: 21,
+        title:
+          "슈퍼벳 리퀴드잇 노령견 <b>강아지 습식사료</b> 액상사료 회복식 노견 200ml 5개",
+        image:
+          "https://shopping-phinf.pstatic.net/main_8358452/83584527138.7.jpg",
+        price: 29000,
+        orderDate: "2024-11-04T00:27:57.031Z",
+      },
+      {
+        itemId: 22,
+        title:
+          "개똑 유기농 <b>강아지 습식사료</b> 치매예방 그레인프리 쇠고기맛 12개입 1팩",
+        image:
+          "https://shopping-phinf.pstatic.net/main_8239770/82397707016.3.jpg",
+        price: 16900,
+        orderDate: "2024-11-04T01:56:52.659Z",
+      },
+    ],
+  },
+];
 
 const PetsPort = () => {
-    return (
-        <PassportContainer>
-            <FirstPassport>
-                <PassportBody>
-                    <PassPortHeaderContainer>
-                        <PassportHeaderLeftWrapper>
-                            <PassportHeaderLeft>여권</PassportHeaderLeft>
-                            <BoldText>PETSPORT</BoldText>
-                        </PassportHeaderLeftWrapper>
-                        <PassportHeaderRight>동글월드 REPUBLIC OF DONGLE</PassportHeaderRight>
-                    </PassPortHeaderContainer>
-                    <PassportInfoContainer>
-                        <PassportImage src={Pet.imageUrl} />
-                        <InputBody>
-                            <InputContainer>
-                                <InputWrapper>
-                                    <InputTitle>이름</InputTitle>
-                                    <InputContent>{Pet.name}</InputContent>
-                                </InputWrapper>
-                            </InputContainer>
-                            <InputContainer>
-                                <InputWrapper>
-                                    <InputTitle>국가코드</InputTitle>
-                                    <InputContent>KOR</InputContent>
-                                </InputWrapper>
-                                <InputWrapper>
-                                    <InputTitle>여권번호</InputTitle>
-                                    <InputContent>URECA001</InputContent>
-                                </InputWrapper>
-                            </InputContainer>
-                            <InputContainer>
-                                <InputWrapper>
-                                    <InputTitle>나이</InputTitle>
-                                    <InputContent>{Pet.age}세</InputContent>
-                                </InputWrapper>
-                                <InputWrapper>
-                                    <InputTitle>성별</InputTitle>
-                                    <InputContent>{Pet.gender}</InputContent>
-                                </InputWrapper>
-                            </InputContainer>
-                        </InputBody>
-                    </PassportInfoContainer>
-                </PassportBody>
-                <PetsPortCode src='/svgs/pet/passportcode.svg' />
-            </FirstPassport>
-            <SecondPassport />
-        </PassportContainer>
-    )
+  return (
+    <PassportContainer>
+      <FirstPassport>
+        <PassportBody>
+          <PassPortHeaderContainer>
+            <PassportHeaderLeftWrapper>
+              <PassportHeaderLeft>여권</PassportHeaderLeft>
+              <BoldText>PETSPORT</BoldText>
+            </PassportHeaderLeftWrapper>
+            <PassportHeaderRight>
+              동글월드 REPUBLIC OF DONGLE
+            </PassportHeaderRight>
+          </PassPortHeaderContainer>
+          <PassportInfoContainer>
+            <PassportImage src={Pet[0].pet.profileImg} />
+            <InputBody>
+              <InputContainer>
+                <InputWrapper>
+                  <InputTitle>이름</InputTitle>
+                  <InputContent>{Pet[0].pet.petName}</InputContent>
+                </InputWrapper>
+                <InputWrapper>
+                  <InputTitle>국가코드</InputTitle>
+                  <InputContent>KOR</InputContent>
+                </InputWrapper>
+                <InputWrapper>
+                  <InputTitle>여권번호</InputTitle>
+                  <InputContent>URECA001</InputContent>
+                </InputWrapper>
+              </InputContainer>
+              <InputContainer>
+                <InputWrapper>
+                  <InputTitle></InputTitle>
+                  <InputContent></InputContent>
+                </InputWrapper>
+                <InputWrapper>
+                  <InputTitle>나이</InputTitle>
+                  <InputContent>{Pet[0].pet.age}세</InputContent>
+                </InputWrapper>
+                <InputWrapper>
+                  <InputTitle>성별</InputTitle>
+                  <InputContent>{Pet[0].pet.gender}</InputContent>
+                </InputWrapper>
+              </InputContainer>
+            </InputBody>
+          </PassportInfoContainer>
+        </PassportBody>
+        <PetsPortCode src="/svgs/pet/passportcode.svg" />
+      </FirstPassport>
+      <SecondPassport />
+    </PassportContainer>
+  );
 };
 
 export default PetsPort;
