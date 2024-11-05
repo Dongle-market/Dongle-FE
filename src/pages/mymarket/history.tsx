@@ -240,6 +240,7 @@ export default function HistoryPage() {
                   {group.items.map(item => (
                     <HistoryItem
                       key={item.id}
+                      itemId={item.id}
                       imageUrl={item.imageUrl}
                       name={item.name}
                       price={item.price}

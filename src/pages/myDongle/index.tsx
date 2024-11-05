@@ -209,6 +209,7 @@ export default function MyDonglePage() {
                 {initialHistoryItems.map(item => (
                   <MyDongleHistoryItem
                     key={item.itemId}
+                    itemId={item.itemId}
                     imageUrl={item.image}
                     name={item.title}
                     price={item.lprice}
