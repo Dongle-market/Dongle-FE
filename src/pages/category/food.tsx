@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { fetchCategoryData } from '@/services/api/categoryAPI';
+import { ItemAPI } from '@/services/item/item';
 
 import Header from "@/components/header/CategoryDetailHeader";
 import FooterNav from "@/components/navbar/CategoryFooterNav";
@@ -103,7 +103,7 @@ export default function FoodPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchCategoryData(speciesValue, subValue, orderValue);
+        const data = await ItemAPI.fetchCategoryData(speciesValue, subValue, orderValue);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);

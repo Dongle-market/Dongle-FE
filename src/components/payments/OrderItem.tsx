@@ -52,6 +52,18 @@ const ItemName = styled.div`
   text-overflow: ellipsis;
 `;
 
+const PriceContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+`;
+
+const ItemPrice = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
 const ItemCount = styled.div`
   display: flex;
   justify-content: center;
@@ -61,37 +73,35 @@ const ItemCount = styled.div`
   color: #919191;
 `;
 
-const ItemPrice = styled.div`
-  font-size: 16px;
-  font-weight: 600;
+const BarText = styled.div`
+    font-size: 16px;
+    color: #D9D9D9;
 `;
 
 interface OrderItemProps {
-    cartItems: CartItemType[];
+  cartItems: CartItemType[];
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ cartItems }) => {
-    return (
-        <>
-            {cartItems.map((item, index) => (
-                <OrderItemContainer key={index}>
-                    <ItemImg src={item.imageUrl} alt={item.name} />
-                    <ItemInfoContainer>
-                        <ItemBrand>{item.brand}</ItemBrand>
-                        <ItemNameContainer>
-                          <ItemName>{item.name}</ItemName>
-                          <ItemCount>
-                            <XsmallSvg />
-                            {item.itemCount}
-                          </ItemCount>
-                        </ItemNameContainer>
+  return (
+    <>
+      {cartItems.map((item, index) => (
+        <OrderItemContainer key={index}>
+          <ItemImg src={item.imageUrl} alt={item.name} />
+          <ItemInfoContainer>
+            <ItemBrand>{item.brand}</ItemBrand>
+            <ItemName>{item.name}</ItemName>
 
-                        <ItemPrice>{(item.price*item.itemCount).toLocaleString()} 원</ItemPrice>
-                    </ItemInfoContainer>
-                </OrderItemContainer>
-            ))}
-        </>
-    );
+            <PriceContainer>
+              <ItemPrice>{(item.price * item.itemCount).toLocaleString()} 원</ItemPrice>
+              <BarText>|</BarText>
+              <ItemCount>{item.itemCount}개</ItemCount>
+            </PriceContainer>
+          </ItemInfoContainer>
+        </OrderItemContainer>
+      ))}
+    </>
+  );
 }
 
 export default OrderItem;

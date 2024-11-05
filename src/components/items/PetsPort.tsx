@@ -77,32 +77,30 @@ const PassportHeaderRight = styled.div`
 `;
 
 const PassportInfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-right: 12px;
-  gap: 32px;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-right: 12px;
+    align-items: center;
+    gap: 32px;
 `;
 
 const InputBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 8px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
 `;
 
 const InputContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 `;
 
 const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 `;
 
 const InputTitle = styled.span`

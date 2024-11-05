@@ -1,25 +1,17 @@
 // CategoryItem.tsx
+
 import React, { useState } from 'react';
+import { useItemRouting } from '@/utils/itemIdRouting';
 import styled from 'styled-components';
 import HeartSvg from '/public/svgs/element/heart.svg';
 import FullHeartSvg from '/public/svgs/element/heart_full.svg';
 import SelectPets from './SelectPets';
 import { removeHtmlTags } from '@/utils/removeHtmlTags';
-
-interface Item {
-    itemId: number;
-    image: string;
-    title: string;
-    lprice: number;
-    // id: number;
-    // imageUrl: string;
-    // name: string;
-    // price: number;
-    selectedPetIds?: number[];
-}
+import { CategoryItemType } from '@/types/item';
 
 const Card = styled.div`
     width: 100%;
+    cursor: pointer;
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -71,26 +63,26 @@ const Price = styled.div`
 `;
 
 interface ItemCardProps {
-    item: Item;
+    item: CategoryItemType;
     defaultLiked?: boolean;
 }
 
 export default function CategoryItem({ item, defaultLiked = false }: ItemCardProps) {
     const [isLiked, setIsLiked] = useState(defaultLiked);
+    const routeToItem = useItemRouting();
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
     };
-
     return (
         <Card>
             <ThumbnailWrapper>
-                <Thumbnail src={item.image} alt={item.title} />
+                <Thumbnail src={item.image} alt={item.title} onClick={() => routeToItem(item.itemId)}/>
                 <HeartIconWrapper onClick={toggleLike}>
                     {isLiked ? <FullHeartSvg /> : <HeartSvg />}
                 </HeartIconWrapper>
             </ThumbnailWrapper>
-            <Info>
+            <Info onClick={() => routeToItem(item.itemId)}>
                 <Name>{removeHtmlTags(item.title)}</Name>
                 <Price>{item.lprice.toLocaleString()} 원</Price>
             </Info>
@@ -99,7 +91,7 @@ export default function CategoryItem({ item, defaultLiked = false }: ItemCardPro
 }
 
 interface CategoryItemWrapperProps {
-    item: Item;
+    item: CategoryItemType;
     hasAdditionalElement?: boolean;
     defaultLiked?: boolean;
     isInteractive?: boolean;

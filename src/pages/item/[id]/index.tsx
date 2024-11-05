@@ -1,12 +1,13 @@
 // item/index.tsx
 
-'use client';
-
 import Header from "@/components/header/ItemHeader";
 import FooterNav from "@/components/navbar/ItemFooter";
 import InfoSection from "@/components/items/ItemInfo";
 import styled from 'styled-components';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ItemAPI } from "@/services/item/item";
+import { useRouter } from "next/router";
+import { removeHtmlTags } from "@/utils/removeHtmlTags";
 
 interface CartItem {
     id: number;
@@ -56,6 +57,19 @@ const DetailImage = styled.img`
     width: 100%;
 `;
 
+interface Item {
+    itemId: number;
+    image: string;
+    title: string;
+    lprice: number;
+    brand: string;
+    category: {
+      mainCategory: string;
+      subCategory: string;
+      species: string;
+    };
+  }
+
 export default function ItemPage() {
     const [items, setItems] = useState<CartItem[]>(initialItems);
 
@@ -65,21 +79,60 @@ export default function ItemPage() {
         "/images/soogom.jpeg",
     ];
 
+    const router = useRouter();
+    const { id } = router.query;  // URL에서 id 가져오기
+    const [item, setItem] = useState<Item>();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (id) {  // id가 정의되었을 때만 실행
+                try {
+                    const data = await ItemAPI.fetchItemById(Number(id));
+                    setItem(data);
+                } catch (error) {
+                    console.error("Failed to fetch data:", error);
+                }
+            }
+        };
+        fetchData();
+    }, [id]);
+
+    if (!item) return <div>Loading...</div>;
+
+    const categoryMap: { [key: string]: string } = {
+        food: "사료",
+        snack: "간식",
+        product: "용품",
+        wet: "습식사료",
+        dry: "건식사료",
+        soft: "소프트사료",
+        can: "캔/통조림",
+        hand: "수제간식",
+        //more than.....
+        
+    };
+
+    const getCategoryName = (key: string): string => {
+        return categoryMap[key] || key; // 매핑되지 않은 경우 원래 값 반환
+    };
+
     return (
         <div className="page">
             <Header itemCount={items.length} />
             <div className="content">
                 <ImageWrapper>
                     <ItemImage
-                        src="https://shopping-phinf.pstatic.net/main_1456236/14562361991.20240903141927.jpg"
-                        alt="Product Image"
+                        src={item.image} alt={item.title}
                     />
                 </ImageWrapper>
                 <InfoSection
-                    categories={['사료', '건식사료']}
-                    brand="now"
-                    productName="NOW 그레인프리 스몰브리드 시니어 상품명이 과연 2줄로 넘어가면 어떻게 보이는지 한 번 볼까요?"
-                    price={44900}
+                    categories={[
+                        getCategoryName(item.category.mainCategory),
+                        getCategoryName(item.category.subCategory)
+                    ]}
+                    brand={item.brand}
+                    productName={removeHtmlTags(item.title)}
+                    price={item.lprice}
                 />
                 <DetailTitle>
                     상품설명
@@ -87,7 +140,7 @@ export default function ItemPage() {
                 <DetailImage src="https://shopping-phinf.pstatic.net/20200521_09_28/2968b9a2-aedf-4eda-84c8-cb09b81dae01/C:UsersuserDesktopb1ac3b5d07c1052752f6e75cb610e13d_092143.jpg"
                     alt="Product Detail Image" />
             </div>
-            <FooterNav price={44900} profileImages={profileImages} />
+            <FooterNav price={item.lprice} profileImages={profileImages} />
         </div>
     );
 }
