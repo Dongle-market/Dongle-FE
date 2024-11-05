@@ -18,11 +18,10 @@ export interface MainItemType {
 }
 
 export interface CategoryItemType {
-
-    itemId: number;
-    image: string;
-    title: string;
-    lprice: number;
-    selectedPetIds?: number[];
+  itemId: number;
+  image: string;
+  title: string;
+  lprice: number;
+  selectedPetIds?: number[];
 
 }
