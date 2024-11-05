@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { removeHtmlTags } from '@/utils/removeHtmlTags';
+import { MainItemType } from '@/types/item';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -34,16 +35,8 @@ const Name = styled.div`
   white-space: normal;
 `;
 
-
-interface Item {
-  itemId: number;
-  title: string;
-  lprice: number;
-  image: string;
-}
-
 interface MainItemProps {
-  item: Item;
+  item: MainItemType;
 }
 
 const MainItem: React.FC<MainItemProps> = ({ item }) => {

@@ -1,4 +1,5 @@
 // CategoryItem.tsx
+
 import React, { useState } from 'react';
 import { useItemRouting } from '@/utils/itemIdRouting';
 import styled from 'styled-components';
@@ -6,18 +7,7 @@ import HeartSvg from '/public/svgs/element/heart.svg';
 import FullHeartSvg from '/public/svgs/element/heart_full.svg';
 import SelectPets from './SelectPets';
 import { removeHtmlTags } from '@/utils/removeHtmlTags';
-
-interface Item {
-    itemId: number;
-    image: string;
-    title: string;
-    lprice: number;
-    // id: number;
-    // imageUrl: string;
-    // name: string;
-    // price: number;
-    selectedPetIds?: number[];
-}
+import { CategoryItemType } from '@/types/item';
 
 const Card = styled.div`
     width: 100%;
@@ -73,7 +63,7 @@ const Price = styled.div`
 `;
 
 interface ItemCardProps {
-    item: Item;
+    item: CategoryItemType;
     defaultLiked?: boolean;
 }
 
@@ -101,7 +91,7 @@ export default function CategoryItem({ item, defaultLiked = false }: ItemCardPro
 }
 
 interface CategoryItemWrapperProps {
-    item: Item;
+    item: CategoryItemType;
     hasAdditionalElement?: boolean;
     defaultLiked?: boolean;
     isInteractive?: boolean;
