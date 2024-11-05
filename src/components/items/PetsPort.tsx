@@ -79,29 +79,27 @@ const PassportInfoContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-right: 12px;
-    gap: 32px;
     align-items: center;
+    gap: 32px;
 `;
 
 const InputBody = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
-    gap: 8px;
+    justify-content: space-between;
 `;
 
 const InputContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+    flex-direction: column;
+    gap: 16px;
 `;
 
 const InputWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2px;
-    width: 48%;
 `;
 
 const InputTitle = styled.span`
@@ -163,6 +161,8 @@ const PetsPort = () => {
                                     <InputTitle>이름</InputTitle>
                                     <InputContent>{Pet.name}</InputContent>
                                 </InputWrapper>
+                            </InputContainer>
+                            <InputContainer>
                                 <InputWrapper>
                                     <InputTitle>국가코드</InputTitle>
                                     <InputContent>KOR</InputContent>
@@ -173,10 +173,6 @@ const PetsPort = () => {
                                 </InputWrapper>
                             </InputContainer>
                             <InputContainer>
-                                <InputWrapper>
-                                    <InputTitle></InputTitle>
-                                    <InputContent></InputContent>
-                                </InputWrapper>
                                 <InputWrapper>
                                     <InputTitle>나이</InputTitle>
                                     <InputContent>{Pet.age}세</InputContent>

@@ -39,17 +39,27 @@ export default function SuccessPage() {
   const router = useRouter();
   const { orderId, paymentKey, amount } = router.query;
   const [isFinished, setIsFinished] = useState(false);
-  
+
   useEffect(() => {
-    orderId && typeof orderId === 'string' && 
-    patchOrderStatus(parseInt(orderId)).then(() => {
-      setIsFinished(true);
-    }).catch(() => {
-      throw new Error();
-    })
+    orderId && typeof orderId === 'string' &&
+      patchOrderStatus(parseInt(orderId)).then(() => {
+        setIsFinished(true);
+      }).catch(() => {
+        throw new Error();
+      })
 
     sessionStorage.removeItem('cartItems');
   })
+
+  function formatAmount(amount: string | string[] | undefined): string {
+    if (Array.isArray(amount)) {
+      amount = amount.length > 0 ? amount[0] : '';
+    } else if (amount === undefined) {
+      amount = '';
+    }
+
+    return parseInt(amount).toLocaleString();
+  }
 
   return (
     <div className="page">
@@ -58,7 +68,7 @@ export default function SuccessPage() {
         <ConfirmTextContainer>
           <h2>주문이 완료되었어요.</h2>
           <div>주문번호: {orderId}</div>
-          <div>결제금액: {amount}원</div>
+          <div>결제금액: {formatAmount(amount)}원</div>
         </ConfirmTextContainer>
         {isFinished ? (
           <ConfirmButton onClick={() => router.push('/mymarket/history')}>돌아가기</ConfirmButton>
