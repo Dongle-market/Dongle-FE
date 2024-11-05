@@ -1,5 +1,6 @@
 // CategoryItem.tsx
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import HeartSvg from '/public/svgs/element/heart.svg';
 import FullHeartSvg from '/public/svgs/element/heart_full.svg';
@@ -20,6 +21,7 @@ interface Item {
 
 const Card = styled.div`
     width: 100%;
+    cursor: pointer;
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -77,20 +79,25 @@ interface ItemCardProps {
 
 export default function CategoryItem({ item, defaultLiked = false }: ItemCardProps) {
     const [isLiked, setIsLiked] = useState(defaultLiked);
+    const router = useRouter();
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
     };
 
+    const goToDetailPage = () => {
+        router.push(`/item/${item.itemId}`);
+    };
+
     return (
         <Card>
             <ThumbnailWrapper>
-                <Thumbnail src={item.image} alt={item.title} />
+                <Thumbnail src={item.image} alt={item.title} onClick={goToDetailPage}/>
                 <HeartIconWrapper onClick={toggleLike}>
                     {isLiked ? <FullHeartSvg /> : <HeartSvg />}
                 </HeartIconWrapper>
             </ThumbnailWrapper>
-            <Info>
+            <Info onClick={goToDetailPage}>
                 <Name>{removeHtmlTags(item.title)}</Name>
                 <Price>{item.lprice.toLocaleString()} 원</Price>
             </Info>
