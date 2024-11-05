@@ -1,12 +1,22 @@
-// /home/index.tsx
-'use client';
-
 import React, { useEffect, useState } from 'react';
+import { fetchItemData } from '@/services/api/itemAPI';
 import styled from 'styled-components';
 import MainHeader from "@/components/header/MainHeader";
 import FooterNav from "@/components/navbar/MainFooterNav";
 import Banner from "@/components/main/Banner";
 import MainItem from "@/components/items/MainItem";
+
+interface Item {
+  itemId: number;
+  image: string;
+  title: string;
+  lprice: number;
+  category: {
+    mainCategory: string;
+    subCategory: string;
+    species: string;
+  };
+}
 
 const DogMainPage = styled.div`
   display: flex;
@@ -31,11 +41,11 @@ const Title = styled.div`
 `;
 
 const BoldText = styled.span`
-    font-family: 'Pretendard';
-    font-size: 16px;
-    color: black;
-    text-align: center;
-    font-weight: 600;
+  font-family: 'Pretendard';
+  font-size: 16px;
+  color: black;
+  text-align: center;
+  font-weight: 600;
 `;
 
 const ProductWrapper = styled.div`
@@ -45,78 +55,146 @@ const ProductWrapper = styled.div`
   padding: 0 0 32px 16px;
 `;
 
-export default function DogHome() {
+// 하위 카테고리 정의
+const subCategories = {
+  dog: {
+    사료: ['wet', 'dry', 'soft'],
+    간식: ['hand', 'bread', 'bone'],
+    용품: ['clean', 'bath', 'practice'],
+  },
+  cat: {
+    사료: ['can', 'dry', 'wet'],
+    간식: ['chur', 'hand', 'catnip'],
+    용품: ['tower', 'water', 'bath'],
+  },
+} as const;
+
+const mainCategoryMapping: { [key: string]: string } = {
+  '사료': 'food',
+  '간식': 'snack',
+  '용품': 'product',
+};
+
+type MainCategory = keyof typeof subCategories['dog'];
+type SubCategory = typeof subCategories['dog'][MainCategory][number];
+
+type Species = 'dog' | 'cat';
+
+export default function PetHome() {
   const [itemCount, setItemCount] = useState(0);
+  const [species, setSpecies] = useState<Species>('dog');
+  const [mainCategory, setMainCategory] = useState<MainCategory | null>(null);
+  const [products, setProducts] = useState<{ [key: string]: Item[] }>({});
 
   useEffect(() => {
-    const fetchCartItems = () => {
-      const cartItemCount = parseInt(localStorage.getItem('cartItemCount') || '0', 10);
-      setItemCount(cartItemCount);
-      console.log("현재 장바구니 아이템 수:", cartItemCount);
+    const fetchProducts = async () => {
+      try {
+        if (mainCategory && subCategories[species][mainCategory]) {
+          // 특정 메인 카테고리가 선택된 경우 (e.g., '사료', '간식', '용품')
+          const subCategoryList = subCategories[species][mainCategory];
+          const results = await Promise.all(
+            subCategoryList.map((sub) =>
+              fetchItemData(species, sub, mainCategoryMapping[mainCategory]).catch(() => [])
+            )
+          );
+  
+          const dataBySubCategory = subCategoryList.reduce((acc, sub, index) => {
+            acc[sub] = results[index];
+            return acc;
+          }, {} as { [key: string]: Item[] });
+  
+          setProducts(dataBySubCategory);
+        } else {
+          // 메인 카테고리가 선택되지 않은 경우 (e.g., 강아지/고양이만 선택된 경우)
+          const categories = ['food', 'snack', 'product'];
+          const results = await Promise.all(
+            categories.map((category) =>
+              fetchItemData(species, '', category).catch(() => [])
+            )
+          );
+  
+          const dataByMainCategory = categories.reduce((acc, category, index) => {
+            acc[category] = results[index];
+            return acc;
+          }, {} as { [key: string]: Item[] });
+  
+          setProducts(dataByMainCategory);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+      }
     };
+  
+    fetchProducts();
+  }, [mainCategory, species]);
+  
 
-    fetchCartItems();
-    window.addEventListener('storage', fetchCartItems);
-
-    return () => {
-      window.removeEventListener('storage', fetchCartItems);
+  // 동적 Title 설정
+  const getTitle = (category: string, isSubCategory = false) => {
+    const titles = {
+      dog: {
+        wet: '촉촉한 사료를 찾는 댕댕이 🥫',
+        dry: '건조한 사료로 건강하게! 🥨',
+        soft: '말랑말랑한 사료 좋아해요? 🍖',
+        hand: '손에 쏙 들어오는 간편 간식 🍪',
+        bread: '맛있는 빵 간식 🥖',
+        bone: '튼튼한 뼈 간식 🦴',
+        clean: '청결을 위한 필수 아이템 🧼',
+        bath: '목욕시간 필수템 🛁',
+        practice: '훈련에 꼭 필요한 용품 🐾',
+        food: <>날도 선선해졌으니 <BoldText>산책하러 갈까?</BoldText> 🍂</>,
+        snack: <>가을은 살 찌는 계절 <BoldText>다이어트 해볼까!</BoldText> 💪</>,
+        product: <>우리집 <BoldText>댕댕이</BoldText>를 위하여〰️🐶</>,
+      },
+      cat: {
+        can: '캔 사료로 기분 좋은 한 끼 🍱',
+        dry: '건조한 사료로 건강을 챙기자! 🥨',
+        wet: '촉촉한 사료를 찾는 냥이 🥫',
+        chur: '냥이가 좋아하는 츄르 🐟',
+        hand: '한입에 딱 좋은 간편 간식 🍪',
+        catnip: '기분 전환용 캣닢 🌿',
+        tower: '냥이의 전용 타워 🏰',
+        water: '항상 신선한 물 💧',
+        bath: '목욕시간 필수템 🛁',
+        food: <>쌀쌀한 날씨에 <BoldText>건강 챙겨볼까?</BoldText> 🍁</>,
+        snack: <>가을은 묘생의 계절 <BoldText>간식은 필수!</BoldText> 🐾</>,
+        product: <>우리집 <BoldText>냥이</BoldText>를 위한 필수템〰️🐱</>,
+      }
     };
-  }, []);
+    return titles[species][category as keyof typeof titles[Species]];
+  };
 
-  const products = [
-    { id: 1, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
-    { id: 2, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
-    { id: 3, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
-    { id: 4, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
-    { id: 5, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" },
-    { id: 6, name: "도치빌 리더스", price: 34000, imageUrl: "/images/product1.png" }
-  ];
+  const renderProductSections = () => {
+    const categories = mainCategory ? subCategories[species][mainCategory] : ['food', 'snack', 'product'];
+
+    return categories.map((category) => (
+      <ProductWrapper key={category}>
+        <Title>{getTitle(category, mainCategory !== null)}</Title>
+        <ProductContainer>
+          {products[category]?.map((product) => (
+            <MainItem key={product.itemId} item={product} />
+          ))}
+        </ProductContainer>
+      </ProductWrapper>
+    ));
+  };
 
   return (
     <div className="page">
-      <MainHeader itemCount={itemCount} />
+      <MainHeader
+        itemCount={itemCount}
+        species={species}
+        onSpeciesChange={(newSpecies) => {
+          setSpecies(newSpecies as Species);
+          setMainCategory(null);
+        }}
+        onMainCategoryChange={(newMainCategory) => setMainCategory(newMainCategory as MainCategory)}
+      />
+
       <div className="mainpage">
         <DogMainPage>
           <Banner />
-          <ProductWrapper>
-            <Title>날도 선선해졌으니 <BoldText>산책하러 갈까?</BoldText> 🍂</Title>
-            <ProductContainer>
-              {products.map(product => (
-                <MainItem
-                  key={product.id}
-                  name={product.name}
-                  price={product.price}
-                  imageUrl={product.imageUrl}
-                />
-              ))}
-            </ProductContainer>
-          </ProductWrapper>
-          <ProductWrapper>
-            <Title>가을은 살 찌는 계절 <BoldText>다이어트 해볼까!</BoldText> 💪</Title>
-            <ProductContainer>
-              {products.map(product => (
-                <MainItem
-                  key={product.id}
-                  name={product.name}
-                  price={product.price}
-                  imageUrl={product.imageUrl}
-                />
-              ))}
-            </ProductContainer>
-          </ProductWrapper>
-          <ProductWrapper>
-            <Title>우리집 <BoldText>댕댕이</BoldText>를 위하여〰️🐶</Title>
-            <ProductContainer>
-              {products.map(product => (
-                <MainItem
-                  key={product.id}
-                  name={product.name}
-                  price={product.price}
-                  imageUrl={product.imageUrl}
-                />
-              ))}
-            </ProductContainer>
-          </ProductWrapper>
+          {renderProductSections()}
         </DogMainPage>
         <FooterNav />
       </div>

@@ -1,7 +1,5 @@
 // /category/food/page.tsx
 
-'use client';
-
 import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { fetchCategoryData } from '@/services/api/categoryAPI';
@@ -89,7 +87,7 @@ const Item = styled.div<{ $isSelected?: boolean }>`
 export default function FoodPage() {
   const [items, setItems] = useState<CartItem[]>(initialItems);
   const router = useRouter();
-  const { species = 'dog', sub = 'all', order = 'default' } = router.query;
+  const { species = 'dog', sub = '', order = '' } = router.query;
 
   const speciesValue = Array.isArray(species) ? species[0] : species;
   const subValue = Array.isArray(sub) ? sub[0] : sub;
@@ -117,14 +115,14 @@ export default function FoodPage() {
   // 동물에 따른 카테고리 옵션 설정
   const categoryOptions = speciesValue === 'cat'
     ? [
-        { label: "전체", sub: "all" },
+        { label: "전체", sub: "" },
         { label: "캔/통조림", sub: "can" },
         { label: "건식사료", sub: "dry" },
         { label: "습식사료", sub: "wet" },
         { label: "에어/동결사료", sub: "air" },
       ]
     : [
-        { label: "전체", sub: "all" },
+        { label: "전체", sub: "" },
         { label: "습식사료", sub: "wet" },
         { label: "소프트사료", sub: "soft" },
         { label: "건식사료", sub: "dry" },
@@ -148,7 +146,7 @@ export default function FoodPage() {
     if (id === "sort") {
       const order = value === "저가순" ? "low" : value === "고가순" ? "high" : "default";
       const baseURL = `/category/food?species=${speciesValue}`;
-      const subParam = subValue !== 'all' ? `&sub=${subValue}` : '';
+      const subParam = subValue !== '' ? `&sub=${subValue}` : '';
       const orderParam = order !== 'default' ? `&order=${order}` : '';
       router.push(`${baseURL}${subParam}${orderParam}`);
     }
@@ -156,7 +154,7 @@ export default function FoodPage() {
 
   const handleCategoryChange = (sub: string) => {
     setSelectedItems((prev) => ({ ...prev, sort: "가격순" }));
-    const url = sub === 'all' ? `/category/food?species=${speciesValue}` : `/category/food?species=${speciesValue}&sub=${sub}`;
+    const url = sub === '' ? `/category/food?species=${speciesValue}` : `/category/food?species=${speciesValue}&sub=${sub}`;
     router.push(url);
   };
 

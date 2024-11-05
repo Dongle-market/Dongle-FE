@@ -1,10 +1,10 @@
 // MainHeader.tsx
-'use client';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DongleSvg from '/public/svgs/logo/whitelogo_dongle.svg'
 import DogSvg from '/public/svgs/logo/logo_dog.svg';
+import CatSvg from '/public/svgs/logo/logo_cat.svg';
 import ShoppingBasketSvg from '/public/svgs/header/white_shoppingbag.svg';
 import Link from 'next/link';
 import Toggle from '@/components/header/Toggle';
@@ -26,6 +26,8 @@ const HeaderContainer = styled.div`
 `;
 const LogoContainer = styled(Link)`
   display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 2px;
   text-decoration: none;
   cursor: pointer;
@@ -66,8 +68,11 @@ const ButtonWrapper = styled.div`
   max-width: 600px;
 `;
 
-interface CategoryHeaderProps {
+interface MainHeaderProps {
   itemCount: number;
+  onSpeciesChange: (species: string) => void;
+  onMainCategoryChange: (mainCategory: string | null) => void;
+  species: 'dog' | 'cat';
 }
 
 interface MainHeaderContainerProps {
@@ -88,14 +93,31 @@ const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
   transition: background-color 0.25s ease;
 `;
 
-const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+const MainHeader: React.FC<MainHeaderProps> = ({
+  itemCount, 
+  onSpeciesChange, 
+  onMainCategoryChange,
+  species
+}) => {
   const router = useRouter();
+  const [isTop, setIsTop] = useState<boolean>(true);
+  const [selectedSpecies, setSelectedSpecies] = useState<'dog' | 'cat'>(species);
+  const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
 
   const handleCartClick = () => {
     router.push('/mymarket/cart');
   };
 
-  const [isTop, setIsTop] = useState<boolean>(true);
+  const handleSpeciesChange = (species: string) => {
+    setSelectedSpecies(species as 'dog' | 'cat');
+    onSpeciesChange(species);
+    setSelectedMainCategory(null); // species 변경 시 mainCategory 초기화
+  };
+
+  const handleMainCategoryChange = (mainCategory: string | null) => {
+    setSelectedMainCategory(mainCategory);
+    onMainCategoryChange(mainCategory);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,7 +139,8 @@ const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
         <LogoWarpper>
           <LogoContainer href="/home">
             <DongleSvg />
-            <DogSvg />
+            {/* <DogSvg /> */}
+            {species === 'dog' ? <DogSvg /> : <CatSvg />}
           </LogoContainer>
           <BasketContainer onClick={handleCartClick}>
             <ShoppingBasketSvg />
@@ -125,8 +148,11 @@ const MainHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
           </BasketContainer>
         </LogoWarpper>
         <ButtonWrapper>
-          <Toggle />
-          <MenuBar />
+        <Toggle selected={selectedSpecies} onToggleChange={handleSpeciesChange} />
+        <MenuBar
+          selectedItem={selectedMainCategory}
+          onItemClick={handleMainCategoryChange}
+        />
         </ButtonWrapper>
       </HeaderContainer>
     </MainHeaderContainer>

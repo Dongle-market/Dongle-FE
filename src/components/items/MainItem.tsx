@@ -1,8 +1,8 @@
 // MainItem.tsx
-'use client';
 
 import React from 'react';
 import styled from 'styled-components';
+import { removeHtmlTags } from '@/utils/removeHtmlTags';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -26,20 +26,32 @@ const Name = styled.div`
   color: #666;
   font-size: 14px;
   margin-top: 8px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: normal;
 `;
 
-interface MainItemProps {
-    name: string;
-    price: number;
-    imageUrl: string;
+
+interface Item {
+  itemId: number;
+  title: string;
+  lprice: number;
+  image: string;
 }
 
-const MainItem: React.FC<MainItemProps> = ({ name, price, imageUrl }) => {
+interface MainItemProps {
+  item: Item;
+}
+
+const MainItem: React.FC<MainItemProps> = ({ item }) => {
     return (
-        <ItemContainer>
-            <Image src={imageUrl} alt={name} />
-            <Name>{name}</Name>
-            <Price>{price.toLocaleString()} 원</Price>
+        <ItemContainer key={item.itemId}>
+            <Image src={item.image} alt={item.title} />
+            <Name>{removeHtmlTags(item.title)}</Name>
+            <Price>{item.lprice.toLocaleString()} 원</Price>
         </ItemContainer>
     );
 };
