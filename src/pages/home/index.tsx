@@ -183,6 +183,7 @@ export default function PetHome() {
     <div className="page">
       <MainHeader
         itemCount={itemCount}
+        species={species}
         onSpeciesChange={(newSpecies) => {
           setSpecies(newSpecies as Species);
           setMainCategory(null);

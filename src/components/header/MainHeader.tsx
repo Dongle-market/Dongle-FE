@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DongleSvg from '/public/svgs/logo/whitelogo_dongle.svg'
 import DogSvg from '/public/svgs/logo/logo_dog.svg';
+import CatSvg from '/public/svgs/logo/logo_cat.svg';
 import ShoppingBasketSvg from '/public/svgs/header/white_shoppingbag.svg';
 import Link from 'next/link';
 import Toggle from '@/components/header/Toggle';
@@ -25,6 +26,8 @@ const HeaderContainer = styled.div`
 `;
 const LogoContainer = styled(Link)`
   display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 2px;
   text-decoration: none;
   cursor: pointer;
@@ -69,6 +72,7 @@ interface MainHeaderProps {
   itemCount: number;
   onSpeciesChange: (species: string) => void;
   onMainCategoryChange: (mainCategory: string | null) => void;
+  species: 'dog' | 'cat';
 }
 
 interface MainHeaderContainerProps {
@@ -92,11 +96,12 @@ const MainHeaderContainer = styled.div<MainHeaderContainerProps>`
 const MainHeader: React.FC<MainHeaderProps> = ({
   itemCount, 
   onSpeciesChange, 
-  onMainCategoryChange
+  onMainCategoryChange,
+  species
 }) => {
   const router = useRouter();
   const [isTop, setIsTop] = useState<boolean>(true);
-  const [selectedSpecies, setSelectedSpecies] = useState('dog');
+  const [selectedSpecies, setSelectedSpecies] = useState<'dog' | 'cat'>(species);
   const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
 
   const handleCartClick = () => {
@@ -104,7 +109,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   };
 
   const handleSpeciesChange = (species: string) => {
-    setSelectedSpecies(species);
+    setSelectedSpecies(species as 'dog' | 'cat');
     onSpeciesChange(species);
     setSelectedMainCategory(null); // species 변경 시 mainCategory 초기화
   };
@@ -134,7 +139,8 @@ const MainHeader: React.FC<MainHeaderProps> = ({
         <LogoWarpper>
           <LogoContainer href="/home">
             <DongleSvg />
-            <DogSvg />
+            {/* <DogSvg /> */}
+            {species === 'dog' ? <DogSvg /> : <CatSvg />}
           </LogoContainer>
           <BasketContainer onClick={handleCartClick}>
             <ShoppingBasketSvg />
