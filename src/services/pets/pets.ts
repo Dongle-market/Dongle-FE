@@ -1,19 +1,40 @@
 import { Server } from "../axios.setting";
 import { PetPostRequestType } from "./pets.type";
+import { PetInfoResponseType } from "./pets.type";
 
 export const postPet = async (petData: PetPostRequestType) => {
   try {
-    console.log(petData);
-    /*  (Response 응답)      ( Request 요청 ) */
-    // 1. 시도하는 부분
     const response = await Server.post("/pet", petData);
-
-    // 너 실패하면? else 가셈 
-
-    // 2. 성공한 부분
     return response.data;
   } catch (error) {
-    // 어 나 실패... else 옴
+    throw new Error();
+  }
+};
+
+export const GetResponse = async (
+  petId: number
+): Promise<PetInfoResponseType> => {
+  try {
+    const response = await Server.get(`/pet/${petId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error();
+  }
+};
+
+export const patchPet = async (petId: number, petData: PetPostRequestType) => {
+  try {
+    const response = await Server.patch(`/pet/${petId}`, petData);
+    return response.data;
+  } catch (error) {
+    throw new Error();
+  }
+};
+
+export const DeletePet = async (petId: number): Promise<void> => {
+  try {
+    await Server.delete(`/pet/${petId}`);
+  } catch (error) {
     throw new Error();
   }
 };
