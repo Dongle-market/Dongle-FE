@@ -1,6 +1,6 @@
 // HistoryItem.tsx
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SelectPets from './SelectPets';
 import Link from 'next/link';
@@ -8,6 +8,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useItemRouting } from '@/utils/itemIdRouting';
 import { ItemType } from '@/types/item';
+import OrderCancelModal from './OrderCancelModal';
+import XxsmallSvg from '/public/svgs/element/x_xsmall.svg';
+
 
 const HistoryItemContainer = styled.div`
   display: flex;
@@ -47,6 +50,14 @@ const Info = styled.div`
     flex-wrap: nowrap;
     overflow: hidden;
 `;
+const Info2 = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+`;
 
 const Name = styled.div`
     font-size: 16px;
@@ -60,10 +71,33 @@ const Name = styled.div`
     cursor: pointer;
 `;
 
+const OrderCancel = styled.div`
+  font-size: 12px;
+  color: #D9D9D9;
+  cursor: pointer;
+`;
+
 const Price = styled.div`
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+`;
+
+const BarText = styled.div`
+    font-size: 16px;
+    color: #D9D9D9;
+`;
+
+const AmountWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Amount = styled.div`
+    font-size: 14px;
+    color: #919191;
 `;
 
 const CartButton = styled.button`
@@ -86,11 +120,56 @@ interface HistoryItemProps {
     orderDate: string;
     cartItems: { name: string; price: number; }[];
     selectedPetIds: number[];
+    amount: number;
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, selectedPetIds }) => {
-
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, selectedPetIds, amount }) => {
     const routeToItem = useItemRouting();
+    const [showModal, setShowModal] = useState(false);
+    const handleOrderCancelClick = () => {
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const handleOrderCancel = () => {
+        console.log("주문취소 처리");
+        setShowModal(false);
+        toast(<ToastOrderCancelComplete />, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            style: {
+                marginTop: '82px',
+                marginRight: '16px',
+                marginLeft: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                borderRadius: '16px',
+            }
+        });
+    };
+
+    const ToastOrderCancelComplete = () => {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                color: 'white',
+                fontSize: '14px'
+            }}>
+                <span>주문취소가 완료되었습니다.</span>
+            </div>
+        );
+    };
 
     const isItemInCart = () => {
         return cartItems.some(item => item.name === name && item.price === price);
@@ -174,8 +253,16 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price
             <InfoContainer>
                 <Info>
                     <Name onClick={() => routeToItem(itemId)}>{name}</Name>
+                    <OrderCancel onClick={handleOrderCancelClick}>주문취소</OrderCancel>
+                    {showModal && <OrderCancelModal onClose={handleClose} onOrderCancel={handleOrderCancel} />}
                 </Info>
-                <Price onClick={() => routeToItem(itemId)}>{price.toLocaleString()} 원</Price>
+                <Info2>
+                    <Price onClick={() => routeToItem(itemId)}>{price.toLocaleString()} 원</Price>
+                    <BarText>|</BarText>
+                    <AmountWrapper>
+                        <Amount>{amount}개</Amount>
+                    </AmountWrapper>
+                </Info2>
                 <Info>
                     <SelectPets selectedPetIds={selectedPetIds} isInteractive={false} />
                     <CartButton onClick={handleAddToCart}>장바구니 담기</CartButton>
