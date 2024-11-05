@@ -5,7 +5,7 @@ import FooterNav from "@/components/navbar/ItemFooter";
 import InfoSection from "@/components/items/ItemInfo";
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
-import { ProductAPI } from "@/services/api/productAPI";
+import { ItemAPI } from "@/services/item/item";
 import { useRouter } from "next/router";
 import { removeHtmlTags } from "@/utils/removeHtmlTags";
 
@@ -87,7 +87,7 @@ export default function ItemPage() {
         const fetchData = async () => {
             if (id) {  // id가 정의되었을 때만 실행
                 try {
-                    const data = await ProductAPI.fetchProductById(Number(id));
+                    const data = await ItemAPI.fetchItemById(Number(id));
                     setItem(data);
                 } catch (error) {
                     console.error("Failed to fetch data:", error);
