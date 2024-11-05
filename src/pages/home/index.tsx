@@ -77,12 +77,12 @@ const mainCategoryMapping: { [key: string]: string } = {
 };
 
 type MainCategory = keyof (typeof subCategories)["dog"];
-type SubCategory = (typeof subCategories)["dog"][MainCategory][number];
+// type SubCategory = (typeof subCategories)["dog"][MainCategory][number];
 
 type Species = "dog" | "cat";
 
 export default function PetHome() {
-  const [itemCount, setItemCount] = useState(0);
+  const [itemCount, ] = useState(0);
   const [species, setSpecies] = useState<Species>("dog");
   const [mainCategory, setMainCategory] = useState<MainCategory | null>(null);
   const [products, setProducts] = useState<{ [key: string]: Item[] }>({});
@@ -136,7 +136,7 @@ export default function PetHome() {
   }, [mainCategory, species]);
 
   // 동적 Title 설정
-  const getTitle = (category: string, isSubCategory = false) => {
+  const getTitle = (category: string) => {
     const titles = {
       dog: {
         wet: "촉촉한 사료를 찾는 댕댕이 🥫",
@@ -201,7 +201,7 @@ export default function PetHome() {
 
     return categories.map((category) => (
       <ProductWrapper key={category}>
-        <Title>{getTitle(category, mainCategory !== null)}</Title>
+        <Title>{getTitle(category)}</Title>
         <ProductContainer>
           {products[category]?.map((product) => (
             <MainItem key={product.itemId} item={product} />

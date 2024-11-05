@@ -1,7 +1,7 @@
 // PetsPort.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import BadgeSvg from '/public/svgs/element/badge.svg';
 import Link from 'next/link';

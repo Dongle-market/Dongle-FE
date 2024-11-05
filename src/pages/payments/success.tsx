@@ -37,7 +37,7 @@ const NonConfirmButton = styled(ConfirmButton)`
 
 export default function SuccessPage() {
   const router = useRouter();
-  const { orderId, paymentKey, amount } = router.query;
+  const { orderId, amount } = router.query;
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function SuccessPage() {
       })
 
     sessionStorage.removeItem('cartItems');
-  })
+  }, [orderId]);
 
   function formatAmount(amount: string | string[] | undefined): string {
     if (Array.isArray(amount)) {

@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BackSvg from '/public/svgs/header/back_arrow.svg'
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   padding: 14px 16px;

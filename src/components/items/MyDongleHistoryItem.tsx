@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CloseSvg from '../../../public/svgs/element/close.svg';
 import { ItemType } from '@/types/item';

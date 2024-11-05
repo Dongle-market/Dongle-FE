@@ -64,7 +64,7 @@ interface LogoutModalProps {
     onLogout: () => void;
 }
 
-function LogoutModal({ onClose, onLogout }: LogoutModalProps) {
+function LogoutModal({ onClose }: LogoutModalProps) {
     const router = useRouter();
 
     const handleLogout = () => {

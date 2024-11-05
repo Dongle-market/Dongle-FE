@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SelectPets from './SelectPets';
 import Link from 'next/link';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useItemRouting } from '@/utils/itemIdRouting';
 import { ItemType } from '@/types/item';
 import OrderCancelModal from './OrderCancelModal';
-import XxsmallSvg from '/public/svgs/element/x_xsmall.svg';
+// import XxsmallSvg from '/public/svgs/element/x_xsmall.svg';
 
 
 const HistoryItemContainer = styled.div`
@@ -123,7 +123,7 @@ interface HistoryItemProps {
     amount: number;
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, selectedPetIds, amount }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, cartItems, selectedPetIds, amount }) => {
     const routeToItem = useItemRouting();
     const [showModal, setShowModal] = useState(false);
     const handleOrderCancelClick = () => {
