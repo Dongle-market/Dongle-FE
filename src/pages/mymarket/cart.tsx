@@ -14,7 +14,7 @@ import EmptyCartSvg from '../../../public/svgs/element/empty_cart.svg';
 import Link from 'next/link';
 import { CartItemType } from '@/types/item';
 import { useRouter } from 'next/router';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const initialItems: CartItemType[] = [
@@ -159,7 +159,7 @@ export default function CartPage() {
         setSelectedItems([]);
     };
 
-    const updateItemUtil = (items: any[], itemId: number, increment: boolean) => {
+    const updateItemUtil = (items: CartItemType[], itemId: number, increment: boolean) => {
         let isError = false;
         const newItems = items.map(item => {
             if (item.itemId === itemId) {

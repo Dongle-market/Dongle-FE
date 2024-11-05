@@ -182,7 +182,7 @@ function formatDeliveryDate(dateStr: string): string {
 }
 
 export default function HistoryPage() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const [cartItems, ] = useState(initialCartItems);
   const [itemCount, setItemCount] = useState(0);
 
   useEffect(() => {
@@ -196,7 +196,7 @@ export default function HistoryPage() {
     return () => window.removeEventListener('storage', updateItemCount);
   }, []);
 
-  const [groupedItems, setGroupedItems] = useState<GroupedItems>({});
+  const [, setGroupedItems] = useState<GroupedItems>({});
 
   useEffect(() => {
     const groupedByDate = items.reduce((acc: GroupedItems, group) => {
@@ -240,6 +240,7 @@ export default function HistoryPage() {
                   {group.items.map(item => (
                     <HistoryItem
                       key={item.id}
+                      itemId={item.id}
                       imageUrl={item.imageUrl}
                       name={item.name}
                       price={item.price}

@@ -37,19 +37,20 @@ const NonConfirmButton = styled(ConfirmButton)`
 
 export default function SuccessPage() {
   const router = useRouter();
-  const { orderId, paymentKey, amount } = router.query;
+  const { orderId, amount } = router.query;
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    orderId && typeof orderId === 'string' &&
+    if (orderId !== undefined && typeof orderId === 'string') {
       patchOrderStatus(parseInt(orderId)).then(() => {
         setIsFinished(true);
+        return;
       }).catch(() => {
         throw new Error();
       })
-
+    }
     sessionStorage.removeItem('cartItems');
-  })
+  }, [orderId]);
 
   function formatAmount(amount: string | string[] | undefined): string {
     if (Array.isArray(amount)) {

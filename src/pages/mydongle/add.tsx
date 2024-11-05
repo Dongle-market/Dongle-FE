@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MyDongleHeader from "@/components/header/CategoryHeader";
 import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
-import CartItem from "@/components/items/CartItem";
 import ErrorSvg from "/public/svgs/element/error.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,10 +12,6 @@ import { useRouter } from "next/router";
 import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType } from "@/services/pets/pets.type";
 import { postPet } from "@/services/pets/pets";
-
-interface SelectedItems {
-  [key: number]: boolean;
-}
 
 const TitleWrapper = styled.div`
   display: flex;

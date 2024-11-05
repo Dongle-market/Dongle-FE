@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import UserHeader from '@/components/header/CategoryHeader';
 import UserInfoFooterNav from '@/components/navbar/UserInfoFooterNav';
 import CartItem from '@/components/items/CartItem';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import KaKaoTalkSvg from '../../../public/svgs/element/kakaotalk.svg';
 import CalendarSvg from '../../../public/svgs/element/calendar.svg';
@@ -149,7 +149,7 @@ const User = {
 };
 
 export default function ProfileEditPage() {
-    const [items, setItems] = useState<CartItem[]>(initialItems);
+    const [items, ] = useState<CartItem[]>(initialItems);
     const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
     const [birthdate, setBirthdate] = useState('');
     const [address, setAddress] = useState({

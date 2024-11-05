@@ -10,6 +10,7 @@ export const postOrder = async (orderData: OrderRequestType): Promise<OrderRespo
     const response = await Server.post('/order', orderData);
     return response.data;
   } catch (error) {
+    console.error(error);
     throw new Error();
   }
 }
@@ -19,6 +20,7 @@ export const patchOrderStatus = async (orderId: number) => {
     const response = await Server.patch(`/order/${orderId}`);
     return response.data;
   } catch (error) {
+    console.error(error);
     throw new Error();
   }
 }

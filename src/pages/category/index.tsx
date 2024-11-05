@@ -85,7 +85,7 @@ const Item = styled(Link)`  /* Link로 Item을 클릭 가능하게 만듦 */
 `;
 
 export default function CategoryPage() {
-    const [items, setItems] = useState<CartItem[]>(initialItems);
+    const [items, ] = useState<CartItem[]>(initialItems);
 
     return (
         <div className="page">

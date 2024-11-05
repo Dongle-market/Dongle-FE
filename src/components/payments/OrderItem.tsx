@@ -4,7 +4,7 @@
 import { CartItemType } from '@/types/item';
 import React from 'react';
 import styled from 'styled-components';
-import XsmallSvg from '/public/svgs/element/x_small.svg';
+// import XsmallSvg from '/public/svgs/element/x_small.svg';
 
 const OrderItemContainer = styled.div`
   background-color: #FFFFFF;
@@ -34,13 +34,13 @@ const ItemBrand = styled.div`
   font-weight: 600;
 `;
 
-const ItemNameContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  flex-grow: 1;
-`;
+// const ItemNameContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-between;
+//   flex-grow: 1;
+// `;
 
 const ItemName = styled.div`
   font-size: 16px;

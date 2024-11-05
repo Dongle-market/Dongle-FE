@@ -1,7 +1,7 @@
 // CartItem.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import AddSvg from '/public/svgs/element/add.svg';
 import RemoveSvg from '/public/svgs/element/remove.svg';
