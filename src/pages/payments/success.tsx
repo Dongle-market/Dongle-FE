@@ -41,13 +41,14 @@ export default function SuccessPage() {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    orderId && typeof orderId === 'string' &&
+    if (orderId !== undefined && typeof orderId === 'string') {
       patchOrderStatus(parseInt(orderId)).then(() => {
         setIsFinished(true);
+        return;
       }).catch(() => {
         throw new Error();
       })
-
+    }
     sessionStorage.removeItem('cartItems');
   }, [orderId]);
 

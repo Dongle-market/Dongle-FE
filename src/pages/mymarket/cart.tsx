@@ -159,7 +159,7 @@ export default function CartPage() {
         setSelectedItems([]);
     };
 
-    const updateItemUtil = (items: any[], itemId: number, increment: boolean) => {
+    const updateItemUtil = (items: CartItemType[], itemId: number, increment: boolean) => {
         let isError = false;
         const newItems = items.map(item => {
             if (item.itemId === itemId) {

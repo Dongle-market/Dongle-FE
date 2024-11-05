@@ -10,27 +10,6 @@ import CategoryItem from "@/components/items/CategoryItem";
 import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
 import PetsPort from "@/components/items/PetsPort";
 
-interface WishlistItem {
-  itemId: number;
-  image: string;
-  title: string;
-  lprice: number;
-  selectedPetIds?: number[];
-};
-
-// const items: WishlistItem[] = [
-//   { itemId: 1, image: '/images/An.png', title: '보류입니다.', lprice: 34000 },
-//   { itemId: 2, image: '/images/Baek.png', title: '어얼얽--', lprice: 34000 },
-//   { itemId: 3, image: '/images/An.png', title: '고기가 이븐하게 익지 않아써여', lprice: 34000 },
-//   { itemId: 4, image: '/images/Son&Jeon.png', title: '왜저뤠ㅞㅞㅞ~~', lprice: 34000 },
-//   { itemId: 5, image: '/images/An.png', title: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', lprice: 34000 },
-//   { itemId: 6, image: '/images/Baek.png', title: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', lprice: 34000 },
-//   { itemId: 7, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
-//   { itemId: 8, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
-//   { itemId: 9, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 },
-//   { itemId: 10, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 }
-// ];
-
 interface MyDongleHistoryItemProps {
   itemId: number;
   image: string;

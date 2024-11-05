@@ -1,9 +1,9 @@
 'use client';
 
-import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
+import { loadTossPayments, TossPayments, RequestPaymentOptions } from "@tosspayments/tosspayments-sdk";
 import { TossRequestType } from "./payments.type";
 
-let tossPayments: any;
+let tossPayments: TossPayments | null = null;
 (async () => {
   tossPayments = await loadTossPayments(process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || '');
 })();
@@ -22,8 +22,7 @@ export const requestPayment = async ({
 
   const payment = tossPayments.payment({ customerKey: process.env.NEXT_PUBLIC_TOSS_CUSTOMER_KEY || '' });
 
-
-  await payment.requestPayment({
+  const requestOptions: RequestPaymentOptions = {
     method: "CARD", // 카드 결제
     amount: {
       currency: "KRW",
@@ -43,5 +42,7 @@ export const requestPayment = async ({
       useCardPoint: false,
       useAppCardOnly: false,
     },
-  })
+  }
+
+  await payment.requestPayment(requestOptions);
 }
