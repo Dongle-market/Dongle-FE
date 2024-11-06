@@ -213,7 +213,6 @@ export default function MyDongleAddPage() {
   const [ageError, setAgeError] = useState("");
   const isFormFilled = (name && animalType && gender && age && profileImage);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isActive, setIsActive] = useState(false);
   
   const router = useRouter();
   const { id } = router.query;
@@ -261,7 +260,10 @@ export default function MyDongleAddPage() {
       router.push("/mydongle");
     } catch (error) {
       // 에러 메시지 추가
-      toast.error("반려동물 정보 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      toast.error("반려동물 정보 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", {
+        onClose: () =>
+          router.push("/mydongle"),
+      });
       console.error(error);
     }
   };
@@ -273,7 +275,10 @@ export default function MyDongleAddPage() {
       toast.success("반려동물이 삭제되었습니다.");
       router.push("/mydongle");
     } catch (error) {
-      toast.error("반려동물 삭제 중 오류가 발생했습니다.");
+      toast.error("반려동물 삭제 중 오류가 발생했습니다.", {
+      onClose: () =>
+          router.push("/mydongle"),
+      });
     }
   };
 
