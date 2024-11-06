@@ -68,7 +68,7 @@ const MyDongleFooterNav = () => {
             <HamburgerSvg />
             <span>카테고리</span>
         </IconContainer>
-        <IconContainer href={`/mydongle/${petId}`}>
+        <IconContainer href={petId ? `/mydongle/${petId}` : '/mydongle/add'}>
             <MyDongleSvg />
             <BoldText>마이 동글</BoldText>
         </IconContainer>
