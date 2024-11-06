@@ -1,6 +1,16 @@
 import { Server } from "../axios.setting";
-import { PetPostRequestType } from "./pets.type";
+import { PetPostRequestType, PetType } from "./pets.type";
 import { PetInfoResponseType } from "./pets.type";
+
+export const getPets = async (): Promise<PetType[]> => {
+  try {
+    const response = await Server.get("/pet/my");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch pet list.");
+  }
+};
 
 export const postPet = async (petData: PetPostRequestType) => {
   try {
@@ -39,6 +49,6 @@ export const DeletePet = async (petId: number): Promise<void> => {
     await Server.delete(`/pet/${petId}`);
   } catch (error) {
     console.error(error);
-    throw new Error();
+    throw new Error("Failed the delete pet");
   }
 };
