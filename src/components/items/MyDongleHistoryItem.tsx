@@ -85,7 +85,7 @@ const CartButton = styled.button`
 
 interface MyDongleHistoryItemProps {
   itemId: ItemType['itemId'];
-  imageUrl: string;
+  imageurl: string;
   name: string;
   price: number;
   orderDate: string;
@@ -94,7 +94,7 @@ interface MyDongleHistoryItemProps {
   removeItem: () => void;
 }
 
-const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, removeItem }) => {
+const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, imageurl, name, price, orderDate, cartItems, removeItem }) => {
 
   const routeToItem = useItemRouting();
 
@@ -176,7 +176,7 @@ const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, image
 
   return (
     <MyDongleHistoryItemContainer>
-      <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)} />
+      <Image src={imageurl} alt={name} onClick={() => routeToItem(itemId)} />
       <InfoContainer>
         <Info>
           <Name onClick={() => routeToItem(itemId)}>{name}</Name>

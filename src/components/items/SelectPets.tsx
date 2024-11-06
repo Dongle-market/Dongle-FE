@@ -50,9 +50,9 @@ const SelectPets = ({ selectedPetIds }: SelectPetsProps) => {
   };
 
   const pets = [
-    { id: 1, imageUrl: '/images/selectpets/DogEmoji.png' },
-    { id: 2, imageUrl: '/images/selectpets/CatEmoji.png' },
-    { id: 3, imageUrl: '/images/selectpets/MouseEmoji.png' }
+    { id: 1, imageurl: '/images/selectpets/DogEmoji.png' },
+    { id: 2, imageurl: '/images/selectpets/CatEmoji.png' },
+    { id: 3, imageurl: '/images/selectpets/MouseEmoji.png' }
   ];
 
 
@@ -62,7 +62,7 @@ const SelectPets = ({ selectedPetIds }: SelectPetsProps) => {
         <SelectPetsItem
           key={pet.id}
           $isSelected={selectedIndexes.includes(pet.id)}
-          $backgroundUrl={pet.imageUrl}
+          $backgroundUrl={pet.imageurl}
           onClick={() => toggleSelection(pet.id)}
         />
       ))}

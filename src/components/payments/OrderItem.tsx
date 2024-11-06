@@ -87,7 +87,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ cartItems }) => {
     <>
       {cartItems.map((item, index) => (
         <OrderItemContainer key={index}>
-          <ItemImg src={item.imageUrl} alt={item.name} />
+          <ItemImg src={item.imageurl} alt={item.name} />
           <ItemInfoContainer>
             <ItemBrand>{item.brand}</ItemBrand>
             <ItemName>{item.name}</ItemName>

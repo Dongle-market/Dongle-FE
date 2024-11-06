@@ -116,7 +116,7 @@ const CartButton = styled.button`
 interface HistoryItemProps {
     itemId: number;
     orderItemId: number;
-    imageUrl: string;
+    imageurl: string;
     name: string;
     price: number;
     orderDate: string;
@@ -126,7 +126,7 @@ interface HistoryItemProps {
     onDeleteSuccess: (itemId: number) => void;
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageUrl, name, price, cartItems, selectedPetIds, amount, onDeleteSuccess }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageurl, name, price, cartItems, selectedPetIds, amount, onDeleteSuccess }) => {
     const routeToItem = useItemRouting();
     const [showModal, setShowModal] = useState(false);
 
@@ -267,7 +267,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageUrl
 
     return (
         <HistoryItemContainer>
-            <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)} />
+            <Image src={imageurl} alt={name} onClick={() => routeToItem(itemId)} />
             <InfoContainer>
                 <Info>
                     <Name onClick={() => routeToItem(itemId)}>{removeHtmlTags(name)}</Name>
