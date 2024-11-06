@@ -7,7 +7,7 @@ export const getOrderInfo = async (): Promise<Order[]> => {
   try {
     const response = await Server.get<Order[]>('/order/my');
     return response.data; // 바로 Order[] 타입으로 반환
-  } catch (error) {
+  } catch {
     throw new Error("Failed to fetch order data");
   }
 }
