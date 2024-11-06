@@ -5,7 +5,6 @@ import styled from "styled-components";
 import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
 import Header from "@/components/header/CategoryHeader";
 import MyDongleHeader from "../../components/header/MyDongleHeader";
-import CategoryItem from "@/components/items/CategoryItem";
 import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
 import PetsPort from "@/components/items/PetsPort";
 
@@ -80,6 +79,13 @@ const NoneComponent = styled.div`
   background-color: #FFFFFF;
 `;
 
+const SorryMessage = styled.div`
+    display: flex;
+    text-align: center;
+    font-size: 16px;
+    color: #545454;
+`;
+
 const NoneText = styled.span`
   font-size: 16px;
   font-family: "Pretendard";
@@ -109,21 +115,6 @@ const TabContent = styled.div`
   background-color: #FFFFFF;
 `;
 
-const WishlistContainer = styled.div`
-  display: flex;
-  gap: 16px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: auto;
-  padding: 16px;
-  padding-right: 0;
-`;
-
-const Wrapper = styled.div`
-  box-sizing: border-box;
-  width: calc(50% - 16px);
-`;
-
 const HistoryContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -140,7 +131,7 @@ export default function MyDonglePage() {
   const [activeTab, setActiveTab] = useState(0);
   const [items, setItems] = useState(initialHistoryItems);
   const [, setSelectedItems] = useState<SelectedItems>({});
-  const [cartItems, ] = useState(initialCartItems);
+  const [cartItems,] = useState(initialCartItems);
 
   const removeItem = (id: number) => {
     const newItems = items.filter(item => item.itemId !== id);
@@ -154,7 +145,7 @@ export default function MyDonglePage() {
 
   return (
     <div className="page">
-      <Header itemCount={items.length} />
+      <Header />
       <div className="mydonglecontent">
         <MyDongleHeader />
         <PetsPortWrapper>
@@ -166,20 +157,10 @@ export default function MyDonglePage() {
         </TabComponent>
         <TabContent>
           {activeTab === 0 && (
-            items.length > 0 ? (
-              <WishlistContainer>
-                {items.map((item) => (
-                  <Wrapper key={item.itemId}>
-                    <CategoryItem item={item} defaultLiked={true} />
-                  </Wrapper>
-                ))}
-              </WishlistContainer>
-            ) : (
-              <NoneComponent>
-                <NoneText>내 아이에게 주고싶은 물건을<br />위시리스트에서 고를 수 있어요!</NoneText>
-                <GoToWishListButton href="/mymarket/wishlist">위시리스트 바로가기</GoToWishListButton>
-              </NoneComponent>
-            )
+            <NoneComponent>
+              <SorryMessage>아직 준비중인 기능이에요 😢</SorryMessage>
+              <GoToWishListButton href="/home">동글마켓 구경가기</GoToWishListButton>
+            </NoneComponent>
           )}
           {activeTab === 1 && (
             initialHistoryItems.length > 0 ? (

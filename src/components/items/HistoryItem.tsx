@@ -162,8 +162,8 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageUrl
                     textAlign: 'center'
                 }
             });
-            onDeleteSuccess(orderItemId);  // `orderItemId`를 사용하여 UI에서 항목 제거
-            handleClose();  // 모달 닫기
+            onDeleteSuccess(orderItemId);
+            handleClose();
         } catch (error) {
             console.error('Error cancelling order:', error);
             toast('해당 주문상품이 존재하지 않습니다.', {

@@ -8,6 +8,7 @@ import DogSvg from '/public/svgs/logo/logo_dog.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useUserStore } from '@/store/user';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -56,12 +57,9 @@ const ItemCountBadge = styled.span`
   font-size: 12px;
 `;
 
-interface CategoryHeaderProps {
-  itemCount: number;
-}
-
-const CategoryHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+const CategoryHeader = () => {
   const router = useRouter();
+  const cartCount = useUserStore((state) => state.cartCount);
 
   const handleCartClick = () => {
     router.push('/mymarket/cart');
@@ -76,7 +74,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
         </LogoContainer>
         <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
           <ShoppingBasketSvg />
-          {<ItemCountBadge>{itemCount}</ItemCountBadge>}
+          {<ItemCountBadge>{cartCount}</ItemCountBadge>}
         </BasketContainer>
       </LogoWrapper>
     </Wrapper>

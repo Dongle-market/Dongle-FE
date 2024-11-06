@@ -9,6 +9,7 @@ import MyDongleSvg from '/public/svgs/navbar/mydongle_icon.svg';
 import DogHomeSvg from '/public/svgs/navbar/home_icon.svg';
 import BasketSvg from '/public/svgs/navbar/basket_icon_select.svg';
 import MySvg from '/public/svgs/navbar/user_icon.svg';
+import { useUserStore } from '@/store/user';
 
 const FooterNavContainer = styled.nav`
   position: fixed;
@@ -59,6 +60,7 @@ const BoldText = styled.span`
 `;
 
 const MyMarketFooterNav = () => {
+  const petId = useUserStore((state) => state.petId);
   return (
     <FooterNavContainer>
       <NavContainer>
@@ -66,7 +68,7 @@ const MyMarketFooterNav = () => {
             <HamburgerSvg />
             <span>카테고리</span>
         </IconContainer>
-        <IconContainer href="/mydongle">
+        <IconContainer href={petId ? `/mydongle/${petId}` : '/mydongle/add'}>
             <MyDongleSvg />
             <span>마이 동글</span>
         </IconContainer>

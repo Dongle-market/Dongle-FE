@@ -234,7 +234,7 @@ interface UserInputData {
   
     return (
       <div className="page">
-        <UserHeader itemCount={itemCount} />
+        <UserHeader />
         <ToastContainer
           position="top-center"
           style={{ marginTop: '32px', boxSizing: 'border-box' }}

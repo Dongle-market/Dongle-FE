@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import BackSvg from '/public/svgs/header/back_arrow.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
+import { useUserStore } from '@/store/user';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -45,12 +46,9 @@ const ItemCountBadge = styled.span`
   font-size: 12px;
 `;
 
-interface CategoryHeaderProps {
-    itemCount: number;
-}
-
-const PaymentsHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+const PaymentsHeader = () => {
     const router = useRouter();
+    const cartCount = useUserStore((state) => state.cartCount);
 
     const handleBackClick = () => {
         router.back();
@@ -66,7 +64,7 @@ const PaymentsHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
             <Title>결제하기</Title>
             <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
                 <ShoppingBasketSvg />
-                {<ItemCountBadge>{itemCount}</ItemCountBadge>}
+                {<ItemCountBadge>{cartCount}</ItemCountBadge>}
             </BasketContainer>
         </Wrapper>
     );

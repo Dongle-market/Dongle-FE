@@ -64,7 +64,7 @@ export default function SuccessPage() {
 
   return (
     <div className="page">
-      <PaymentsHeader itemCount={5} />
+      <PaymentsHeader />
       <div className='content'>
         <ConfirmTextContainer>
           <h2>주문이 완료되었어요.</h2>

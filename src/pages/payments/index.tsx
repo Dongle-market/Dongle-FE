@@ -197,7 +197,7 @@ export default function PaymentsPage() {
 
     return (
         <div className="page">
-            <PaymentsHeader itemCount={cartItems.length} />
+            <PaymentsHeader />
             <div className='content'>
 
                 {/** 주문자 정보 */}

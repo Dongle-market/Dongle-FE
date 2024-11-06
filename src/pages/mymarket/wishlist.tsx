@@ -31,6 +31,44 @@ const items: WishlistItem[] = [
     { itemId: 10, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000 }
 ];
 
+const Page = styled.div`
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100vh;
+    overflow: hidden;
+    -webkit-overflow-scrolling: auto;
+`;
+
+
+const BlurredBackground = styled.div`
+    background-color: rgba(241, 241, 241, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    position: fixed;
+    width: 100%;
+    max-width: 600px;
+    top: 108px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(100vh - 178px);
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const SorryMessage = styled.div`
+    display: flex;
+    text-align: center;
+    font-size: 16px;
+    color: #545454;
+    z-index: 3;
+`;
+
 const WishlistContainer = styled.div`
     display: flex;
     gap: 16px;
@@ -39,6 +77,8 @@ const WishlistContainer = styled.div`
     width: auto;
     padding: 16px;
     padding-right: 0;
+    position: relative;
+    z-index: 1;
 `;
 
 const Wrapper = styled.div`
@@ -87,7 +127,7 @@ const DongleMarketButton = styled(Link)`
 `;
 
 export default function WishlistPage() {
-    const [itemCount, setItemCount] = useState(0);
+    const [, setItemCount] = useState(0);
 
     useEffect(() => {
         const updateItemCount = () => {
@@ -102,10 +142,13 @@ export default function WishlistPage() {
 
 
     return (
-        <div className="page">
-            <WishlistHeader itemCount={itemCount} />
+        <Page className="page">
+            <WishlistHeader />
             <div className='content'>
                 <TabMenu />
+                <BlurredBackground>
+                    <SorryMessage>아직 준비 중인 기능이에요 😢</SorryMessage>
+                </BlurredBackground>
                 {items.length === 0 ? (
                     <PageContent>
                         <EmptyContainer>
@@ -127,6 +170,6 @@ export default function WishlistPage() {
                 )}
             </div>
             <MyMarketFooterNav />
-        </div>
+        </Page>
     );
 }
