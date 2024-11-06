@@ -108,6 +108,32 @@ export default function ItemPage() {
         return categoryMap[key] || key; // 매핑되지 않은 경우 원래 값 반환
     };
 
+    const handleCategoryClick = (categoryType: 'main' | 'sub') => {
+        const species = item.category.species; // 'dog' 또는 'cat' 등
+        const mainCategory = item.category.mainCategory; // 'food' 등
+        const subCategory = item.category.subCategory; // 'wet' 등
+    
+        // 기본 경로 설정
+        const baseUrl = `/category/${mainCategory}`;
+    
+        // 쿼리 파라미터 구성
+        const queryParams: { species: string; sub?: string } = {
+            species: species,
+        };
+    
+        // 서브 카테고리인 경우 'sub' 파라미터 추가
+        if (categoryType === 'sub') {
+            queryParams.sub = subCategory;
+        }
+    
+        // 라우터를 통해 이동
+        router.push({
+            pathname: baseUrl,
+            query: queryParams,
+        });
+    };
+    
+
     return (
         <div className="page">
             <Header />
@@ -118,9 +144,15 @@ export default function ItemPage() {
                     />
                 </ImageWrapper>
                 <InfoSection
-                    categories={[
-                        getCategoryName(item.category.mainCategory),
-                        getCategoryName(item.category.subCategory)
+                     categories={[
+                        {
+                            name: getCategoryName(item.category.mainCategory),
+                            onClick: () => handleCategoryClick('main'),
+                        },
+                        {
+                            name: getCategoryName(item.category.subCategory),
+                            onClick: () => handleCategoryClick('sub'),
+                        },
                     ]}
                     brand={item.brand}
                     productName={removeHtmlTags(item.title)}
