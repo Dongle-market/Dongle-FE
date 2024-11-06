@@ -12,7 +12,7 @@ export const postPet = async (petData: PetPostRequestType) => {
   }
 };
 
-export const GetResponse = async (
+export const getPetInfo = async (
   petId: number
 ): Promise<PetInfoResponseType> => {
   try {
