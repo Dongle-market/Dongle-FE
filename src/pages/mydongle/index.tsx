@@ -115,21 +115,6 @@ const TabContent = styled.div`
   background-color: #FFFFFF;
 `;
 
-const WishlistContainer = styled.div`
-  display: flex;
-  gap: 16px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: auto;
-  padding: 16px;
-  padding-right: 0;
-`;
-
-const Wrapper = styled.div`
-  box-sizing: border-box;
-  width: calc(50% - 16px);
-`;
-
 const HistoryContainer = styled.div`
   display: flex;
   flex-direction: column;
