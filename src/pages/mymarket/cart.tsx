@@ -216,7 +216,7 @@ export default function CartPage() {
 
     /** 선택한 상품 세션에 담기 */
     const handleOrder = () => {
-        localStorage.setItem('cartItems', JSON.stringify(selectedItems));
+        sessionStorage.setItem('cartItems', JSON.stringify(selectedItems));
         router.push('/payments');
     }
 

@@ -31,6 +31,15 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  ::-webkit-scrollbar {
+    height: 3px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #D9D9D9
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 }
 
 .page {
