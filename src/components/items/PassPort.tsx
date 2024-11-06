@@ -6,6 +6,8 @@ import BadgeSvg from '/public/svgs/element/badge.svg';
 import Link from 'next/link';
 import { getUserInfo } from '@/services/users/users';
 import { UserResponse } from '@/services/users/users.type';
+import LoadingComponent from '../common/Loading';
+import FallbackComponent from '../common/Fallback';
 
 const PassportContainer = styled.div`
   position: relative;
@@ -162,24 +164,40 @@ const PetsPortCode = styled.img`
   box-sizing: border-box;
 `;
 
+const SkeletonImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
 const PassPort = () => {
   const [user, setUser] = useState<UserResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      try {
+        try {
         const userData = await getUserInfo();
         setUser(userData);
       } catch (error) {
         console.error("Failed to fetch user information:", error);
+      } finally {
+        setIsLoading(false);
       }
+    
     };
 
     fetchUserInfo();
   }, []);
 
+  if(isLoading) return (
+    <LoadingComponent>
+      <SkeletonImage src="/images/skeleton/userpage_skeleton.png" alt="skeleton" />
+    </LoadingComponent>
+  )
+
   if (!user) {
-    return <div>Loading...</div>; // 사용자 정보 로딩 중 표시
+    return <FallbackComponent />;
   }
   
   return (
