@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import { removeHtmlTags } from "@/utils/removeHtmlTags";
 import FallbackComponent from "@/components/common/Fallback";
 import LoadingComponent from "@/components/common/Loading";
-import Image from "next/image";
 
 interface CartItem {
     id: number;
