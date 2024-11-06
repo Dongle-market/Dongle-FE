@@ -127,12 +127,12 @@ const PetProfileImageOptionContainer = styled.div`
 
 const PetProfileImageOptionButton = styled.button<{
   selected: boolean;
-  imageUrl: string;
+  imageurl: string;
 }>`
   flex-shrink: 0;
   width: 60px;
   height: 60px;
-  background-image: url(${(props) => props.imageUrl});
+  background-image: url(${(props) => props.imageurl});
   background-size: cover;
   background-position: center;
   color: ${(props) => (props.selected ? "#E55737" : "#5E5E5E")};
@@ -197,12 +197,12 @@ const RemoveButton = styled.div`
 `;
 
 const pets = [
-  { id: 1, imageUrl: "/images/petprofileimages/dog1.png" },
-  { id: 2, imageUrl: "/images/petprofileimages/cat1.png" },
-  { id: 3, imageUrl: "/images/petprofileimages/dog2.png" },
-  { id: 4, imageUrl: "/images/petprofileimages/cat2.png" },
-  { id: 5, imageUrl: "/images/petprofileimages/dog3.png" },
-  { id: 6, imageUrl: "/images/petprofileimages/cat3.png" },
+  { id: 1, imageurl: "/images/petprofileimages/dog1.png" },
+  { id: 2, imageurl: "/images/petprofileimages/cat1.png" },
+  { id: 3, imageurl: "/images/petprofileimages/dog2.png" },
+  { id: 4, imageurl: "/images/petprofileimages/cat2.png" },
+  { id: 5, imageurl: "/images/petprofileimages/dog3.png" },
+  { id: 6, imageurl: "/images/petprofileimages/cat3.png" },
 ];
 export default function MyDongleAddPage() {
   const [name, setName] = useState("");
@@ -345,7 +345,7 @@ export default function MyDongleAddPage() {
                   <PetProfileImageOptionButton
                     key={pet.id}
                     selected={profileImage === pet.id}
-                    imageUrl={pet.imageUrl}
+                    imageurl={pet.imageurl}
                     onClick={(e) => handleProfileImageChange(pet.id, e)}
                   />
                 ))}
