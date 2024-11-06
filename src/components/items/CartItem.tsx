@@ -95,7 +95,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, re
                 <div onClick={toggleSelection}>
                     {selected ? <CheckSvg /> : <NonCheckSvg />}
                 </div>
-                <Thumbnail src={item.imageUrl} alt={item.name} onClick={() => routeToItem(item.itemId)} />
+                <Thumbnail src={item.imageurl} alt={item.name} onClick={() => routeToItem(item.itemId)} />
                 <Info>
                     <Name onClick={() => routeToItem(item.itemId)}>{item.name}</Name>
                     <Price onClick={() => routeToItem(item.itemId)}>{item.price.toLocaleString()} 원</Price>
