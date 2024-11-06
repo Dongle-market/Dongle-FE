@@ -77,30 +77,32 @@ const PassportHeaderRight = styled.div`
 `;
 
 const PassportInfoContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-right: 12px;
-    align-items: center;
-    gap: 32px;
+  display: flex;
+  flex-direction: row;
+  margin-right: 12px;
+  gap: 32px;
+  align-items: center;
 `;
 
 const InputBody = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
 `;
 
 const InputContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const InputWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 48%;
 `;
 
 const InputTitle = styled.span`
@@ -136,13 +138,21 @@ const PetsPortCode = styled.img`
   box-sizing: border-box;
 `;
 
+export const imageMap: { [key: number]: string } = {
+  1: "/images/petprofileimages/dog1.png",
+  2: "/images/petprofileimages/dog2.png",
+  3: "/images/petprofileimages/dog3.png",
+  4: "/images/petprofileimages/cat1.png",
+  5: "/images/petprofileimages/cat2.png",
+  6: "/images/petprofileimages/cat3.png",
+};
+
 const Pet = [
   {
     pet: {
       petId: 13,
       petName: "동글이",
-      profileImg: "/images/petprofileimages/dog1.png",
-      // profileImg: 3,
+      profileImg: 1,
       type: "dog",
       gender: "male",
       age: 5,
@@ -192,7 +202,7 @@ const PetsPort = () => {
                   <PassportHeaderRight>동글월드 REPUBLIC OF DONGLE</PassportHeaderRight>
               </PassPortHeaderContainer>
               <PassportInfoContainer>
-                  <PassportImage src={Pet[0].pet.profileImg} onClick={() => routeToInfo(Pet[0].pet.petId)}/>
+                  <PassportImage src={imageMap[Pet[0].pet.profileImg]} onClick={() => routeToInfo(Pet[0].pet.petId)}/>
                   <InputBody>
                       <InputContainer>
                           <InputWrapper>

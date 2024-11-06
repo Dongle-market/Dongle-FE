@@ -15,19 +15,88 @@ interface MyDongleHistoryItemProps {
   lprice: number;
   date: string;
   selectedPetIds?: number[];
-};
+}
 
 const initialHistoryItems: MyDongleHistoryItemProps[] = [
-  { itemId: 1, image: '/images/An.png', title: '보류입니다.', lprice: 34000, date: '2024-10-30', selectedPetIds: [1, 2] },
-  { itemId: 2, image: '/images/Baek.png', title: '어얼얽--', lprice: 34000, date: '2024-10-30', selectedPetIds: [2] },
-  { itemId: 3, image: '/images/An.png', title: '고기가 이븐하게 익지 않아써여', lprice: 34000, date: '2024-10-30' },
-  { itemId: 4, image: '/images/Son&Jeon.png', title: '왜저뤠ㅞㅞㅞ~~', lprice: 34000, date: '2024-10-30', selectedPetIds: [3] },
-  { itemId: 5, image: '/images/An.png', title: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2] },
-  { itemId: 6, image: '/images/Baek.png', title: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', lprice: 34000, date: '2024-11-04', selectedPetIds: [2] },
-  { itemId: 7, image: '/images/product1.png', title: '이건 장바구니에 없는 거지롱~~‼️', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2, 3] },
-  { itemId: 8, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2] },
-  { itemId: 9, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 3] },
-  { itemId: 10, image: '/images/product1.png', title: '도치빌 리더스', lprice: 34000, date: '2024-11-04', selectedPetIds: [1, 2, 3] }
+  {
+    itemId: 1,
+    image: "/images/An.png",
+    title: "보류입니다.",
+    lprice: 34000,
+    date: "2024-10-30",
+    selectedPetIds: [1, 2],
+  },
+  {
+    itemId: 2,
+    image: "/images/Baek.png",
+    title: "어얼얽--",
+    lprice: 34000,
+    date: "2024-10-30",
+    selectedPetIds: [2],
+  },
+  {
+    itemId: 3,
+    image: "/images/An.png",
+    title: "고기가 이븐하게 익지 않아써여",
+    lprice: 34000,
+    date: "2024-10-30",
+  },
+  {
+    itemId: 4,
+    image: "/images/Son&Jeon.png",
+    title: "왜저뤠ㅞㅞㅞ~~",
+    lprice: 34000,
+    date: "2024-10-30",
+    selectedPetIds: [3],
+  },
+  {
+    itemId: 5,
+    image: "/images/An.png",
+    title: "저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여",
+    lprice: 34000,
+    date: "2024-11-04",
+    selectedPetIds: [1, 2],
+  },
+  {
+    itemId: 6,
+    image: "/images/Baek.png",
+    title: "이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ",
+    lprice: 34000,
+    date: "2024-11-04",
+    selectedPetIds: [2],
+  },
+  {
+    itemId: 7,
+    image: "/images/product1.png",
+    title: "이건 장바구니에 없는 거지롱~~‼️",
+    lprice: 34000,
+    date: "2024-11-04",
+    selectedPetIds: [1, 2, 3],
+  },
+  {
+    itemId: 8,
+    image: "/images/product1.png",
+    title: "도치빌 리더스",
+    lprice: 34000,
+    date: "2024-11-04",
+    selectedPetIds: [1, 2],
+  },
+  {
+    itemId: 9,
+    image: "/images/product1.png",
+    title: "도치빌 리더스",
+    lprice: 34000,
+    date: "2024-11-04",
+    selectedPetIds: [1, 3],
+  },
+  {
+    itemId: 10,
+    image: "/images/product1.png",
+    title: "도치빌 리더스",
+    lprice: 34000,
+    date: "2024-11-04",
+    selectedPetIds: [1, 2, 3],
+  },
 ];
 
 const initialCartItems = [
@@ -56,7 +125,8 @@ const Tab = styled.div<{ $isActive: boolean }>`
   line-height: 48px;
   font-weight: ${(props) => (props.$isActive ? "600" : "400")};
   color: ${(props) => (props.$isActive ? "#080808" : "#5e5e5e")};
-  border-top: ${(props) => (props.$isActive ? "1.5px solid #080808" : "1.5px solid #d9d9d9")};
+  border-top: ${(props) =>
+    props.$isActive ? "1.5px solid #080808" : "1.5px solid #d9d9d9"};
   background-color: ${(props) => (props.$isActive ? "#ffffff" : "transparent")};
   cursor: pointer;
 `;
@@ -76,8 +146,9 @@ const NoneComponent = styled.div`
   align-items: center;
   gap: 16px;
   text-align: center;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
+
 
 const SorryMessage = styled.div`
     display: flex;
@@ -112,7 +183,7 @@ const GoToWishListButton = styled.a`
 `;
 
 const TabContent = styled.div`
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 
 const HistoryContainer = styled.div`
@@ -134,9 +205,9 @@ export default function MyDonglePage() {
   const [cartItems,] = useState(initialCartItems);
 
   const removeItem = (id: number) => {
-    const newItems = items.filter(item => item.itemId !== id);
+    const newItems = items.filter((item) => item.itemId !== id);
     setItems(newItems);
-    setSelectedItems(prevState => {
+    setSelectedItems((prevState) => {
       const newState: SelectedItems = { ...prevState };
       delete newState[id];
       return newState;
@@ -152,8 +223,12 @@ export default function MyDonglePage() {
           <PetsPort />
         </PetsPortWrapper>
         <TabComponent>
-          <Tab $isActive={activeTab === 0} onClick={() => setActiveTab(0)}>위시리스트</Tab>
-          <Tab $isActive={activeTab === 1} onClick={() => setActiveTab(1)}>주문내역</Tab>
+          <Tab $isActive={activeTab === 0} onClick={() => setActiveTab(0)}>
+            위시리스트
+          </Tab>
+          <Tab $isActive={activeTab === 1} onClick={() => setActiveTab(1)}>
+            주문내역
+          </Tab>
         </TabComponent>
         <TabContent>
           {activeTab === 0 && (
@@ -165,7 +240,7 @@ export default function MyDonglePage() {
           {activeTab === 1 && (
             initialHistoryItems.length > 0 ? (
               <HistoryContainer>
-                {initialHistoryItems.map(item => (
+                {initialHistoryItems.map((item) => (
                   <MyDongleHistoryItem
                     key={item.itemId}
                     itemId={item.itemId}
@@ -180,11 +255,16 @@ export default function MyDonglePage() {
               </HistoryContainer>
             ) : (
               <NoneComponent>
-                <NoneText>내 아이에게 준 물건을<br />실제 주문내역에서 고를 수 있어요!</NoneText>
-                <GoToWishListButton href="/mymarket/history">주문내역 바로가기</GoToWishListButton>
+                <NoneText>
+                  내 아이에게 준 물건을
+                  <br />
+                  실제 주문내역에서 고를 수 있어요!
+                </NoneText>
+                <GoToWishListButton href="/mymarket/history">
+                  주문내역 바로가기
+                </GoToWishListButton>
               </NoneComponent>
-            )
-          )}
+            ))}
         </TabContent>
       </div>
       <MyDongleFooterNav />
