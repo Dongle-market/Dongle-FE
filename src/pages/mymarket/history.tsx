@@ -10,46 +10,8 @@ import HistoryItem from '@/components/items/HistoryItem';
 import RocketSvg from '../../../public/svgs/element/rocket.svg'
 import EmptyOrderSvg from '../../../public/svgs/element/empty_order.svg';
 import Link from 'next/link';
-
-interface HistoryItem {
-  id: number;
-  imageUrl: string;
-  name: string;
-  price: number;
-  selectedPetIds: number[];
-  amount: number;
-};
-
-interface HistoryGroup {
-  date: string;
-  status: string;
-  items: HistoryItem[];
-}
-
-const items: HistoryGroup[] = [
-  {
-    date: '2024-10-30',
-    status: '결제완료',
-    items: [
-      { id: 1, imageUrl: '/images/An.png', name: '보류입니다.', price: 34000, selectedPetIds: [1, 2], amount: 2 },
-      { id: 2, imageUrl: '/images/Baek.png', name: '어얼얽--', price: 34000, selectedPetIds: [1], amount: 1 },
-      { id: 3, imageUrl: '/images/An.png', name: '고기가 이븐하게 익지 않아써여', price: 34000, selectedPetIds: [3], amount: 1 },
-      { id: 4, imageUrl: '/images/Baek.png', name: '이거는 장바구니에 없는 거지롱~~', price: 34000, selectedPetIds: [2, 3], amount: 2 },
-    ]
-  },
-  {
-    date: '2024-11-02',
-    status: '배송완료',
-    items: [
-      { id: 5, imageUrl: '/images/An.png', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selectedPetIds: [1, 2], amount: 1 },
-      { id: 6, imageUrl: '/images/Baek.png', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selectedPetIds: [2], amount: 1 },
-      { id: 7, imageUrl: '/images/product1.png', name: '이건 장바구니에 없는 거지롱~~‼️', price: 34000, selectedPetIds: [1, 2, 3], amount: 3 },
-      { id: 8, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000, selectedPetIds: [1, 2], amount: 1 },
-      { id: 9, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000, selectedPetIds: [1, 3], amount: 2 },
-      { id: 10, imageUrl: '/images/product1.png', name: '도치빌 리더스', price: 34000, selectedPetIds: [1, 2, 3], amount: 2 }
-    ]
-  }
-];
+import { getOrderInfo } from '../../../src/services/order/order'; // API 호출 함수 임포트
+import { Order } from '../../../src/services/order/order.type'; // 타입 임포트
 
 const initialCartItems = [
   { id: 1, imageUrl: '/images/Son&Jeon.png', name: '왜저뤠ㅞㅞ~~', price: 34000 },
@@ -137,7 +99,6 @@ const PageContent = styled.div`
     width: 100%;
     max-width: inherit;
     height: calc(100vh - 300px);
-    position: fixed;
     top: 108px;
 `;
 
@@ -169,10 +130,6 @@ const DongleMarketButton = styled(Link)`
     margin-top: 8px;
 `;
 
-interface GroupedItems {
-  [key: string]: HistoryGroup;
-}
-
 function formatDeliveryDate(dateStr: string): string {
   const date = new Date(dateStr);
   date.setDate(date.getDate() + 1);
@@ -182,8 +139,23 @@ function formatDeliveryDate(dateStr: string): string {
 }
 
 export default function HistoryPage() {
-  const [cartItems, ] = useState(initialCartItems);
   const [itemCount, setItemCount] = useState(0);
+  const [cartItems, setCartItems] = useState(initialCartItems);
+  const [orders, setOrders] = useState<Order[]>([]); // 빈 배열로 초기화
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        const orderData: Order[] = await getOrderInfo(); // Order[] 타입으로 받음
+        setOrders(orderData); // 바로 상태에 저장
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+        setOrders([]); // 오류 발생 시 빈 배열 설정
+      }
+    };
+
+    loadOrders();
+  }, []);
 
   useEffect(() => {
     const updateItemCount = () => {
@@ -196,23 +168,44 @@ export default function HistoryPage() {
     return () => window.removeEventListener('storage', updateItemCount);
   }, []);
 
-  const [, setGroupedItems] = useState<GroupedItems>({});
-
-  useEffect(() => {
-    const groupedByDate = items.reduce((acc: GroupedItems, group) => {
-      acc[group.date] = group;
-      return acc;
-    }, {});
-
-    setGroupedItems(groupedByDate);
-  }, []);
-
   return (
     <div className="page">
       <HistoryHeader itemCount={itemCount} />
       <div className='content'>
         <TabMenu />
-        {items.length === 0 ? (
+        {orders && orders.length > 0 ? (
+          orders.map((order) => (
+            <DateGroupContainer key={order.orderId}>
+              <OrderDateWrapper>
+                <OrderDate>{new Date(order.orderDate).toLocaleDateString('ko-KR')}</OrderDate>
+                <RocketWrapper>
+                  <RocketSvg />
+                  <RocketDelivery>동글로켓배송</RocketDelivery>
+                </RocketWrapper>
+              </OrderDateWrapper>
+              <OrderItemContainer>
+                <DeliveryStatusWrapper>
+                  <DeliveryStatus>{order.status}</DeliveryStatus>
+                  <Icon>|</Icon>
+                  <DeliveryDate>{formatDeliveryDate(order.orderDate)} 도착</DeliveryDate>
+                </DeliveryStatusWrapper>
+                {order.orderItems.map(item => (
+                  <HistoryItem
+                    key={item.itemId}
+                    itemId={item.itemId}
+                    imageUrl={item.image}
+                    name={item.title}
+                    price={item.price}
+                    orderDate={order.orderDate}
+                    selectedPetIds={item.pets}
+                    amount={item.itemCount}
+                    cartItems={cartItems}
+                  />
+                ))}
+              </OrderItemContainer>
+            </DateGroupContainer>
+          ))
+        ) : (
           <PageContent>
             <EmptyContainer>
               <EmptyOrderSvg />
@@ -220,40 +213,6 @@ export default function HistoryPage() {
               <DongleMarketButton href='/home'>동글마켓 구경가기</DongleMarketButton>
             </EmptyContainer>
           </PageContent>
-        ) : (
-          <>
-            {items.map((group: HistoryGroup) => (
-              <DateGroupContainer key={group.date}>
-                <OrderDateWrapper>
-                  <OrderDate>{group.date}</OrderDate>
-                  <RocketWrapper>
-                    <RocketSvg />
-                    <RocketDelivery>동글로켓배송</RocketDelivery>
-                  </RocketWrapper>
-                </OrderDateWrapper>
-                <OrderItemContainer>
-                  <DeliveryStatusWrapper>
-                    <DeliveryStatus>{group.status}</DeliveryStatus>
-                    <Icon>|</Icon>
-                    <DeliveryDate>{formatDeliveryDate(group.date)} 도착</DeliveryDate>
-                  </DeliveryStatusWrapper>
-                  {group.items.map(item => (
-                    <HistoryItem
-                      key={item.id}
-                      itemId={item.id}
-                      imageUrl={item.imageUrl}
-                      name={item.name}
-                      price={item.price}
-                      orderDate={group.date}
-                      selectedPetIds={item.selectedPetIds}
-                      amount={item.amount}
-                      cartItems={cartItems}
-                    />
-                  ))}
-                </OrderItemContainer>
-              </DateGroupContainer>
-            ))}
-          </>
         )}
       </div>
       <MyMarketFooterNav />
