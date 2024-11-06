@@ -169,12 +169,12 @@ const RegistButton = styled.div<{ $isActive: boolean }>`
   text-align: center;
   `;
 
-const EditButton = styled.div`
+const EditButton = styled.div<{ $isActive: boolean }>`
   flex: 1;
   padding: 15px;
-  background-color: #080808;
-  color: white;
-  border: "none";
+  background-color: ${(props) => (props.$isActive ? "#080808" : "#eeeeee")};
+  color: ${(props) => (props.$isActive ? "white" : "#888888")};
+  border: ${(props) => (props.$isActive ? "none" : "1px solid #d9d9d9")};
   border-radius: 10px;
   font-size: 16px;
   /* margin-top: 12px; */
@@ -444,20 +444,23 @@ export default function MyDongleAddPage() {
                 </AgeInputWrapper>
               </InfoContainer>
               <ButtonContainer>
-            {isFormFilled ? (
-              isEditMode ? (
-                <>
-                  <EditButton onClick={handleSubmit}>수정하기</EditButton>
-                  <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
-                </>
+              {isEditMode ? (
+                isFormFilled ? (
+                  <>
+                    <EditButton $isActive={true} onClick={handleSubmit}>수정하기</EditButton>
+                    <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
+                  </>
+                ) : (
+                  <>
+                    <EditButton $isActive={false}>수정하기</EditButton>
+                    <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
+                  </>
+                )
               ) : (
-                <RegistButton $isActive={true} onClick={handleSubmit}>
+                <RegistButton $isActive={isFormFilled} onClick={isFormFilled ? handleSubmit : undefined}>
                   등록하기
                 </RegistButton>
-              )
-            ) : (
-              <RegistButton $isActive={false}>등록하기</RegistButton>
-            )}
+              )}
           </ButtonContainer>
           </RegistrationCard>
         </form>
