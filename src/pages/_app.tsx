@@ -6,9 +6,19 @@ import 'react-toastify/dist/ReactToastify.css';
 import Script from 'next/script';
 import { useCallback } from 'react';
 
+interface Kakao {
+  isInitialized(): boolean;
+  init(key: string | undefined): void;
+  Auth: {
+    authorize(options: {
+      redirectUri: string;
+    }): void;
+  };
+}
+
 declare global {
   interface Window {
-    Kakao: any;
+    Kakao: Kakao;
   }
 }
 

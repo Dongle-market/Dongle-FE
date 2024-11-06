@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-interface CustomSlideProps {
-  image: string;
-}
+// interface CustomSlideProps {
+//   image: string;
+// }
 
 const CustomSlide = styled.div<{ $image: string }>`
   display: flex;

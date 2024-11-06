@@ -6,6 +6,7 @@ export const getUserInfo = async (): Promise<UserResponse> => {
     const response = await Server.get('/user/my');
     return response.data;
   } catch (error) {
+    console.error(error);
     throw new Error();
   }
 }

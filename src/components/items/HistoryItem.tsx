@@ -4,13 +4,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SelectPets from './SelectPets';
 import Link from 'next/link';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useItemRouting } from '@/utils/itemIdRouting';
-import { ItemType } from '@/types/item';
 import OrderCancelModal from './OrderCancelModal';
-import XxsmallSvg from '/public/svgs/element/x_xsmall.svg';
-
+import { removeHtmlTags } from '@/utils/removeHtmlTags';
 
 const HistoryItemContainer = styled.div`
   display: flex;
@@ -75,6 +73,8 @@ const OrderCancel = styled.div`
   font-size: 12px;
   color: #D9D9D9;
   cursor: pointer;
+  white-space: nowrap;
+  margin-left: 60px;
 `;
 
 const Price = styled.div`
@@ -113,17 +113,17 @@ const CartButton = styled.button`
 `;
 
 interface HistoryItemProps {
-    itemId: ItemType['itemId'];
+    itemId: number;
     imageUrl: string;
     name: string;
     price: number;
     orderDate: string;
-    cartItems: { name: string; price: number; }[];
     selectedPetIds: number[];
     amount: number;
+    cartItems: { name: string; price: number; }[];
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, orderDate, cartItems, selectedPetIds, amount }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, cartItems, selectedPetIds, amount }) => {
     const routeToItem = useItemRouting();
     const [showModal, setShowModal] = useState(false);
     const handleOrderCancelClick = () => {
@@ -252,7 +252,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price
             <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)}/>
             <InfoContainer>
                 <Info>
-                    <Name onClick={() => routeToItem(itemId)}>{name}</Name>
+                    <Name onClick={() => routeToItem(itemId)}>{removeHtmlTags(name)}</Name>
                     <OrderCancel onClick={handleOrderCancelClick}>주문취소</OrderCancel>
                     {showModal && <OrderCancelModal onClose={handleClose} onOrderCancel={handleOrderCancel} />}
                 </Info>

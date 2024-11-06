@@ -1,7 +1,7 @@
 // /profile/index.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import UserHeader from '@/components/header/CategoryHeader';
 import UserInfoFooterNav from '@/components/navbar/UserInfoFooterNav';
@@ -61,7 +61,7 @@ const LogOutButton = styled.div`
 `;
 
 export default function ProfilePage() {
-    const [items, setItems] = useState<CartItem[]>(initialItems);
+    const [items, ] = useState<CartItem[]>(initialItems);
     const [showModal, setShowModal] = useState(false);
   
     const handleLogoutClick = () => {

@@ -9,8 +9,7 @@ import ShoppingBasketSvg from '/public/svgs/header/white_shoppingbag.svg';
 import Link from 'next/link';
 import Toggle from '@/components/header/Toggle';
 import MenuBar from '@/components/header/MenuBar';
-import router, { useRouter } from 'next/router';
-import { Main } from 'next/document';
+import { useRouter } from 'next/router';
 
 const HeaderContainer = styled.div`
   position: fixed;

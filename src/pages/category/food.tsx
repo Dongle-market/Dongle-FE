@@ -85,7 +85,7 @@ const Item = styled.div<{ $isSelected?: boolean }>`
 `;
 
 export default function FoodPage() {
-  const [items, setItems] = useState<CartItem[]>(initialItems);
+  const [items, ] = useState<CartItem[]>(initialItems);
   const router = useRouter();
   const { species = 'dog', sub = '', order = '' } = router.query;
 

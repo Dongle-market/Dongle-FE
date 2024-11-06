@@ -7,7 +7,7 @@ import DongleSvg from '/public/svgs/logo/blacklogo_dongle.svg'
 import DogSvg from '/public/svgs/logo/logo_dog.svg';
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 import Link from 'next/link';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   position: fixed;

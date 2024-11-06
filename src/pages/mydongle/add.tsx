@@ -12,6 +12,7 @@ import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType, PetInfoResponseType } from "@/services/pets/pets.type";
 import { postPet, GetResponse, patchPet, DeletePet } from "@/services/pets/pets";
 
+
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -208,7 +209,7 @@ export default function MyDongleAddPage() {
   const [animalType, setAnimalType] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
-  const [profileImage, setProfileImage] = useState(1);
+  const [profileImage, setProfileImage] = useState(0);
   const [nameError, setNameError] = useState("");
   const [ageError, setAgeError] = useState("");
   const isFormFilled = (name && animalType && gender && age && profileImage);

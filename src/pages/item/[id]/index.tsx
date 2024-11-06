@@ -71,7 +71,7 @@ interface Item {
   }
 
 export default function ItemPage() {
-    const [items, setItems] = useState<CartItem[]>(initialItems);
+    const [items, ] = useState<CartItem[]>(initialItems);
 
     const profileImages = [
         "/images/catdongle.jpeg",

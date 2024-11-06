@@ -9,7 +9,6 @@ import MyDongleSvg from '/public/svgs/navbar/mydongle_icon.svg';
 import DogHomeSvg from '/public/svgs/navbar/home_icon_select.svg';
 import MyMarketSvg from '/public/svgs/navbar/basket_icon.svg';
 import MySvg from '/public/svgs/navbar/user_icon.svg';
-import { link } from 'fs';
 
 const FooterNavContainer = styled.nav`
   position: fixed;

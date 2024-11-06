@@ -1,5 +1,5 @@
 // NoTossPayButton.tsx
-import Link from 'next/link';
+
 import React from 'react';
 import styled from 'styled-components';
 import TossPayLogoSvg from '../../../public/svgs/element/toss_pay_logo.svg';

@@ -23,6 +23,7 @@ export class ItemAPI {
       });
       return response.data;
     } catch (error) {
+      console.error(error);
       throw new Error("Failed to fetch item data");
     }
   }
@@ -34,6 +35,7 @@ export class ItemAPI {
       });
       return response.data; // 데이터만 반환
     } catch (error) {
+      console.error(error);
       throw new Error("Failed to fetch category data");
     }
   }

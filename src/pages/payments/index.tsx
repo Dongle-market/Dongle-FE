@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PaymentsHeader from '@/components/header/PaymentsHeader';
-import CartItem from '@/components/items/CartItem';
 import TossPayButton from '@/components/payments/TossPayButton';
 import NoTossPayButton from '@/components/payments/NoTossPayButton';
 import UserContactInfo from '@/components/payments/UserContactInfo';
