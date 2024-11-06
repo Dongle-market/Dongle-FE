@@ -33,10 +33,12 @@ body {
   height: 100%;
   ::-webkit-scrollbar {
     height: 3px;
-    background-color: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #ED6648;
+    background-color: #D9D9D9
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 }
 
