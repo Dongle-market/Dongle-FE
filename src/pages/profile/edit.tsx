@@ -1,5 +1,4 @@
 // /profile/edit.tsx
-'use client';
 
 import React, { useEffect, useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
