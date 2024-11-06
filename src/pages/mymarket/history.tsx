@@ -186,7 +186,7 @@ export default function HistoryPage() {
 
   return (
     <div className="page">
-      <HistoryHeader itemCount={itemCount} />
+      <HistoryHeader />
       <div className='content'>
         <TabMenu />
         {orders && orders.length > 0 ? (

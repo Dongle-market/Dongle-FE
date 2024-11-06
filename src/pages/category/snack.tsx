@@ -128,7 +128,7 @@ export default function FoodPage() {
 
   return (
     <div className="page">
-      <Header title={"간식"} itemCount={items.length} />
+      <Header title={"간식"} />
       <div className="content">
         {/* 카테고리 선택 표시 */}
         <Content>

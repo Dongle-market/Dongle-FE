@@ -89,7 +89,7 @@ export default function CategoryPage() {
 
     return (
         <div className="page">
-            <Header itemCount={items.length}/>
+            <Header />
             <div className="content">
             {/* 강아지 섹션 */}
             <TitleContainer $marginTop={16}>

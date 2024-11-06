@@ -225,7 +225,7 @@ export default function CartPage() {
 
     return (
         <div className="page">
-            <CartHeader itemCount={cartItems.length} />
+            <CartHeader />
             <div className='content' style={{ paddingBottom: '163px' }}>
                 <TabMenu />
                 {cartItems.length === 0 ? (

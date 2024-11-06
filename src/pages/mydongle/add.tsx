@@ -323,7 +323,7 @@ export default function MyDongleAddPage() {
 
   return (
     <div className="page">
-      <MyDongleHeader itemCount={5} />
+      <MyDongleHeader />
       <ToastContainer
         position="top-center"
         style={{ marginTop: "32px", boxSizing: "border-box" }}

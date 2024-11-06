@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import BackSvg from '/public/svgs/header/back_arrow.svg'
 import ShoppingBasketSvg from '/public/svgs/header/black_shoppingbag.svg';
 import { useRouter } from 'next/router';
+import { useUserStore } from '@/store/user';
 
 const Wrapper = styled.div`
   padding: 14px 16px;
@@ -48,13 +49,10 @@ const ItemCountBadge = styled.span`
   font-size: 12px;
 `;
 
-interface CategoryHeaderProps {
-  itemCount: number;
-}
-
-const ItemHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
+const ItemHeader = () => {
   const router = useRouter();
   const history = useRouter();
+  const cartCount = useUserStore((state) => state.cartCount);
 
   const handleBackClick = () => {
     history.back();
@@ -72,7 +70,7 @@ const ItemHeader: React.FC<CategoryHeaderProps> = ({ itemCount }) => {
         </LogoContainer>
         <BasketContainer onClick={handleCartClick} style={{ cursor: 'pointer' }}>
           <ShoppingBasketSvg />
-          {<ItemCountBadge>{itemCount}</ItemCountBadge>}
+          {<ItemCountBadge>{cartCount}</ItemCountBadge>}
         </BasketContainer>
       </LogoWrapper>
     </Wrapper>

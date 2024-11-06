@@ -168,7 +168,7 @@ export default function FoodPage() {
 
   return (
     <div className="page">
-      <Header title={"사료"} itemCount={items.length} />
+      <Header title={"사료"} />
       <div className="content">
         <Content>
           {categoryOptions.map(option => (

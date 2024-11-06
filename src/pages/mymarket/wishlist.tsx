@@ -142,8 +142,8 @@ export default function WishlistPage() {
 
 
     return (
-        <Page className="page">
-            <WishlistHeader itemCount={itemCount} />
+        <div className="page">
+            <WishlistHeader />
             <div className='content'>
                 <TabMenu />
                 <BlurredBackground>

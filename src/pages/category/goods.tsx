@@ -128,7 +128,7 @@ export default function GoodsPage() {
 
   return (
     <div className="page">
-      <Header title={"용품"} itemCount={items.length} />
+      <Header title={"용품"} />
       <div className="content">
         {/* 카테고리 선택 표시 */}
         <Content>

@@ -80,7 +80,7 @@ export default function ProfilePage() {
 
     return (
         <div className="page">
-            <UserHeader itemCount={items.length} />
+            <UserHeader />
             <div className='content'>
                 <Wrapper>
                     <MyProfileTitle>IDENTIFICATION CARD</MyProfileTitle>

@@ -135,7 +135,7 @@ export default function ItemPage() {
 
     return (
         <div className="page">
-            <Header itemCount={items.length} />
+            <Header />
             <div className="content">
                 <ImageWrapper>
                     <ItemImage
