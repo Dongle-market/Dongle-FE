@@ -12,13 +12,13 @@ export const getPets = async (): Promise<PetType[]> => {
   }
 };
 
-export const postPet = async (petData: PetPostRequestType) => {
+export const postPet = async (petData: PetPostRequestType): Promise<PetType> => {
   try {
     const response = await Server.post("/pet", petData);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error();
+    throw new Error("Failed to create pet");
   }
 };
 
