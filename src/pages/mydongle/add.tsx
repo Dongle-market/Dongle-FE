@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType, PetInfoResponseType, PetType } from "@/services/pets/pets.type";
-import { postPet, getPetInfo, patchPet, DeletePet } from "@/services/pets/pets";
+import { postPet, getPetInfo, patchPet, DeletePet, getPets } from "@/services/pets/pets";
 
 
 const TitleWrapper = styled.div`
@@ -247,12 +247,44 @@ export default function MyDongleAddPage() {
     }));
   };
 
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputName = event.target.value;
+    if (inputName.length > 20) {
+      setNameError("20자까지 입력 가능합니다.");
+      setPetInfo((prev) => ({
+        ...prev,
+        petName: inputName.slice(0, 20),
+      }));
+    } else {
+      setNameError("");
+      setPetInfo((prev) => ({
+        ...prev,
+        petName: inputName,
+      }));
+    }
+  };
+  
+  const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputAge = event.target.value;
+    const ageNumber = Number(inputAge);
+  
+    if (!inputAge || (ageNumber >= 0 && ageNumber <= 30)) {
+      setAgeError("");
+      setPetInfo((prev) => ({
+        ...prev,
+        age: isNaN(ageNumber) ? 0 : ageNumber,
+      }));
+    } else {
+      setAgeError("숫자만 입력 가능합니다. (0~30)");
+    }
+  };  
+
   const handleInputChange = (key: keyof PetPostRequestType, value: any) => {
     setPetInfo((prev) => ({
       ...prev,
       [key]: value,
     }));
-  };
+  };  
 
   const handleSubmit = async () => {
     if (!isFormFilled) {
@@ -264,15 +296,14 @@ export default function MyDongleAddPage() {
       if (isEditMode && id) {
         await patchPet(Number(id), petInfo);
         toast.success("반려동물 정보가 수정되었습니다.");
+        router.push(`/mydongle/${id}`);
       } else {
-        await postPet(petInfo);
+        const newPet = await postPet(petInfo); // 새로 생성된 pet 객체
         toast.success("반려동물이 등록되었습니다.");
+        router.push(`/mydongle/${newPet.petId}`); // 새로 생성된 petId로 라우팅
       }
-      router.push(`/mydongle/${id}`);
     } catch (error) {
-      toast.error("반려동물 정보 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", {
-        onClose: () => router.push(`/mydongle/${id}`),
-      });
+      toast.error("반려동물 정보 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       console.error(error);
     }
   };
@@ -282,11 +313,19 @@ export default function MyDongleAddPage() {
     try {
       await DeletePet(Number(id));
       toast.success("반려동물이 삭제되었습니다.");
-      router.push(`/mydongle/${id}`);
+  
+      // 남아있는 반려동물 리스트를 가져와서 조건에 따라 라우팅
+      const remainingPets = await getPets();
+      if (remainingPets.length > 0) {
+        // 가장 첫 번째 반려동물의 petId로 이동
+        router.push(`/mydongle/${remainingPets[0].petId}`);
+      } else {
+        // 반려동물이 없을 경우 /mydongle/add로 이동
+        router.push(`/mydongle/add`);
+      }
     } catch (error) {
       toast.error("반려동물 삭제 중 오류가 발생했습니다.", {
-      onClose: () =>
-          router.push(`/mydongle/${id}`),
+        onClose: () => router.push(`/mydongle/add`),
       });
       console.error(error);
     }
@@ -337,11 +376,11 @@ export default function MyDongleAddPage() {
                     {nameError}
                   </div>
                 )}
-              <NameInput
-                  type="text"
-                  value={petInfo.petName}
-                  onChange={(e) => handleInputChange("petName", e.target.value)}
-                />
+             <NameInput
+                type="text"
+                value={petInfo.petName}
+                onChange={handleNameChange}
+              />
             </InfoContainer>
             <InfoContainer>
               <Question>반려동물의 종은 무엇인가요?</Question>
@@ -394,10 +433,10 @@ export default function MyDongleAddPage() {
                 )}
               <AgeInputWrapper>
               <AgeInput
-                    type="text"
-                    value={petInfo.age}
-                    onChange={(e) => handleInputChange("age", e.target.value)}
-                  />
+                type="text"
+                value={petInfo.age}
+                onChange={handleAgeChange}
+              />
 
                 <AgeLabel>살</AgeLabel>
                 </AgeInputWrapper>
