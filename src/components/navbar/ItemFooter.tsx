@@ -9,6 +9,7 @@ import HeartFullSvg from '/public/svgs/element/heart_full.svg';
 import PlusSvg from '/public/svgs/element/plus.svg';
 import MinusSvg from '/public/svgs/element/minus.svg';
 import { useRouter } from 'next/router';
+import { CartItemType } from '@/types/item';
 
 const Wrapper = styled.div`
   padding: 24px 16px;
@@ -102,24 +103,32 @@ const HeartContainer = styled.div`
 `;
 
 interface ItemFooterProps {
-  price: number;
+  item: CartItemType;
   profileImages: string[];
 }
 
-const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
+const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
   const router = useRouter();
   
-  const [quantity, setQuantity] = useState(1);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [selectedProfiles, setSelectedProfiles] = useState<boolean[]>(() =>
     Array(profileImages.length).fill(false)
   );
+  
+  const [currItem, setCurrItem] = useState<CartItemType>({
+    itemId: item.itemId,
+    imageUrl: item.imageUrl,
+    brand: item.brand,
+    name: item.name,
+    price: item.price,
+    itemCount: item.itemCount,
+  });
 
-  const formattedPrice = `${price.toLocaleString('ko-KR')} 원`;
+  const formattedPrice = `${currItem.price.toLocaleString('ko-KR')} 원`;
 
-  const handleIncrease = () => setQuantity(quantity + 1);
+  const handleIncrease = () => setCurrItem(prev => ({...prev, itemCount: prev.itemCount + 1}));
   const handleDecrease = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
+    if (currItem.itemCount > 1) setCurrItem(prev => ({...prev, itemCount: prev.itemCount + 1}));
   };
 
   const toggleHeart = () => {
@@ -153,7 +162,8 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
   };
 
   const handleOrderClick = () => {
-    router.push('/item/payments');
+    sessionStorage.setItem('cartItems', JSON.stringify([currItem]));
+    router.push('/payments');
   }
 
   return (
@@ -195,7 +205,7 @@ const ItemFooter = ({ price, profileImages }: ItemFooterProps) => {
         <BottomContainer>
           <QuantityContainer>
             <MinusSvg onClick={handleDecrease} style={{ cursor: 'pointer' }}>-</MinusSvg>
-            <span>{quantity}개</span>
+            <span>{currItem.itemCount}개</span>
             <PlusSvg onClick={handleIncrease} style={{ cursor: 'pointer' }}>+</PlusSvg>
           </QuantityContainer>
           <BasketButton onClick={handleAddToCart}>장바구니</BasketButton>

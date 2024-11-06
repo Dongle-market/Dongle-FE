@@ -134,7 +134,7 @@ export default function PaymentsPage() {
     const [orderName, setOrderName] = useState('');
 
     useEffect(() => {
-      const cartItemsString = localStorage.getItem('cartItems');
+      const cartItemsString = sessionStorage.getItem('cartItems');
       if (cartItemsString) {
         const parsedCartItems = JSON.parse(cartItemsString);
         setCartItems(parsedCartItems);

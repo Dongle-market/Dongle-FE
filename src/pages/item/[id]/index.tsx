@@ -32,6 +32,19 @@ const initialItems: CartItem[] = [
     { id: 11, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: false }
 ];
 
+const categoryMap: { [key: string]: string } = {
+    food: "사료",
+    snack: "간식",
+    product: "용품",
+    wet: "습식사료",
+    dry: "건식사료",
+    soft: "소프트사료",
+    can: "캔/통조림",
+    hand: "수제간식",
+    //more than.....
+    
+};
+
 const ImageWrapper = styled.div`
     position: relative;
     width: 100%;
@@ -99,19 +112,6 @@ export default function ItemPage() {
 
     if (!item) return <div>Loading...</div>;
 
-    const categoryMap: { [key: string]: string } = {
-        food: "사료",
-        snack: "간식",
-        product: "용품",
-        wet: "습식사료",
-        dry: "건식사료",
-        soft: "소프트사료",
-        can: "캔/통조림",
-        hand: "수제간식",
-        //more than.....
-        
-    };
-
     const getCategoryName = (key: string): string => {
         return categoryMap[key] || key; // 매핑되지 않은 경우 원래 값 반환
     };
@@ -140,7 +140,17 @@ export default function ItemPage() {
                 <DetailImage src="https://shopping-phinf.pstatic.net/20200521_09_28/2968b9a2-aedf-4eda-84c8-cb09b81dae01/C:UsersuserDesktopb1ac3b5d07c1052752f6e75cb610e13d_092143.jpg"
                     alt="Product Detail Image" />
             </div>
-            <FooterNav price={item.lprice} profileImages={profileImages} />
+            <FooterNav
+                item={{
+                    itemId: item.itemId,
+                    imageUrl: item.image,
+                    price: item.lprice,
+                    brand: item.brand,
+                    name: item.title,
+                    itemCount: 1
+                }} 
+                profileImages={profileImages}
+            />
         </div>
     );
 }
