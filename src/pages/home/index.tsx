@@ -8,6 +8,7 @@ import Banner from "@/components/main/Banner";
 import MainItem from "@/components/items/MainItem";
 import { UserResponse } from '@/services/users/users.type';
 import { getUserInfo } from '@/services/users/users';
+import { useUserStore } from '@/store/user';
 
 interface Item {
   itemId: number;
@@ -84,25 +85,26 @@ type MainCategory = keyof (typeof subCategories)["dog"];
 type Species = "dog" | "cat";
 
 export default function PetHome() {
-  const [itemCount, ] = useState(0);
   const [species, setSpecies] = useState<Species>("dog");
   const [mainCategory, setMainCategory] = useState<MainCategory | null>(null);
   const [products, setProducts] = useState<{ [key: string]: Item[] }>({});
-  const [userData, setUserData] = useState<UserResponse>();
+  const setPetId = useUserStore((state) => state.setPetId);
+  const setCartCount = useUserStore((state) => state.setCartCount);
+  const cartCount = useUserStore((state) => state.cartCount);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const data = await getUserInfo();
-        console.log(data);
-        setUserData(data);
+        const data: UserResponse = await getUserInfo();
+        setPetId(data.pets.length > 0 ? data.pets[0].petId : null);
+        setCartCount(data.carts.length);
       } catch (error) {
         console.error("Failed to fetch user data", error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [setPetId, setCartCount]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -231,7 +233,7 @@ export default function PetHome() {
   return (
     <div className="page">
       <MainHeader
-        itemCount={itemCount}
+        itemCount={cartCount}
         species={species}
         onSpeciesChange={(newSpecies) => {
           setSpecies(newSpecies as Species);
