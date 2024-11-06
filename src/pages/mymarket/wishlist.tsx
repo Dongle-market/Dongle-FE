@@ -142,7 +142,7 @@ export default function WishlistPage() {
 
 
     return (
-        <div className="page">
+        <Page className="page">
             <WishlistHeader />
             <div className='content'>
                 <TabMenu />
