@@ -139,10 +139,10 @@ const PetsPortCode = styled.img`
 
 export const imageMap: { [key: number]: string } = {
   1: "/images/petprofileimages/dog1.png",
-  2: "/images/petprofileimages/dog2.png",
-  3: "/images/petprofileimages/dog3.png",
-  4: "/images/petprofileimages/cat1.png",
-  5: "/images/petprofileimages/cat2.png",
+  2: "/images/petprofileimages/cat1.png",
+  3: "/images/petprofileimages/dog2.png",
+  4: "/images/petprofileimages/cat2.png",
+  5: "/images/petprofileimages/dog3.png",
   6: "/images/petprofileimages/cat3.png",
 };
 
