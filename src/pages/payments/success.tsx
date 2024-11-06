@@ -47,6 +47,8 @@ const OrderItemContainer = styled.div`
   border-radius: 8px;
   padding: 0 16px;
   margin-top: 16px;
+  max-height: 360px;
+  overflow-y: auto;
 `;
 
 const AllOrderCancelText = styled.div`
@@ -56,15 +58,6 @@ const AllOrderCancelText = styled.div`
   text-align: center;
   margin-top: 16px;
 `;
-
-const ConfirmTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  height: 70vh;
-`
 
 const ConfirmButton = styled.div`
   display: flex;
@@ -177,7 +170,6 @@ export default function SuccessPage() {
     <div className="page">
       <PaymentsHeader />
       <div className='content'>
-        <ConfirmTextContainer>
           {orders && orders.length > 0 ? (
             orders.filter(order => order.orderId.toString() === orderId).map((order) => (
               <DateGroupContainer key={order.orderId}>
@@ -219,7 +211,6 @@ export default function SuccessPage() {
               <OrderText>결제금액: {formatAmount(amount)}원</OrderText>
             </TextWrappper>
           </TextContainer>
-        </ConfirmTextContainer>
         {isFinished ? (
           <ConfirmButton onClick={() => router.push('/mymarket/history')}>돌아가기</ConfirmButton>
         ) : (
