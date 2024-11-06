@@ -14,6 +14,7 @@ import { getUserInfo, updateUserInfo } from '@/services/users/users';
 import { UserResponse } from '@/services/users/users.type';
 import LoadingComponent from '@/components/common/Loading';
 import router from 'next/router';
+import FallbackComponent from '@/components/common/Fallback';
 
 interface CartItem {
     id: number;
@@ -144,12 +145,20 @@ const EmailInput = styled(Input)`
   padding-right: 30px;
 `;
 
+const SkeletonImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
+
 
 export default function ProfileEditPage() {
     const [user, setUser] = useState<UserResponse | null>(null);
     const [items] = useState<CartItem[]>(initialItems);
     const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
     const [isChanged, setIsChanged] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
   
 // 1. UserInputData 인터페이스 정의
 interface UserInputData {
@@ -200,10 +209,19 @@ interface UserInputData {
       } catch (error) {
         console.error("Failed to fetch user information: ", error);
       }
+      finally{
+        setIsLoading(false);
+      }
     };
   
     fetchUserInfo();
   }, []); 
+
+  if(isLoading) return (
+    <LoadingComponent>
+      <SkeletonImage src="/images/skeleton/userpage_skeleton.png" alt="skeleton" />
+    </LoadingComponent>
+  )
   
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -227,7 +245,7 @@ interface UserInputData {
     };
   
     if (!user) {
-      return <div>Loading...</div>;
+      return <FallbackComponent />;
     }
   
     const itemCount = Object.values(selectedItems).filter(Boolean).length;
