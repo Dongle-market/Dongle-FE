@@ -4,44 +4,15 @@ import React, { useEffect, useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import UserHeader from '@/components/header/CategoryHeader';
 import UserInfoFooterNav from '@/components/navbar/UserInfoFooterNav';
-import CartItem from '@/components/items/CartItem';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import KaKaoTalkSvg from '../../../public/svgs/element/kakaotalk.svg';
-import CalendarSvg from '../../../public/svgs/element/calendar.svg';
 import BadgeSvg from '/public/svgs/element/badge.svg';
 import { getUserInfo, updateUserInfo } from '@/services/users/users';
 import { UserResponse } from '@/services/users/users.type';
 import LoadingComponent from '@/components/common/Loading';
 import router from 'next/router';
 import FallbackComponent from '@/components/common/Fallback';
-
-interface CartItem {
-    id: number;
-    imageUrl: string;
-    brand: string
-    name: string;
-    price: number;
-    selected: boolean;
-};
-
-const initialItems: CartItem[] = [
-    { id: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
-    { id: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
-    { id: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
-    { id: 4, imageUrl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, selected: true },
-    { id: 5, imageUrl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selected: true },
-    { id: 6, imageUrl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selected: true },
-    { id: 7, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-    { id: 8, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-    { id: 9, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-    { id: 10, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, selected: false },
-    { id: 11, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: false }
-];
-
-interface SelectedItems {
-    [key: number]: boolean;
-};
 
 const ProfileContainer = styled.div`
   padding: 16px;
@@ -155,8 +126,6 @@ const SkeletonImage = styled.img`
 
 export default function ProfileEditPage() {
     const [user, setUser] = useState<UserResponse | null>(null);
-    const [items] = useState<CartItem[]>(initialItems);
-    const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
     const [isChanged, setIsChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
   
@@ -247,8 +216,6 @@ interface UserInputData {
     if (!user) {
       return <FallbackComponent />;
     }
-  
-    const itemCount = Object.values(selectedItems).filter(Boolean).length;
   
     return (
       <div className="page">
