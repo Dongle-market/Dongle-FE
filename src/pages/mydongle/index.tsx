@@ -145,7 +145,7 @@ export default function MyDonglePage() {
 
   return (
     <div className="page">
-      <Header itemCount={items.length} />
+      <Header />
       <div className="mydonglecontent">
         <MyDongleHeader />
         <PetsPortWrapper>

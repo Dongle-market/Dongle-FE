@@ -1,3 +1,6 @@
+import { CartType } from "../carts/carts.type";
+import { PetType } from "../pets/pets.type";
+
 export interface UserResponse {
   userId: number;
   userName: string;
@@ -8,4 +11,6 @@ export interface UserResponse {
   phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
+  pets: PetType[];
+  carts: CartType[];
 }

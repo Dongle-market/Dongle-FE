@@ -127,7 +127,7 @@ const DongleMarketButton = styled(Link)`
 `;
 
 export default function WishlistPage() {
-    const [itemCount, setItemCount] = useState(0);
+    const [, setItemCount] = useState(0);
 
     useEffect(() => {
         const updateItemCount = () => {
@@ -143,7 +143,7 @@ export default function WishlistPage() {
 
     return (
         <Page className="page">
-            <WishlistHeader itemCount={itemCount} />
+            <WishlistHeader />
             <div className='content'>
                 <TabMenu />
                 <BlurredBackground>
