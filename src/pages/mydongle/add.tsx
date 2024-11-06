@@ -9,8 +9,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import MyDongleAddHeader from "../../components/header/MyDongleHeader";
-import { PetPostRequestType, PetInfoResponseType } from "@/services/pets/pets.type";
-import { postPet, GetResponse, patchPet, DeletePet } from "@/services/pets/pets";
+import { PetPostRequestType, PetInfoResponseType, PetType } from "@/services/pets/pets.type";
+import { postPet, getPetInfo, patchPet, DeletePet } from "@/services/pets/pets";
 
 
 const TitleWrapper = styled.div`
@@ -205,14 +205,17 @@ const pets = [
   { id: 6, imageurl: "/images/petprofileimages/cat3.png" },
 ];
 export default function MyDongleAddPage() {
-  const [name, setName] = useState("");
-  const [animalType, setAnimalType] = useState("");
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
-  const [profileImage, setProfileImage] = useState(0);
+  const [petInfo, setPetInfo] = useState<PetPostRequestType>({
+    petName: "",
+    profileImg: 0,
+    type: "",
+    gender: "",
+    age: 0,
+  });
+
   const [nameError, setNameError] = useState("");
   const [ageError, setAgeError] = useState("");
-  const isFormFilled = (name && animalType && gender && age && profileImage);
+  const isFormFilled = Object.values(petInfo).every((value) => value !== "" && value !== 0);
   const [isEditMode, setIsEditMode] = useState(false);
   
   const router = useRouter();
@@ -221,49 +224,54 @@ export default function MyDongleAddPage() {
   useEffect(() => {
     if (id) {
       setIsEditMode(true);
-      GetResponse(Number(id))
+      getPetInfo(Number(id))
         .then((data: PetInfoResponseType) => {
-          setName(data.pet.petName);
-          setAnimalType(data.pet.type);
-          setGender(data.pet.gender);
-          setAge(String(data.pet.age));
-          setProfileImage(data.pet.profileImg);
+          const pet = data.pet;
+          setPetInfo({
+            petName: pet.petName,
+            profileImg: pet.profileImg,
+            type: pet.type,
+            gender: pet.gender,
+            age: pet.age,
+          });
         })
         .catch(() => toast.error("반려동물 정보를 불러오는 데 실패했습니다."));
     }
   }, [id]);
 
+  const handleProfileImageChange = (imageId: number, event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setPetInfo((prev) => ({
+      ...prev,
+      profileImg: imageId,
+    }));
+  };
+
+  const handleInputChange = (key: keyof PetPostRequestType, value: any) => {
+    setPetInfo((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
   const handleSubmit = async () => {
-    // 기본 데이터가 잘 입력되었는지 확인
-    if (!name || !animalType || !gender || !age || !profileImage) {
+    if (!isFormFilled) {
       toast.error("모든 필드를 올바르게 입력해주세요.");
       return;
     }
   
-    const petData: PetPostRequestType = {
-      petName: name,
-      profileImg: profileImage,
-      type: animalType,
-      gender: gender,
-      age: parseInt(age),
-    };
-  
     try {
       if (isEditMode && id) {
-        // 수정 모드
-        await patchPet(Number(id), petData);
+        await patchPet(Number(id), petInfo);
         toast.success("반려동물 정보가 수정되었습니다.");
       } else {
-        // 등록 모드
-        await postPet(petData);
+        await postPet(petInfo);
         toast.success("반려동물이 등록되었습니다.");
       }
-      router.push("/mydongle");
+      router.push(`/mydongle/${id}`);
     } catch (error) {
-      // 에러 메시지 추가
       toast.error("반려동물 정보 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", {
-        onClose: () =>
-          router.push("/mydongle"),
+        onClose: () => router.push(`/mydongle/${id}`),
       });
       console.error(error);
     }
@@ -274,50 +282,13 @@ export default function MyDongleAddPage() {
     try {
       await DeletePet(Number(id));
       toast.success("반려동물이 삭제되었습니다.");
-      router.push("/mydongle");
+      router.push(`/mydongle/${id}`);
     } catch (error) {
       toast.error("반려동물 삭제 중 오류가 발생했습니다.", {
       onClose: () =>
-          router.push("/mydongle"),
+          router.push(`/mydongle/${id}`),
       });
       console.error(error);
-    }
-  };
-
-  const handleProfileImageChange = (imageId: number, event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setProfileImage(imageId);
-  };
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputName = event.target.value;
-    if (inputName.length > 20) {
-      setNameError("20자까지 입력 가능합니다.");
-      setName(inputName.slice(0, 20));
-    } else {
-      setNameError("");
-      setName(inputName);
-    }
-  };
-
-  const handleAnimalTypeChange = (type: string, event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setAnimalType(type);
-  };
-
-  const handleGenderChange = (genderType: string, event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setGender(genderType);
-  };
-
-  const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputAge = event.target.value;
-    const ageNumber = Number(inputAge);
-    if (!inputAge || (ageNumber >= 0 && ageNumber <= 200)) {
-      setAgeError("");
-      setAge(inputAge);
-    } else {
-      setAgeError("숫자만 입력 가능합니다. (0~200)");
     }
   };
 
@@ -341,14 +312,14 @@ export default function MyDongleAddPage() {
             <InfoContainer>
               <Question>반려동물의 프로필 사진을 선택해주세요.</Question>
               <PetProfileImageOptionContainer>
-                {pets.map((pet) => (
-                  <PetProfileImageOptionButton
-                    key={pet.id}
-                    selected={profileImage === pet.id}
-                    imageurl={pet.imageurl}
-                    onClick={(e) => handleProfileImageChange(pet.id, e)}
-                  />
-                ))}
+              {pets.map((pet) => (
+                <PetProfileImageOptionButton
+                  key={pet.id}
+                  selected={petInfo.profileImg === pet.id}
+                  imageurl={pet.imageurl}
+                  onClick={(e) => handleProfileImageChange(pet.id, e)}
+                />
+              ))}
               </PetProfileImageOptionContainer>
             </InfoContainer>
             <InfoContainer>
@@ -368,22 +339,22 @@ export default function MyDongleAddPage() {
                 )}
               <NameInput
                   type="text"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={petInfo.petName}
+                  onChange={(e) => handleInputChange("petName", e.target.value)}
                 />
             </InfoContainer>
             <InfoContainer>
               <Question>반려동물의 종은 무엇인가요?</Question>
               <ButtonWrapper>
               <OptionButton
-                    selected={animalType === "dog"}
-                    onClick={(e) => handleAnimalTypeChange("dog", e)}
+                    selected={petInfo.type === "dog"}
+                    onClick={() => handleInputChange("type", "dog")}
                   >
                     🐶 강아지
                   </OptionButton>
                   <OptionButton
-                    selected={animalType === "cat"}
-                    onClick={(e) => handleAnimalTypeChange("cat", e)}
+                    selected={petInfo.type === "cat"}
+                    onClick={() => handleInputChange("type", "cat")}
                   >
                     😺 고양이
                   </OptionButton>
@@ -393,14 +364,14 @@ export default function MyDongleAddPage() {
               <Question>반려동물의 성별은 무엇인가요?</Question>
               <ButtonWrapper>
               <OptionButton
-                    selected={gender === "male"}
-                    onClick={(e) => handleGenderChange("male", e)}
+                    selected={petInfo.gender === "male"}
+                    onClick={() => handleInputChange("gender", "male")}
                   >
                     남
                   </OptionButton>
                   <OptionButton
-                    selected={gender === "female"}
-                    onClick={(e) => handleGenderChange("female", e)}
+                    selected={petInfo.gender === "female"}
+                    onClick={() => handleInputChange("gender", "female")}
                   >
                     여
                   </OptionButton>
@@ -424,8 +395,8 @@ export default function MyDongleAddPage() {
               <AgeInputWrapper>
               <AgeInput
                     type="text"
-                    value={age}
-                    onChange={handleAgeChange}
+                    value={petInfo.age}
+                    onChange={(e) => handleInputChange("age", e.target.value)}
                   />
 
                 <AgeLabel>살</AgeLabel>
