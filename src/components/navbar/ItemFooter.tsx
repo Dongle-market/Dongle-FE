@@ -117,7 +117,7 @@ const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
   
   const [currItem, setCurrItem] = useState<CartItemType>({
     itemId: item.itemId,
-    imageUrl: item.imageUrl,
+    imageurl: item.imageurl,
     brand: item.brand,
     name: item.name,
     price: item.price,
