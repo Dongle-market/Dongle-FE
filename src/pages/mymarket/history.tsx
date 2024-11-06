@@ -147,7 +147,7 @@ function formatDeliveryDate(dateStr: string): string {
 }
 
 export default function HistoryPage() {
-  const [itemCount, setItemCount] = useState(0);
+  const [, setItemCount] = useState(0);
   const [cartItems] = useState(initialCartItems);
   const [orders, setOrders] = useState<Order[]>([]); // 빈 배열로 초기화
 
