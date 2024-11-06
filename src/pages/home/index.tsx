@@ -63,13 +63,13 @@ const ProductWrapper = styled.div`
 const subCategories = {
   dog: {
     사료: ["wet", "dry", "soft"],
-    간식: ["hand", "bread", "bone"],
-    용품: ["clean", "bath", "practice"],
+    간식: ["soft", "wet", "dry"],
+    용품: ["dry", "soft", "wet"],
   },
   cat: {
-    사료: ["can", "dry", "wet"],
-    간식: ["chur", "hand", "catnip"],
-    용품: ["tower", "water", "bath"],
+    사료: ["soft", "dry", "wet"],
+    간식: ["dry", "soft", "wet"],
+    용품: ["wet", "dry", "soft"],
   },
 } as const;
 
@@ -114,7 +114,7 @@ export default function PetHome() {
           const subCategoryList = subCategories[species][mainCategory];
           const results = await Promise.all(
             subCategoryList.map((sub) =>
-              ItemAPI.fetchItemData(species, sub, mainCategoryMapping[mainCategory]).catch(() => [])
+              ItemAPI.fetchItemData(sub).catch(() => [])
             )
           );
 
@@ -131,8 +131,8 @@ export default function PetHome() {
           // 메인 카테고리가 선택되지 않은 경우 (e.g., 강아지/고양이만 선택된 경우)
           const categories = ["food", "snack", "product"];
           const results = await Promise.all(
-            categories.map((category) =>
-              ItemAPI.fetchItemData(species, '', category).catch(() => [])
+            categories.map(() =>
+              ItemAPI.fetchItemData('').catch(() => [])
             )
           );
 
@@ -184,7 +184,7 @@ export default function PetHome() {
         ),
       },
       cat: {
-        can: "캔 사료로 기분 좋은 한 끼 🍱",
+        soft: "캔 사료로 기분 좋은 한 끼 🍱",
         dry: "건조한 사료로 건강을 챙기자! 🥨",
         wet: "촉촉한 사료를 찾는 냥이 🥫",
         chur: "냥이가 좋아하는 츄르 🐟",
