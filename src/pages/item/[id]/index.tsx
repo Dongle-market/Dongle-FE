@@ -135,7 +135,7 @@ export default function ItemPage() {
             <FooterNav
                 item={{
                     itemId: item.itemId,
-                    imageUrl: item.image,
+                    imageurl: item.image,
                     price: item.lprice,
                     brand: item.brand,
                     name: item.title,
