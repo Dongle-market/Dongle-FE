@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import styled from "styled-components"
 
 const FallbackContainer = styled.div`
@@ -27,17 +26,12 @@ const GoBackButton = styled.button`
 `;
 
 export default function FallbackComponent() {
-  const router = useRouter();
-
-  const handleGoBack = () => {
-    router.back();
-  }
 
   return (
     <div className="page">
       <FallbackContainer>
         <FallbackText>존재하지 않는 페이지에요 😢</FallbackText>
-        <GoBackButton onClick={handleGoBack}>뒤로가기</GoBackButton>
+        <GoBackButton onClick={() => window.history.back()}>뒤로가기</GoBackButton>
       </FallbackContainer>
     </div>
   )
