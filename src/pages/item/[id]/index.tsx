@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { ItemAPI } from "@/services/item/item";
 import { useRouter } from "next/router";
 import { removeHtmlTags } from "@/utils/removeHtmlTags";
+import FallbackComponent from "@/components/common/Fallback";
 
 interface CartItem {
     id: number;
@@ -110,7 +111,7 @@ export default function ItemPage() {
         fetchData();
     }, [id]);
 
-    if (!item) return <div>Loading...</div>;
+    if (!item) return <FallbackComponent />;
 
     const getCategoryName = (key: string): string => {
         return categoryMap[key] || key; // 매핑되지 않은 경우 원래 값 반환
