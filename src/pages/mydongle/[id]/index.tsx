@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
 import Header from "@/components/header/CategoryHeader";
-import MyDongleHeader from "../../../components/header/MyDongleHeader";
+import MyDongleHeader from "@/components/header/MyDongleHeader";
 import CategoryItem from "@/components/items/CategoryItem";
 import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
 import PetsPort from "@/components/items/PetsPort";
@@ -405,8 +405,8 @@ export default function MyDonglePage() {
               </GoToWishListButton>
             </NoneComponent>
           )}
-          {activeTab === 1 &&
-            (initialHistoryItems.length > 0 ? (
+          {activeTab === 1 && (
+            petData && petData.orderItems.length > 0 ? (
               <HistoryContainer>
                 {petData?.orderItems.map((item) => (
                   <MyDongleHistoryItem
