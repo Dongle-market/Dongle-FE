@@ -16,7 +16,7 @@ const SelectPetsContainer = styled.div`
   scrollbar-width: none;
 `;
 
-const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string, $isInteractive: boolean }>`
+const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string }>`
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -24,7 +24,7 @@ const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string
   background-size: cover;
   background-position: center;
   border: 2px solid ${props => props.$isSelected ? '#E55737' : '#F8F8F8'};
-  cursor: ${props => props.$isInteractive ? 'pointer' : 'default'};
+  cursor: 'pointer';
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,12 +36,10 @@ interface SelectPetsProps {
   isInteractive: boolean;
 }
 
-const SelectPets = ({ selectedPetIds, isInteractive }: SelectPetsProps) => {
+const SelectPets = ({ selectedPetIds }: SelectPetsProps) => {
   const [selectedIndexes, setSelectedIndexes] = React.useState<number[]>(selectedPetIds);
 
   const toggleSelection = (petId: number) => {
-    if (!isInteractive) return;
-
     setSelectedIndexes(prev => {
       if (prev.includes(petId)) {
         return prev.filter(id => id !== petId);
@@ -65,7 +63,6 @@ const SelectPets = ({ selectedPetIds, isInteractive }: SelectPetsProps) => {
           key={pet.id}
           $isSelected={selectedIndexes.includes(pet.id)}
           $backgroundUrl={pet.imageUrl}
-          $isInteractive={isInteractive}
           onClick={() => toggleSelection(pet.id)}
         />
       ))}

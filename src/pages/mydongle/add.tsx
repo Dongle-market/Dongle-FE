@@ -166,6 +166,8 @@ const RegistButton = styled.div`
   cursor: pointer;
   font-size: 16px;
   margin-top: 12px;
+  text-align: center;
+  align-items: center;
 `;
 
 const NonRegistButton = styled.div`
@@ -184,7 +186,7 @@ export default function MyDongleAddPage() {
   const [animalType, setAnimalType] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
-  const [profileImage, setProfileImage] = useState(1);
+  const [profileImage, setProfileImage] = useState(0);
   const [nameError, setNameError] = useState("");
   const [ageError, setAgeError] = useState("");
   const [petData, setPetData] = useState<PetPostRequestType>();
