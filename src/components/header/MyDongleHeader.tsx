@@ -45,15 +45,6 @@ interface PetType {
   petName: string;
 }
 
-const profiles = [
-  { id: 1, imageurl: "/images/petprofileimages/dog1.png" },
-  { id: 2, imageurl: "/images/petprofileimages/cat1.png" },
-  { id: 3, imageurl: "/images/petprofileimages/dog2.png" },
-  { id: 4, imageurl: "/images/petprofileimages/cat2.png" },
-  { id: 5, imageurl: "/images/petprofileimages/dog3.png" },
-  { id: 6, imageurl: "/images/petprofileimages/cat3.png" },
-];
-
 
 const MyDongleHeader = () => {
   const router = useRouter();
@@ -62,22 +53,33 @@ const MyDongleHeader = () => {
   const [petProfiles, setPetProfiles] = useState<PetType[]>([]);
 
   useEffect(() => {
-    if (router.pathname === '/mydongle/add') {
+    const isAddPage = router.pathname === '/mydongle/add';
+  
+    if (isAddPage) {
       setIsActive(true);
+    } else {
+      setIsActive(false);
     }
-
-    const urlPetId = Number(router.asPath.split("/").pop());
-    if (!isNaN(urlPetId)) {
-      setSelectedProfile(urlPetId);
+  
+    const urlParams = new URLSearchParams(window.location.search);
+    const editPetId = urlParams.get("id") ? Number(urlParams.get("id")) : null;
+  
+    if (isAddPage && editPetId) {
+      setSelectedProfile(editPetId);
+      setIsActive(false);
+    } else {
+      const urlPetId = Number(router.asPath.split("/").pop());
+      if (!isNaN(urlPetId)) {
+        setSelectedProfile(urlPetId);
+      }
     }
-
-    // API를 호출하여 유저의 반려동물 데이터를 가져오기
+  
     const fetchPets = async () => {
       try {
         const pets = await getPets();
         const formattedPets = pets.map((pet) => ({
           petId: pet.petId,
-          profileImg: imageMap[pet.profileImg] || "", // profileImg 파일 경로 지정
+          profileImg: imageMap[pet.profileImg] || "",
           petName: pet.petName,
         }));
         setPetProfiles(formattedPets);
@@ -85,9 +87,10 @@ const MyDongleHeader = () => {
         console.error("반려동물 데이터를 불러오는 데 실패했습니다.", error);
       }
     };
-
+  
     fetchPets();
   }, [router.pathname]);
+  
 
   const handleAddPetClick = () => {
     if (!isActive) {
