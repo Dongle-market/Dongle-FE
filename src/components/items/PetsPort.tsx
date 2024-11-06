@@ -1,9 +1,8 @@
 // PetsPort.tsx
-"use client";
 
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useRouter } from 'next/router';
 
 const PassportContainer = styled.div`
   position: relative;
@@ -24,15 +23,15 @@ const Passport = styled.div`
 `;
 
 const FirstPassport = styled(Passport)`
-  background-color: #35241e;
+  background-color: #35241E;
   width: 98%;
   height: 98%;
   z-index: 2;
 `;
 
 const SecondPassport = styled(Passport)`
-  background-color: #dcdcdc;
-  border: 1.5px solid #c2c2c2;
+  background-color: #DCDCDC;
+  border: 1.5px solid #C2C2C2;
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -47,27 +46,27 @@ const PassportBody = styled.div`
 `;
 
 const PassPortHeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const PassportHeaderLeftWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 2px;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
 `;
 
 const PassportHeaderLeft = styled.div`
   font-size: 10px;
-  color: #ff9e7e;
+  color: #FF9E7E;
 `;
 
 const BoldText = styled.div`
-  font-size: 10px;
-  color: #ff9e7e;
-  font-weight: 600;
+    font-size: 10px;
+    color: #FF9E7E;
+    font-weight: 600;
 `;
 
 const PassportHeaderRight = styled.div`
@@ -104,16 +103,16 @@ const InputWrapper = styled.div`
 `;
 
 const InputTitle = styled.span`
-  font-size: 8px;
-  font-weight: 600;
-  color: #ffffff;
+    font-size: 8px;
+    font-weight: 600;
+    color: #FFFFFF;
 `;
 
 const InputContent = styled.span`
-  font-size: 14px;
-  font-weight: 600;
-  color: #ff9e7e;
-  text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #FF9E7E;
+    text-decoration: none;
 `;
 
 const PassportImage = styled.img`
@@ -121,6 +120,7 @@ const PassportImage = styled.img`
   height: 85px;
   border-radius: 10px;
   object-fit: cover;
+  cursor: pointer;
 `;
 
 const PetsPortCode = styled.img`
@@ -134,14 +134,6 @@ const PetsPortCode = styled.img`
   background-position: center;
   box-sizing: border-box;
 `;
-
-// petId: 1,
-// petName: "동글이",
-// profileImg: "/images/petprofileimages/dog1.png",
-// type: "Dog",
-// gender: "Male",
-// age: 3,
-// userId: 1,
 
 const Pet = [
   {
@@ -179,54 +171,58 @@ const Pet = [
 ];
 
 const PetsPort = () => {
+
+  const router = useRouter();
+
+  const routeToInfo = (petId: number) => {
+    router.push(`/mydongle/add?id=${petId}`);
+  };
+
+
   return (
     <PassportContainer>
       <FirstPassport>
-        <PassportBody>
-          <PassPortHeaderContainer>
-            <PassportHeaderLeftWrapper>
-              <PassportHeaderLeft>여권</PassportHeaderLeft>
-              <BoldText>PETSPORT</BoldText>
-            </PassportHeaderLeftWrapper>
-            <PassportHeaderRight>
-              동글월드 REPUBLIC OF DONGLE
-            </PassportHeaderRight>
-          </PassPortHeaderContainer>
-          <PassportInfoContainer>
-            <PassportImage src={Pet[0].pet.profileImg} />
-            <InputBody>
-              <InputContainer>
-                <InputWrapper>
-                  <InputTitle>이름</InputTitle>
-                  <InputContent>{Pet[0].pet.petName}</InputContent>
-                </InputWrapper>
-                <InputWrapper>
-                  <InputTitle>국가코드</InputTitle>
-                  <InputContent>KOR</InputContent>
-                </InputWrapper>
-                <InputWrapper>
-                  <InputTitle>여권번호</InputTitle>
-                  <InputContent>URECA001</InputContent>
-                </InputWrapper>
-              </InputContainer>
-              <InputContainer>
-                <InputWrapper>
-                  <InputTitle></InputTitle>
-                  <InputContent></InputContent>
-                </InputWrapper>
-                <InputWrapper>
-                  <InputTitle>나이</InputTitle>
-                  <InputContent>{Pet[0].pet.age}세</InputContent>
-                </InputWrapper>
-                <InputWrapper>
-                  <InputTitle>성별</InputTitle>
-                  <InputContent>{Pet[0].pet.gender}</InputContent>
-                </InputWrapper>
-              </InputContainer>
-            </InputBody>
-          </PassportInfoContainer>
-        </PassportBody>
-        <PetsPortCode src="/svgs/pet/passportcode.svg" />
+          <PassportBody>
+              <PassPortHeaderContainer>
+                  <PassportHeaderLeftWrapper>
+                      <PassportHeaderLeft>여권</PassportHeaderLeft>
+                      <BoldText>PETSPORT</BoldText>
+                  </PassportHeaderLeftWrapper>
+                  <PassportHeaderRight>동글월드 REPUBLIC OF DONGLE</PassportHeaderRight>
+              </PassPortHeaderContainer>
+              <PassportInfoContainer>
+                  <PassportImage src={Pet[0].pet.profileImg} onClick={() => routeToInfo(Pet[0].pet.petId)}/>
+                  <InputBody>
+                      <InputContainer>
+                          <InputWrapper>
+                              <InputTitle>이름</InputTitle>
+                              <InputContent>{Pet[0].pet.petName}</InputContent>
+                          </InputWrapper>
+                      </InputContainer>
+                      <InputContainer>
+                          <InputWrapper>
+                              <InputTitle>국가코드</InputTitle>
+                              <InputContent>KOR</InputContent>
+                          </InputWrapper>
+                          <InputWrapper>
+                              <InputTitle>여권번호</InputTitle>
+                              <InputContent>URECA001</InputContent>
+                          </InputWrapper>
+                      </InputContainer>
+                      <InputContainer>
+                          <InputWrapper>
+                              <InputTitle>나이</InputTitle>
+                              <InputContent>{Pet[0].pet.age}세</InputContent>
+                          </InputWrapper>
+                          <InputWrapper>
+                              <InputTitle>성별</InputTitle>
+                              <InputContent>{Pet[0].pet.gender}</InputContent>
+                          </InputWrapper>
+                      </InputContainer>
+                  </InputBody>
+              </PassportInfoContainer>
+          </PassportBody>
+          <PetsPortCode src='/svgs/pet/passportcode.svg' />
       </FirstPassport>
       <SecondPassport />
     </PassportContainer>
