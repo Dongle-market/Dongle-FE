@@ -1,10 +1,11 @@
 // PetsPort.tsx
-'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BadgeSvg from '/public/svgs/element/badge.svg';
 import Link from 'next/link';
+import { getUserInfo } from '@/services/users/users';
+import { UserResponse } from '@/services/users/users.type';
 
 const PassportContainer = styled.div`
   position: relative;
@@ -161,14 +162,26 @@ const PetsPortCode = styled.img`
   box-sizing: border-box;
 `;
 
-const User = {
-  name: '최우진',
-  imageUrl: '/images/babodaejang.png',
-  email: 'ureca@kakao.com',
-  phone: '010-1234-5678'
-};
-
 const PassPort = () => {
+  const [user, setUser] = useState<UserResponse | null>(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userData = await getUserInfo();
+        setUser(userData);
+      } catch (error) {
+        console.error("Failed to fetch user information:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  if (!user) {
+    return <div>Loading...</div>; // 사용자 정보 로딩 중 표시
+  }
+  
   return (
     <PassportContainer>
       <FirstPassport>
@@ -178,7 +191,7 @@ const PassPort = () => {
             <PassportHeaderRight>동글민국 REPUBLIC OF DONGLE</PassportHeaderRight>
           </PassPortHeaderContainer>
           <PassportInfoContainer>
-            <PassportImage src={User.imageUrl} />
+            <PassportImage src={user.profilePic} alt={user.userName} />
             <InputBody>
               <InputContainer>
                 <InputWrapper>
@@ -193,13 +206,13 @@ const PassPort = () => {
               <InputContainer>
                 <InputWrapper>
                   <InputTitle>이름</InputTitle>
-                  <InputContent>{User.name}</InputContent>
+                  <InputContent>{user.userName}</InputContent>
                 </InputWrapper>
                 <ClubBadge><BadgeSvg/> 댕니버스 클럽</ClubBadge>
               </InputContainer>
               <InputWrapper>
                 <InputTitle>전화번호</InputTitle>
-                <InputContent>010-1234-5678</InputContent>
+                <InputContent>{user.phoneNumber ?? "등록된 번호가 없습니다."}</InputContent>
               </InputWrapper>
               <UserEditButton href="/profile/edit">✈️ 회원정보 수정</UserEditButton>
             </InputBody>
