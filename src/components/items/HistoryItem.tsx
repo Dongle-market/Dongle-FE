@@ -115,6 +115,7 @@ const CartButton = styled.button`
 
 interface HistoryItemProps {
     itemId: number;
+    orderId: number;
     orderItemId: number;
     imageurl: string;
     name: string;
