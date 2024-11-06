@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useItemRouting } from '@/utils/itemIdRouting';
 import OrderCancelModal from './OrderCancelModal';
 import { removeHtmlTags } from '@/utils/removeHtmlTags';
+import { cancelOrderItem } from '../../../src/services/order/order';
 
 const HistoryItemContainer = styled.div`
   display: flex;
@@ -114,6 +115,7 @@ const CartButton = styled.button`
 
 interface HistoryItemProps {
     itemId: number;
+    orderItemId: number;
     imageUrl: string;
     name: string;
     price: number;
@@ -121,11 +123,13 @@ interface HistoryItemProps {
     selectedPetIds: number[];
     amount: number;
     cartItems: { name: string; price: number; }[];
+    onDeleteSuccess: (itemId: number) => void;
 }
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price, cartItems, selectedPetIds, amount }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageUrl, name, price, cartItems, selectedPetIds, amount, onDeleteSuccess }) => {
     const routeToItem = useItemRouting();
     const [showModal, setShowModal] = useState(false);
+
     const handleOrderCancelClick = () => {
         setShowModal(true);
     };
@@ -134,41 +138,55 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price
         setShowModal(false);
     };
 
-    const handleOrderCancel = () => {
-        console.log("주문취소 처리");
-        setShowModal(false);
-        toast(<ToastOrderCancelComplete />, {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            style: {
-                marginTop: '82px',
-                marginRight: '16px',
-                marginLeft: '16px',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                borderRadius: '16px',
-            }
-        });
-    };
-
-    const ToastOrderCancelComplete = () => {
-        return (
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                color: 'white',
-                fontSize: '14px'
-            }}>
-                <span>주문취소가 완료되었습니다.</span>
-            </div>
-        );
+    // 주문 취소 API 호출
+    const handleOrderCancel = async (orderItemId: number) => {
+        try {
+            await cancelOrderItem(orderItemId);
+            toast('주문 취소가 완료되었습니다.', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                onClose: () => window.location.reload(),  // 토스트 메시지가 닫힐 때 페이지 새로 고침
+                style: {
+                    marginTop: '82px',
+                    marginRight: '16px',
+                    marginLeft: '16px',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    borderRadius: '16px',
+                    color: 'white',
+                    textAlign: 'center'
+                }
+            });
+            onDeleteSuccess(orderItemId);  // `orderItemId`를 사용하여 UI에서 항목 제거
+            handleClose();  // 모달 닫기
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            toast('해당 주문상품이 존재하지 않습니다.', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                style: {
+                    marginTop: '82px',
+                    marginRight: '16px',
+                    marginLeft: '16px',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    borderRadius: '16px',
+                    color: 'white',
+                    textAlign: 'center'
+                }
+            });
+            handleClose();
+        }
     };
 
     const isItemInCart = () => {
@@ -249,12 +267,12 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, imageUrl, name, price
 
     return (
         <HistoryItemContainer>
-            <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)}/>
+            <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)} />
             <InfoContainer>
                 <Info>
                     <Name onClick={() => routeToItem(itemId)}>{removeHtmlTags(name)}</Name>
                     <OrderCancel onClick={handleOrderCancelClick}>주문취소</OrderCancel>
-                    {showModal && <OrderCancelModal onClose={handleClose} onOrderCancel={handleOrderCancel} />}
+                    {showModal && <OrderCancelModal onClose={handleClose} onOrderCancel={() => handleOrderCancel(orderItemId)} orderItemId={orderItemId} />}
                 </Info>
                 <Info2>
                     <Price onClick={() => routeToItem(itemId)}>{price.toLocaleString()} 원</Price>
