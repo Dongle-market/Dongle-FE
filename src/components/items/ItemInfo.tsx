@@ -48,8 +48,22 @@ const PriceContainer = styled.div`
     color: #000000;
 `;
 
+const CategoryLink = styled.span`
+    color: #919191;
+    cursor: pointer;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+interface Category {
+    name: string;
+    onClick: () => void;
+}
+
 interface InfoSectionProps {
-    categories: string[];
+    categories: Category[];
     brand: string;
     productName: string;
     price: number;
@@ -57,10 +71,12 @@ interface InfoSectionProps {
 
 const ItemInfo = ({ categories, brand, productName, price }: InfoSectionProps) => (
     <InfoContainer>
-        <CategoryContainer>
+       <CategoryContainer>
             {categories.map((category, index) => (
                 <CategoryItem key={index}>
-                    {category}
+                    <CategoryLink onClick={category.onClick}>
+                        {category.name}
+                    </CategoryLink>
                     {index < categories.length - 1 && <StyledArrow />}
                 </CategoryItem>
             ))}

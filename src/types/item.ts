@@ -5,7 +5,7 @@ export interface ItemType {
 }
 
 export interface CartItemType extends ItemType {
-  imageUrl: string;
+  imageurl: string;
   brand: string
   name: string;
 };

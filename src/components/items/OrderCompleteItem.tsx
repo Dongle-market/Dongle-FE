@@ -82,18 +82,18 @@ const Amount = styled.div`
 
 interface OrderCompleteItemProps {
     itemId: number;
-    imageUrl: string;
+    imageurl: string;
     name: string;
     price: number;
     amount: number;
 }
 
-const OrderCompleteItem: React.FC<OrderCompleteItemProps> = ({ itemId, imageUrl, name, price, amount }) => {
+const OrderCompleteItem: React.FC<OrderCompleteItemProps> = ({ itemId, imageurl, name, price, amount }) => {
     const routeToItem = useItemRouting();
 
     return (
         <HistoryItemContainer>
-            <Image src={imageUrl} alt={name} onClick={() => routeToItem(itemId)} />
+            <Image src={imageurl} alt={name} onClick={() => routeToItem(itemId)} />
             <InfoContainer>
                     <Name onClick={() => routeToItem(itemId)}>{removeHtmlTags(name)}</Name>
                 <Info>

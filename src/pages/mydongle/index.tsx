@@ -31,17 +31,17 @@ const initialHistoryItems: MyDongleHistoryItemProps[] = [
 ];
 
 const initialCartItems = [
-  { id: 1, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
-  { id: 2, imageUrl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
-  { id: 3, imageUrl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
-  { id: 4, imageUrl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, selected: true },
-  { id: 5, imageUrl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selected: true },
-  { id: 6, imageUrl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selected: true },
-  { id: 7, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-  { id: 8, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-  { id: 9, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
-  { id: 10, imageUrl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, selected: false },
-  { id: 11, imageUrl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: false }
+  { id: 1, imageurl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: true },
+  { id: 2, imageurl: '/images/Baek.png', brand: '아디다스', name: '어얼얽--', price: 34000, selected: true },
+  { id: 3, imageurl: '/images/An.png', brand: '아디다스', name: '고기가 이븐하게 익지 않아써여', price: 34000, selected: true },
+  { id: 4, imageurl: '/images/An.png', brand: '아디다스', name: '보류입니다.', price: 34000, selected: true },
+  { id: 5, imageurl: '/images/An.png', brand: '아디다스', name: '저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여', price: 34000, selected: true },
+  { id: 6, imageurl: '/images/Baek.png', brand: '아디다스', name: '이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ', price: 34000, selected: true },
+  { id: 7, imageurl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
+  { id: 8, imageurl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
+  { id: 9, imageurl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스', price: 34000, selected: false },
+  { id: 10, imageurl: '/images/product1.png', brand: '아디다스', name: '도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스도치빌 리더스', price: 34000, selected: false },
+  { id: 11, imageurl: '/images/Son&Jeon.png', brand: '아디다스', name: '왜저뤠ㅞㅞ~~', price: 34000, selected: false }
 ];
 
 const PetsPortWrapper = styled.div`
@@ -169,7 +169,7 @@ export default function MyDonglePage() {
                   <MyDongleHistoryItem
                     key={item.itemId}
                     itemId={item.itemId}
-                    imageUrl={item.image}
+                    imageurl={item.image}
                     name={item.title}
                     price={item.lprice}
                     orderDate={item.date}
