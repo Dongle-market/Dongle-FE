@@ -91,6 +91,14 @@ const DeliveryDate = styled.span`
   text-align: center;
 `;
 
+const AllOrderCancelText = styled.div`
+  display: flex;
+  font-size: 16px;
+  color: #D9D9D9;
+  text-align: center;
+  margin-top: 16px;
+`;
+
 const PageContent = styled.div`
     display: flex;
     flex-direction: column;
@@ -157,6 +165,14 @@ export default function HistoryPage() {
     loadOrders();
   }, []);
 
+  const handleDeleteSuccess = (orderItemId: number) => {
+    // 삭제 시 orderItemId로 필터링
+    setOrders(orders => orders.map(order => ({
+      ...order,
+      orderItems: order.orderItems.filter(item => item.orderItemId !== orderItemId)
+    })));
+  };
+
   useEffect(() => {
     const updateItemCount = () => {
       const count = parseInt(localStorage.getItem('cartItemCount') || '0', 10);
@@ -183,7 +199,8 @@ export default function HistoryPage() {
                   <RocketDelivery>동글로켓배송</RocketDelivery>
                 </RocketWrapper>
               </OrderDateWrapper>
-              <OrderItemContainer>
+              {order.orderItems.length > 0 ? (
+                <OrderItemContainer>
                 <DeliveryStatusWrapper>
                   <DeliveryStatus>{order.status}</DeliveryStatus>
                   <Icon>|</Icon>
@@ -193,6 +210,7 @@ export default function HistoryPage() {
                   <HistoryItem
                     key={item.itemId}
                     itemId={item.itemId}
+                    orderItemId={item.orderItemId}
                     imageUrl={item.image}
                     name={item.title}
                     price={item.price}
@@ -200,9 +218,13 @@ export default function HistoryPage() {
                     selectedPetIds={item.pets}
                     amount={item.itemCount}
                     cartItems={cartItems}
+                    onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}
                   />
                 ))}
               </OrderItemContainer>
+              ) : (
+                  <AllOrderCancelText>모든 주문이 취소되었습니다.</AllOrderCancelText>
+              )}
             </DateGroupContainer>
           ))
         ) : (

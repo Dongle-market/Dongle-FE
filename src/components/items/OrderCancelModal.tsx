@@ -59,25 +59,26 @@ const ModalText = styled.p`
 `;
 
 interface OrderCancelModalProps {
-    onClose: () => void;
-    onOrderCancel: () => void;
+  onClose: () => void;
+  onOrderCancel: (orderItemId: number) => void;
+  orderItemId: number;
 }
 
-function OrderCancelModal({ onClose, onOrderCancel }: OrderCancelModalProps) {
-    const handleOrderCancel = () => {
-        console.log('Order cancel...');
-        onOrderCancel();
-    };
+function OrderCancelModal({ onClose, onOrderCancel, orderItemId}: OrderCancelModalProps) {
+  // const handleOrderCancel = () => {
+  //   console.log('Order cancel...');
+  //   onOrderCancel();
+  // };
 
-    return (
-        <ModalBackdrop onClick={onClose}>
-            <ModalContainer onClick={e => e.stopPropagation()}>
-                <ModalText>정말 주문취소 하시겠어요..? 😿</ModalText>
-                <OrderCancelButton onClick={handleOrderCancel}>주문취소</OrderCancelButton>
-                <CloseButton onClick={onClose}>닫기</CloseButton>
-            </ModalContainer>
-        </ModalBackdrop>
-    );
+  return (
+    <ModalBackdrop onClick={onClose}>
+      <ModalContainer onClick={e => e.stopPropagation()}>
+        <ModalText>정말 주문취소 하시겠어요..? 😿</ModalText>
+        <OrderCancelButton onClick={() => onOrderCancel(orderItemId)}>주문취소</OrderCancelButton>
+        <CloseButton onClick={onClose}>닫기</CloseButton>
+      </ModalContainer>
+    </ModalBackdrop>
+  );
 }
 
 export default OrderCancelModal;

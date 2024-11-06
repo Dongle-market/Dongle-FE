@@ -11,3 +11,14 @@ export const getOrderInfo = async (): Promise<Order[]> => {
     throw new Error("Failed to fetch order data");
   }
 }
+
+// 개별 주문 항목 취소 함수
+export const cancelOrderItem = async (orderItemId: number): Promise<void> => {
+  try {
+    const response = await Server.delete(`/order/item/${orderItemId}`);
+    console.log('Order item deleted successfully:', response.data);
+    return response.data;
+  } catch {
+    throw new Error("Failed to delete order item");
+  }
+}

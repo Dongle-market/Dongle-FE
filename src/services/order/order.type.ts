@@ -2,6 +2,7 @@
 
 // 주문 항목에 대한 인터페이스
 export interface OrderItem {
+  orderItemId: number;
   itemId: number;
   title: string;
   image: string;
