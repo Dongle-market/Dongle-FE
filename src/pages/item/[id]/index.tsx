@@ -9,6 +9,8 @@ import { ItemAPI } from "@/services/item/item";
 import { useRouter } from "next/router";
 import { removeHtmlTags } from "@/utils/removeHtmlTags";
 import FallbackComponent from "@/components/common/Fallback";
+import LoadingComponent from "@/components/common/Loading";
+import Image from "next/image";
 
 interface CartItem {
     id: number;
@@ -71,6 +73,13 @@ const DetailImage = styled.img`
     width: 100%;
 `;
 
+const SkeletonImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`
+
+
 interface Item {
     itemId: number;
     image: string;
@@ -96,6 +105,7 @@ export default function ItemPage() {
     const router = useRouter();
     const { id } = router.query;  // URL에서 id 가져오기
     const [item, setItem] = useState<Item>();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -105,12 +115,19 @@ export default function ItemPage() {
                     setItem(data);
                 } catch (error) {
                     console.error("Failed to fetch data:", error);
+                } finally {
+                    setIsLoading(false);
                 }
             }
         };
         fetchData();
     }, [id]);
 
+    if (isLoading) return (
+        <LoadingComponent>
+            <SkeletonImage src="/images/skeleton/itempage_skeleton.png" alt="skeleton" />
+        </LoadingComponent>
+    );
     if (!item) return <FallbackComponent />;
 
     const getCategoryName = (key: string): string => {
