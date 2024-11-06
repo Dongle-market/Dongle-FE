@@ -79,7 +79,7 @@ export default function FoodPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ItemAPI.fetchCategoryData(speciesValue, subValue, orderValue);
+        const data = await ItemAPI.fetchCategoryData(subValue, orderValue);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -92,10 +92,10 @@ export default function FoodPage() {
   const categoryOptions = speciesValue === 'cat'
     ? [
         { label: "전체", sub: "" },
-        { label: "캔/통조림", sub: "can" },
+        { label: "캔/통조림", sub: "soft" },
         { label: "건식사료", sub: "dry" },
         { label: "습식사료", sub: "wet" },
-        { label: "에어/동결사료", sub: "air" },
+        // { label: "에어/동결사료", sub: "soft" },
       ]
     : [
         { label: "전체", sub: "" },
