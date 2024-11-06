@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 
 const LogoContainer = styled.div`
   display: flex;
-  gap: 2px
+  gap: 2px;
 `;
 
 const LogoWrapper = styled.div`
