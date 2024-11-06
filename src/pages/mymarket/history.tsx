@@ -201,29 +201,30 @@ export default function HistoryPage() {
               </OrderDateWrapper>
               {order.orderItems.length > 0 ? (
                 <OrderItemContainer>
-                <DeliveryStatusWrapper>
-                  <DeliveryStatus>{order.status}</DeliveryStatus>
-                  <Icon>|</Icon>
-                  <DeliveryDate>{formatDeliveryDate(order.orderDate)} 도착</DeliveryDate>
-                </DeliveryStatusWrapper>
-                {order.orderItems.map(item => (
-                  <HistoryItem
-                    key={item.itemId}
-                    itemId={item.itemId}
-                    orderItemId={item.orderItemId}
-                    imageUrl={item.image}
-                    name={item.title}
-                    price={item.price}
-                    orderDate={order.orderDate}
-                    selectedPetIds={item.pets}
-                    amount={item.itemCount}
-                    cartItems={cartItems}
-                    onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}
-                  />
-                ))}
-              </OrderItemContainer>
+                  <DeliveryStatusWrapper>
+                    <DeliveryStatus>{order.status}</DeliveryStatus>
+                    <Icon>|</Icon>
+                    <DeliveryDate>{formatDeliveryDate(order.orderDate)} 도착</DeliveryDate>
+                  </DeliveryStatusWrapper>
+                  {order.orderItems.map(item => (
+                    <HistoryItem
+                      key={item.itemId}
+                      itemId={item.itemId}
+                      orderId={order.orderId}
+                      orderItemId={item.orderItemId}
+                      imageUrl={item.image}
+                      name={item.title}
+                      price={item.price}
+                      orderDate={order.orderDate}
+                      selectedPetIds={item.pets}
+                      amount={item.itemCount}
+                      cartItems={cartItems}
+                      onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}
+                    />
+                  ))}
+                </OrderItemContainer>
               ) : (
-                  <AllOrderCancelText>모든 주문이 취소되었습니다.</AllOrderCancelText>
+                <AllOrderCancelText>모든 주문이 취소되었습니다.</AllOrderCancelText>
               )}
             </DateGroupContainer>
           ))
