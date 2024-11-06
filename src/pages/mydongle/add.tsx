@@ -280,6 +280,7 @@ export default function MyDongleAddPage() {
       onClose: () =>
           router.push("/mydongle"),
       });
+      console.error(error);
     }
   };
 
