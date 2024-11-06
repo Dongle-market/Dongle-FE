@@ -6,6 +6,8 @@ import MainHeader from "@/components/header/MainHeader";
 import FooterNav from "@/components/navbar/MainFooterNav";
 import Banner from "@/components/main/Banner";
 import MainItem from "@/components/items/MainItem";
+import { UserResponse } from '@/services/users/users.type';
+import { getUserInfo } from '@/services/users/users';
 
 interface Item {
   itemId: number;
@@ -86,6 +88,21 @@ export default function PetHome() {
   const [species, setSpecies] = useState<Species>("dog");
   const [mainCategory, setMainCategory] = useState<MainCategory | null>(null);
   const [products, setProducts] = useState<{ [key: string]: Item[] }>({});
+  const [userData, setUserData] = useState<UserResponse>();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await getUserInfo();
+        console.log(data);
+        setUserData(data);
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
