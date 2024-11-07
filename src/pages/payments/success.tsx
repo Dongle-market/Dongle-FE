@@ -6,7 +6,7 @@ import styled from "styled-components";
 import HistoryItem from "@/components/items/HistoryItem";
 import { getOrderInfo } from "@/services/order/order";
 import { Order } from "@/services/order/order.type";
-import BigRocketSvg from "../../../public/svgs/element/rocket_big.svg";
+import RocketSuccessSvg from "../../../public/svgs/element/rocket_success.svg";
 
 const initialCartItems = [
   { id: 1, imageurl: '/images/Son&Jeon.png', name: '왜저뤠ㅞㅞ~~', price: 34000 },
@@ -22,15 +22,39 @@ const initialCartItems = [
 ];
 
 const DateGroupContainer = styled.div`
-  margin-bottom: 12px;
+  margin-bottom: 32px;
   padding: 16px;
   background-color: #FFFFFF;
 `;
 
+const RocketText = styled.div`
+  font-size: 20px;
+  color: #35241E;
+  font-weight: 600;
+`;
+
 const DeliveryText = styled.div`
-  font-size: 32px;
+  font-size: 20px;
   color: #47DE60;;
   text-align: center;
+`;
+
+const OwnerText = styled.div`
+  font-size: 12px;
+  color: #35241E;
+  padding-left: 4px;
+`;
+
+const RocketTextWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 const DeliveryTextWrapper = styled.div`
@@ -49,6 +73,12 @@ const OrderItemContainer = styled.div`
   margin-top: 16px;
   max-height: 360px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const AllOrderCancelText = styled.div`
@@ -63,12 +93,11 @@ const ConfirmButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   bottom: 120px;
   width: calc(100% - 32px);
   height: 40px;
   padding: 16px;
-  margin: 16px;
+  margin: 32px 16px;
   border-radius: 8px;
   color: white;
   background-color: #ED6648;
@@ -81,32 +110,62 @@ const NonConfirmButton = styled(ConfirmButton)`
   cursor: none;
 `
 
-const TextContainer = styled.div`
+const OrderCompleteWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  padding: 16px;
   gap: 4px;
 `;
 
 const OrderCompleteText = styled.div`
-  font-size: 24px;
-  color: #352412;
+  font-size: 20px;
+  color: black;
+`;
+
+const OrderCompleteBoldText = styled.div`
+  font-size: 20px;
+  color: black;
   font-weight: 600;
 `;
 
-const TextWrappper = styled.div`
+const TotalPriceContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 0;
+  margin: 0 16px;
+  box-sizing: border-box;
+  width: calc(100% - 32px);
+  border-top: 1px solid #D9D9D9;
+  border-bottom: 1px solid #D9D9D9;
+`;
+
+const TotalPriceText = styled.div`
+  font-size: 16px;
+  color: black;
+  font-weight: 600;
+`;
+
+const PayDetailContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
   align-items: center;
 `;
 
-const OrderText = styled.div`
-  font-size: 16px;
-  color: black;
-  font-weight: 400;
+const PayDetailText = styled.div`
+  font-size: 12px;
+  color: #9D9D9D;
 `;
+
+const TotalAmount = styled.div`
+  font-size: 16px;
+  color: red;
+  font-weight: 600;
+`;
+
 
 function formatAmount(amount: string | string[] | undefined): string {
   if (Array.isArray(amount)) {
@@ -170,47 +229,57 @@ export default function SuccessPage() {
     <div className="page">
       <PaymentsHeader />
       <div className='content'>
-          {orders && orders.length > 0 ? (
-            orders.filter(order => order.orderId.toString() === orderId).map((order) => (
-              <DateGroupContainer key={order.orderId}>
+        <OrderCompleteWrapper>
+          <OrderCompleteBoldText>주문이 완료</OrderCompleteBoldText>
+          <OrderCompleteText>되었습니다. 감사합니다🐶</OrderCompleteText>
+        </OrderCompleteWrapper>
+        {orders && orders.length > 0 ? (
+          orders.filter(order => order.orderId.toString() === orderId).map((order) => (
+            <DateGroupContainer key={order.orderId}>
+              <TitleWrapper>
                 <DeliveryTextWrapper>
-                  <BigRocketSvg />
+                  <RocketTextWrapper>
+                    <RocketSuccessSvg />
+                    <RocketText>동글로켓배송</RocketText>
+                  </RocketTextWrapper>
                   <DeliveryText>{`내일(${getNextDayOfWeek(order.orderDate)}) 도착 보장`}</DeliveryText>
                 </DeliveryTextWrapper>
-                {order.orderItems.length > 0 ? (
-                  <OrderItemContainer>
-                    {order.orderItems.map(item => (
-                      <HistoryItem
-                        key={item.itemId}
-                        itemId={item.itemId}
-                        orderId={order.orderId}
-                        orderItemId={item.orderItemId}
-                        imageurl={item.image}
-                        name={item.title}
-                        price={item.price}
-                        orderDate={order.orderDate}
-                        selectedPetIds={item.pets}
-                        amount={item.itemCount}
-                        cartItems={cartItems}
-                        onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}
-                      />
-                    ))}
-                  </OrderItemContainer>
-                ) : (
-                  <AllOrderCancelText>결제오류🚨</AllOrderCancelText>
-                )}
-              </DateGroupContainer>
-            ))
-          ) : (
-            <span>주문 확인중...</span>
-          )}
-          <TextContainer>
-            <OrderCompleteText>주문이 완료되었어요🐶</OrderCompleteText>
-            <TextWrappper>
-              <OrderText>주문번호: {orderId}</OrderText>
-              <OrderText>결제금액: {formatAmount(amount)}원</OrderText>
-            </TextWrappper>
-          </TextContainer>
+                <OwnerText>판매자: 동글마켓 | 주문번호: {orderId}</OwnerText>
+              </TitleWrapper>
+              {order.orderItems.length > 0 ? (
+                <OrderItemContainer>
+                  {order.orderItems.map(item => (
+                    <HistoryItem
+                      key={item.itemId}
+                      itemId={item.itemId}
+                      orderId={order.orderId}
+                      orderItemId={item.orderItemId}
+                      imageurl={item.image}
+                      name={item.title}
+                      price={item.price}
+                      orderDate={order.orderDate}
+                      selectedPetIds={item.pets}
+                      amount={item.itemCount}
+                      cartItems={cartItems}
+                      onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}
+                    />
+                  ))}
+                </OrderItemContainer>
+              ) : (
+                <AllOrderCancelText>결제오류🚨</AllOrderCancelText>
+              )}
+            </DateGroupContainer>
+          ))
+        ) : (
+          <span>주문 확인중...</span>
+        )}
+        <TotalPriceContainer>
+          <TotalPriceText>총 결제금액</TotalPriceText>
+          <PayDetailContainer>
+            <PayDetailText>동글페이 / 일시불</PayDetailText>
+            <TotalAmount>{formatAmount(amount)}원</TotalAmount>
+          </PayDetailContainer>
+        </TotalPriceContainer>
         {isFinished ? (
           <ConfirmButton onClick={() => router.push('/mymarket/history')}>돌아가기</ConfirmButton>
         ) : (
