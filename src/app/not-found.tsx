@@ -1,4 +1,4 @@
-
+'use client'
 
 import FallbackComponent from "@/components/common/Fallback";
 
