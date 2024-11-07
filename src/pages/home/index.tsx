@@ -96,8 +96,8 @@ export default function PetHome() {
     const fetchUserData = async () => {
       try {
         const data: UserResponse = await getUserInfo();
-        setPetId(data.pets.length > 0 ? data.pets[0].petId : null);
-        setCartCount(data.carts.length);
+        setPetId(data.petId);
+        setCartCount(data.cartCount);
       } catch (error) {
         console.error("Failed to fetch user data", error);
       }

@@ -11,6 +11,6 @@ export interface UserResponse {
   phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
-  pets: PetType[];
-  carts: CartType[];
+  petId: number;
+  cartCount: number;
 }
