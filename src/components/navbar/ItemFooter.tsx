@@ -10,6 +10,7 @@ import PlusSvg from '/public/svgs/element/plus.svg';
 import MinusSvg from '/public/svgs/element/minus.svg';
 import { useRouter } from 'next/router';
 import { CartItemType } from '@/types/item';
+import { addCartItem } from '@/services/carts/carts';
 
 const Wrapper = styled.div`
   padding: 24px 16px;
@@ -150,7 +151,10 @@ const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
     );
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    const data = await addCartItem(currItem.itemId, currItem.itemCount);
+    // const curr
+    console.log(data);
     toast(
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         장바구니에 상품을 담았습니다.

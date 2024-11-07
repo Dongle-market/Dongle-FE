@@ -14,17 +14,22 @@ export interface CartItemType {
   count: number;
 }
 
-export interface GetAllMyCartsResponseType extends CartType {
+export interface MyCartType extends CartType {
   item: CartItemType;
 }
 
+export interface GetAllMyCartsResponseType {
+  carts: MyCartType[];
+  cartCount: number;
+}
+
 export interface AddCartItemResponseType extends CartType {
-  userId: number;
-  itemId: number;
+  cartCount: number;
 }
 
 export interface PatchCartItemResponseType extends CartType {}
 
 export interface DeleteCartItemResponseType {
   message: string;
+  cartCount: number;
 }
