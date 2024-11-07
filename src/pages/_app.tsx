@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
         crossOrigin="anonymous" 
         onLoad={kakaoInit}
       />
-      <ToastContainer position="bottom-center" autoClose={5000} />
+      <ToastContainer autoClose={1000} />
       <Component {...pageProps} />
     </>
 

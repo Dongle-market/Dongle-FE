@@ -145,7 +145,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageurl
             await cancelOrderItem(orderItemId);
             toast('주문 취소가 완료되었습니다.', {
                 position: "top-center",
-                autoClose: 3000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -169,7 +168,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ itemId, orderItemId, imageurl
             console.error('Error cancelling order:', error);
             toast('해당 주문상품이 존재하지 않습니다.', {
                 position: "top-center",
-                autoClose: 3000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
