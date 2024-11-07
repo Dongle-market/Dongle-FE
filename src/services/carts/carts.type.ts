@@ -7,6 +7,7 @@ export interface CartItemType {
   itemId: number;
   categoryId: number;
   title: string;
+  image: string;
   lprice: number;
   hprice: number;
   mallName: string;

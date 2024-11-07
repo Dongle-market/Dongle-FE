@@ -17,8 +17,14 @@ export const addCartItem = async (itemId: number, itemCount: number): Promise<Ad
 }
 
 export const patchCartItem = async (cartId: number, itemCount: number): Promise<PatchCartItemResponseType> => {
-  const response = await Server.patch(`/cart/${cartId}`, { itemCount });
-  return response.data;
+  try {
+    const response = await Server.patch(`/cart/${cartId}`, { itemCount });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error();
+  }
+
 }
 
 export const deleteCartItem = async (cartId: number): Promise<DeleteCartItemResponseType> => {

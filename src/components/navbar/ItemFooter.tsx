@@ -9,8 +9,10 @@ import HeartFullSvg from '/public/svgs/element/heart_full.svg';
 import PlusSvg from '/public/svgs/element/plus.svg';
 import MinusSvg from '/public/svgs/element/minus.svg';
 import { useRouter } from 'next/router';
-import { CartItemType } from '@/types/item';
+import { CartItemType, ClientCartItemType } from '@/types/item';
 import { addCartItem } from '@/services/carts/carts';
+import { useUserStore } from '@/store/user';
+import Link from 'next/link';
 
 const Wrapper = styled.div`
   padding: 24px 16px;
@@ -104,7 +106,7 @@ const HeartContainer = styled.div`
 `;
 
 interface ItemFooterProps {
-  item: CartItemType;
+  item: ClientCartItemType;
   profileImages: string[];
 }
 
@@ -116,7 +118,7 @@ const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
     Array(profileImages.length).fill(false)
   );
   
-  const [currItem, setCurrItem] = useState<CartItemType>({
+  const [currItem, setCurrItem] = useState<ClientCartItemType>({
     itemId: item.itemId,
     imageurl: item.imageurl,
     brand: item.brand,
@@ -124,6 +126,7 @@ const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
     price: item.price,
     itemCount: item.itemCount,
   });
+  const setCartCount = useUserStore((state) => state.setCartCount);
 
   const formattedPrice = `${currItem.price.toLocaleString('ko-KR')} 원`;
 
@@ -152,17 +155,28 @@ const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
   };
 
   const handleAddToCart = async () => {
-    const data = await addCartItem(currItem.itemId, currItem.itemCount);
-    // const curr
-    console.log(data);
-    toast(
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        장바구니에 상품을 담았습니다.
-        <button onClick={() => router.push('/mymarket/cart')} style={{ background: 'none', border: 'none', color: 'white', textDecoration: 'underline' }}>
-          바로가기
-        </button>
-      </div>
-    );
+    try {
+      const data = await addCartItem(currItem.itemId, currItem.itemCount);
+      setCartCount(data.cartCount);
+      toast(
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          장바구니에 상품을 담았습니다.
+          <Link href="/mymarket/cart" style={{ background: 'none', border: 'none', color: 'white', textDecoration: 'underline' }}>
+            바로가기
+          </Link>
+        </div>
+      );
+    } catch (error) {
+      toast(
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          이미 담긴 상품입니다. 장바구니로 이동하시겠어요?
+          <Link href="/mymarket/cart" style={{ background: 'none', border: 'none', color: 'white', textDecoration: 'underline' }}>
+            바로가기
+          </Link>
+        </div>
+      );
+    }
+
   };
 
   const handleOrderClick = () => {

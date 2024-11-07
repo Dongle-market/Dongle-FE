@@ -1,6 +1,3 @@
-import { CartType } from "../carts/carts.type";
-import { PetType } from "../pets/pets.type";
-
 export interface UserResponse {
   userId: number;
   userName: string;

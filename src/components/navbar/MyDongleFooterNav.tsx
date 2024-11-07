@@ -76,7 +76,7 @@ const MyDongleFooterNav = () => {
             <DogHomeSvg />
             <span>동글 홈</span>
         </IconContainer>
-        <IconContainer href="/mymarket/wishlist">
+        <IconContainer href="/mymarket/history">
             <BasketSvg />
             <span>마이 마켓</span>
         </IconContainer>
