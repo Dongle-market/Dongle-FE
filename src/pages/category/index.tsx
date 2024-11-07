@@ -86,7 +86,7 @@ export default function CategoryPage() {
                     <Item href="/category/snack?species=dog&sub=wet">수제간식</Item>
                     <Item href="/category/snack?species=dog&sub=soft">빵/케이크</Item>
                     <Item href="/category/snack?species=dog&sub=dry">뼈간식</Item>
-                    <Item href="/category/snack?species=dog&sub=soft">껌</Item>
+                    {/* <Item href="/category/snack?species=dog&sub=soft">껌</Item> */}
                 </Content>
             </ContentContainer>
             <ContentContainer>
@@ -111,7 +111,7 @@ export default function CategoryPage() {
                     <Item href="/category/food?species=cat&sub=soft">캔/통조림</Item>
                     <Item href="/category/food?species=cat&sub=dry">건식사료</Item>
                     <Item href="/category/food?species=cat&sub=wet">습식사료</Item>
-                    <Item href="/category/food?species=cat&sub=soft">에어/동결사료</Item>
+                    {/* <Item href="/category/food?species=cat&sub=soft">에어/동결사료</Item> */}
                 </Content>
             </ContentContainer>
             <ContentContainer>
