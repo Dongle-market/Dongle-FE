@@ -39,58 +39,42 @@ const AddPetIcon = styled.div`
   cursor: pointer;
 `;
 
-interface PetType {
+interface PetProfileType {
   petId: number;
   profileImg: string;
   petName: string;
 }
 
+interface MyDongleHeaderProps {
+  petProfiles: PetProfileType[];
+}
 
-const MyDongleHeader = () => {
+const MyDongleHeader: React.FC<MyDongleHeaderProps> = ({ petProfiles }) => {
   const router = useRouter();
   const [isActive, setIsActive] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
-  const [petProfiles, setPetProfiles] = useState<PetType[]>([]);
 
   useEffect(() => {
     const isAddPage = router.pathname === '/mydongle/add';
-  
-    if (isAddPage) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  
+
     const urlParams = new URLSearchParams(window.location.search);
     const editPetId = urlParams.get("id") ? Number(urlParams.get("id")) : null;
-  
+
     if (isAddPage && editPetId) {
       setSelectedProfile(editPetId);
-      setIsActive(false);
     } else {
-      const urlPetId = Number(router.asPath.split("/").pop());
+      const urlSegments = router.asPath.split("/");
+      const lastSegment = urlSegments[urlSegments.length - 1];
+      const urlPetId = Number(lastSegment);
       if (!isNaN(urlPetId)) {
         setSelectedProfile(urlPetId);
+        setIsActive(false);
+      } else {
+        setSelectedProfile(null);
+        setIsActive(true);
       }
     }
-  
-    const fetchPets = async () => {
-      try {
-        const pets = await getPets();
-        const formattedPets = pets.map((pet) => ({
-          petId: pet.petId,
-          profileImg: imageMap[pet.profileImg] || "",
-          petName: pet.petName,
-        }));
-        setPetProfiles(formattedPets);
-      } catch (error) {
-        console.error("반려동물 데이터를 불러오는 데 실패했습니다.", error);
-      }
-    };
-  
-    fetchPets();
-  }, [router.pathname]);
-  
+  }, [router.asPath]);
 
   const handleAddPetClick = () => {
     if (!isActive) {
@@ -101,23 +85,24 @@ const MyDongleHeader = () => {
   const handleProfileClick = (petId: number) => {
     router.push(`/mydongle/${petId}`);
     setSelectedProfile(petId);
+    setIsActive(false);
   };
 
   return (
     <PetHeader>
-    {petProfiles.map((profile) => (
-      <PetProfile
-        key={profile.petId}
-        selected={selectedProfile === profile.petId}
-        onClick={() => handleProfileClick(profile.petId)}
-      >
-        <Image src={profile.profileImg} alt={profile.petName} layout="fill" objectFit="cover" />
-      </PetProfile>
-    ))}
-    <AddPetIcon onClick={handleAddPetClick}>
-      {isActive ? <AddPetActiveSvg /> : <AddPetSvg />}
-    </AddPetIcon>
-  </PetHeader>
+      {petProfiles && petProfiles.map((profile) => (
+        <PetProfile
+          key={profile.petId}
+          selected={selectedProfile === profile.petId}
+          onClick={() => handleProfileClick(profile.petId)}
+        >
+          <Image src={profile.profileImg} alt={profile.petName} layout="fill" objectFit="cover" />
+        </PetProfile>
+      ))}
+      <AddPetIcon onClick={handleAddPetClick}>
+        {isActive ? <AddPetActiveSvg /> : <AddPetSvg />}
+      </AddPetIcon>
+    </PetHeader>
   );
 };
 
