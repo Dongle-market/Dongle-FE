@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import CloseSvg from "../../../public/svgs/element/close.svg";
 import { ItemType } from "@/types/item";
 import { useItemRouting } from "@/utils/itemIdRouting";
+import { removeHtmlTags } from "@/utils/removeHtmlTags";
+import { formatDeliveryDate } from "@/utils/formatDeliveryDate";
 
 const MyDongleHistoryItemContainer = styled.div`
   display: flex;
@@ -71,17 +73,17 @@ const OrderDate = styled.div`
   color: #545454;
 `;
 
-const CartButton = styled.button`
-  background-color: #f1f1f1;
-  font-family: "Pretendard";
-  font-size: 12px;
-  color: #5e5e5e;
-  text-decoration: none;
-  border-radius: 30px;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-`;
+// const CartButton = styled.button`
+//   background-color: #f1f1f1;
+//   font-family: "Pretendard";
+//   font-size: 12px;
+//   color: #5e5e5e;
+//   text-decoration: none;
+//   border-radius: 30px;
+//   border: none;
+//   padding: 8px 12px;
+//   cursor: pointer;
+// `;
 
 interface MyDongleHistoryItemProps {
   itemId: ItemType['itemId'];
@@ -187,15 +189,15 @@ const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, image
       <Image src={imageurl} alt={name} onClick={() => routeToItem(itemId)} />
       <InfoContainer>
         <Info>
-          <Name onClick={() => routeToItem(itemId)}>{name}</Name>
+          <Name onClick={() => routeToItem(itemId)}>{removeHtmlTags(name)}</Name>
           <CloseSvg onClick={removeItem} style={{ cursor: "pointer" }} />
         </Info>
         <Price onClick={() => routeToItem(itemId)}>
           {price.toLocaleString()} 원
         </Price>
         <Info>
-          <OrderDate>{orderDate} 구매</OrderDate>
-          <CartButton>장바구니 담기</CartButton>
+          <OrderDate>{formatDeliveryDate(orderDate)} 구매</OrderDate>
+          {/* <CartButton>장바구니 담기</CartButton> */}
         </Info>
       </InfoContainer>
     </MyDongleHistoryItemContainer>

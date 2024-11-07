@@ -5,7 +5,7 @@ import { useItemRouting } from '@/utils/itemIdRouting';
 import styled from 'styled-components';
 import HeartSvg from '/public/svgs/element/heart.svg';
 import FullHeartSvg from '/public/svgs/element/heart_full.svg';
-import SelectPets from './SelectPets';
+import WishSelectPets from './WishSelectPets';
 import { removeHtmlTags } from '@/utils/removeHtmlTags';
 import { CategoryItemType } from '@/types/item';
 
@@ -107,7 +107,7 @@ export function CategoryItemWrapper({ item, hasAdditionalElement = false, defaul
     return (
         <CategoryItemContainer>
             <CategoryItem item={item} defaultLiked={defaultLiked}/>
-            {hasAdditionalElement && <SelectPets selectedPetIds={item.selectedPetIds || []} isInteractive={isInteractive} />}
+            {hasAdditionalElement && <WishSelectPets selectedPetIds={item.selectedPetIds || []} isInteractive={isInteractive} />}
         </CategoryItemContainer>
     );
 }

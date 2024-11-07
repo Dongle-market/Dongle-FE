@@ -1,5 +1,7 @@
 // services/order/order.type.ts
 
+import { PetType } from "../pets/pets.type";
+
 // 주문 항목에 대한 인터페이스
 export interface OrderItem {
   orderItemId: number;
@@ -23,4 +25,13 @@ export interface Order {
   addrDetail: string;
   phoneNumber: string;
   orderItems: OrderItem[];
+}
+
+export interface AddPetToOrderItemResponseType {
+  orderItemId: number;
+  orderId: number;
+  itemId: number;
+  price: number;
+  itemCount: number;
+  pets: PetType[];
 }

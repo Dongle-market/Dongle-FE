@@ -1,6 +1,8 @@
 // SelectPets.tsx
 'use client';
 
+import { addPetToOrderItem, deletePetToOrderItem } from '@/services/order/order';
+import { PetDigestType } from '@/services/pets/pets.type';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -9,61 +11,65 @@ const SelectPetsContainer = styled.div`
   gap: 6px;
   overflow-x: auto;
   white-space: nowrap;
-  
+
   ::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
 `;
 
-const SelectPetsItem = styled.div<{ $isSelected: boolean; $backgroundUrl: string }>`
+const SelectPetsItem = styled.img<{ $isSelected: boolean; }>`
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background-image: url(${props => props.$backgroundUrl});
-  background-size: cover;
-  background-position: center;
   border: 2px solid ${props => props.$isSelected ? '#E55737' : '#F8F8F8'};
-  cursor: 'pointer';
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: border-color 0.2s;
 `;
 
+
+export const imageMap: { [key: number]: string } = {
+  1: "/images/petprofileimages/dog1.png",
+  2: "/images/petprofileimages/cat1.png",
+  3: "/images/petprofileimages/dog2.png",
+  4: "/images/petprofileimages/cat2.png",
+  5: "/images/petprofileimages/dog3.png",
+  6: "/images/petprofileimages/cat3.png",
+};
+
 interface SelectPetsProps {
   selectedPetIds: number[];
   isInteractive: boolean;
+  petList: PetDigestType[];
+  orderItemId: number;
 }
 
-const SelectPets = ({ selectedPetIds }: SelectPetsProps) => {
+const SelectPets = ({ orderItemId, selectedPetIds, petList }: SelectPetsProps) => {
   const [selectedIndexes, setSelectedIndexes] = React.useState<number[]>(selectedPetIds);
-
-  const toggleSelection = (petId: number) => {
-    setSelectedIndexes(prev => {
-      if (prev.includes(petId)) {
-        return prev.filter(id => id !== petId);
-      } else {
-        return [...prev, petId];
-      }
-    });
+  
+  const toggleSelection = async (petId: number) => {
+    if (selectedIndexes.includes(petId)) {
+      const data = await deletePetToOrderItem(orderItemId, petId);
+      const newPetIndexes = data.pets.length > 0 ? data.pets.map(pet => pet.petId) : [];
+      setSelectedIndexes(newPetIndexes);
+    } else {
+      const data = await addPetToOrderItem(orderItemId, petId);
+      const newPetIndexes = data.pets.length > 0 ? data.pets.map(pet => pet.petId) : [];
+      setSelectedIndexes(newPetIndexes);
+    }
   };
-
-  const pets = [
-    { id: 1, imageurl: '/images/selectpets/DogEmoji.png' },
-    { id: 2, imageurl: '/images/selectpets/CatEmoji.png' },
-    { id: 3, imageurl: '/images/selectpets/MouseEmoji.png' }
-  ];
-
 
   return (
     <SelectPetsContainer>
-      {pets.map(pet => (
+      {petList.length > 0 && petList.map(pet => (
         <SelectPetsItem
-          key={pet.id}
-          $isSelected={selectedIndexes.includes(pet.id)}
-          $backgroundUrl={pet.imageurl}
-          onClick={() => toggleSelection(pet.id)}
+          key={pet.petId}
+          src={imageMap[pet.profileImg]}
+          $isSelected={selectedIndexes.includes(pet.petId)}
+          onClick={() => toggleSelection(pet.petId)}
         />
       ))}
     </SelectPetsContainer>

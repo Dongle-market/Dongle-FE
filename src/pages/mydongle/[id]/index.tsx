@@ -11,89 +11,7 @@ import { PetInfoResponseType } from "@/services/pets/pets.type";
 import { getPetInfo, getPets } from "@/services/pets/pets";
 import { useParams } from "next/navigation";
 import router from "next/router";
-
-
-const initialHistoryItems = [
-  {
-    itemId: 1,
-    image: "/images/An.png",
-    title: "보류입니다.",
-    lprice: 34000,
-    date: "2024-10-30",
-    selectedPetIds: [1, 2],
-  },
-  {
-    itemId: 2,
-    image: "/images/Baek.png",
-    title: "어얼얽--",
-    lprice: 34000,
-    date: "2024-10-30",
-    selectedPetIds: [2],
-  },
-  {
-    itemId: 3,
-    image: "/images/An.png",
-    title: "고기가 이븐하게 익지 않아써여",
-    lprice: 34000,
-    date: "2024-10-30",
-  },
-  {
-    itemId: 4,
-    image: "/images/Son&Jeon.png",
-    title: "왜저뤠ㅞㅞㅞ~~",
-    lprice: 34000,
-    date: "2024-10-30",
-    selectedPetIds: [3],
-  },
-  {
-    itemId: 5,
-    image: "/images/An.png",
-    title: "저는 채소의 익힘 정도를 굉장히 중요시 여기거덩여",
-    lprice: 34000,
-    date: "2024-11-04",
-    selectedPetIds: [1, 2],
-  },
-  {
-    itemId: 6,
-    image: "/images/Baek.png",
-    title: "이거 빠쓰자나~ 어허~ 재밌네 이거ㅎㅎ",
-    lprice: 34000,
-    date: "2024-11-04",
-    selectedPetIds: [2],
-  },
-  {
-    itemId: 7,
-    image: "/images/product1.png",
-    title: "이건 장바구니에 없는 거지롱~~‼️",
-    lprice: 34000,
-    date: "2024-11-04",
-    selectedPetIds: [1, 2, 3],
-  },
-  {
-    itemId: 8,
-    image: "/images/product1.png",
-    title: "도치빌 리더스",
-    lprice: 34000,
-    date: "2024-11-04",
-    selectedPetIds: [1, 2],
-  },
-  {
-    itemId: 9,
-    image: "/images/product1.png",
-    title: "도치빌 리더스",
-    lprice: 34000,
-    date: "2024-11-04",
-    selectedPetIds: [1, 3],
-  },
-  {
-    itemId: 10,
-    image: "/images/product1.png",
-    title: "도치빌 리더스",
-    lprice: 34000,
-    date: "2024-11-04",
-    selectedPetIds: [1, 2, 3],
-  },
-];
+import { deletePetToOrderItem } from "@/services/order/order";
 
 const PetsPortWrapper = styled.div`
   display: flex;
@@ -181,17 +99,12 @@ interface PetProfileType {
   petName: string;
 }
 
-interface SelectedItems {
-  [key: number]: boolean;
-}
-
 export default function MyDonglePage() {
   const params = useParams<{ id: string }>();
   const petId = params ? parseInt(params.id) : 0;
 
-  const [activeTab, setActiveTab] = useState(0);
-  const [items, setItems] = useState(initialHistoryItems);
-  const [, setSelectedItems] = useState<SelectedItems>({});
+  const [activeTab, setActiveTab] = useState(1);
+
   const [petData, setPetData] = useState<PetInfoResponseType>();
   const [petProfiles, setPetProfiles] = useState<PetProfileType[]>([]);
 
@@ -223,14 +136,10 @@ export default function MyDonglePage() {
     fetchData();
   }, [petId]);
 
-  const removeItem = (id: number) => {
-    const newItems = items.filter((item) => item.itemId !== id);
-    setItems(newItems);
-    setSelectedItems((prevState) => {
-      const newState: SelectedItems = { ...prevState };
-      delete newState[id];
-      return newState;
-    });
+  const removeItem = async (orderItemId: number, petId: number) => {
+    await deletePetToOrderItem(orderItemId, petId);
+    const data = await getPetInfo(petId);
+    setPetData(data);
   };
 
   return (
@@ -274,12 +183,12 @@ export default function MyDonglePage() {
                 {petData?.orderItems.map((item) => (
                   <MyDongleHistoryItem
                     itemId={item.itemId}
-                    key={item.itemId}
+                    key={item.orderItemId}
                     imageurl={item.image}
                     name={item.title}
                     price={item.price}
                     orderDate={item.orderDate}
-                    removeItem={() => removeItem(item.itemId)}
+                    removeItem={() => removeItem(item.orderItemId, petId)}
                   />
                 ))}
               </HistoryContainer>

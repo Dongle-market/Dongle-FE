@@ -12,6 +12,7 @@ import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType, PetInfoResponseType } from "@/services/pets/pets.type";
 import { postPet, getPetInfo, patchPet, DeletePet, getPets } from "@/services/pets/pets";
 import { imageMap } from "@/components/items/PetsPort";
+import { useUserStore } from "@/store/user";
 
 
 const TitleWrapper = styled.div`
@@ -223,6 +224,8 @@ export default function MyDongleAddPage() {
   const isFormFilled = Object.values(petInfo).every((value) => value !== "" && value !== 0);
   const [isEditMode, setIsEditMode] = useState(false);
   const [petProfiles, setPetProfiles] = useState<PetProfileType[]>([]);
+  const storePetId = useUserStore((state) => state.petId);
+  const setStorePetId = useUserStore((state) => state.setPetId);
 
   const router = useRouter();
   const { id } = router.query;
@@ -356,6 +359,7 @@ export default function MyDongleAddPage() {
       } else {
         const newPet = await postPet(petInfo);
         await fetchPets(); // 반려동물 목록 업데이트
+        if (storePetId === null) setStorePetId(newPet.petId);
         toast.success("반려동물이 등록되었습니다.", {
           onClose: () => router.push(`/mydongle/${newPet.petId}`),
           autoClose: 1000,
@@ -375,11 +379,13 @@ export default function MyDongleAddPage() {
 
       const remainingPets = await getPets();
       if (remainingPets.length > 0) {
+        setStorePetId(remainingPets[0].petId);
         toast.success("반려동물 정보가 삭제되었습니다.", {
           onClose: () => router.push(`/mydongle/${remainingPets[0].petId}`),
           autoClose: 1000,
         });
       } else {
+        setStorePetId(null);
         setPetInfo({
           petName: "",
           profileImg: 0,

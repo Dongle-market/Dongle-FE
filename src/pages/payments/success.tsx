@@ -245,6 +245,7 @@ export default function SuccessPage() {
                       price={item.price}
                       orderDate={order.orderDate}
                       selectedPetIds={item.pets}
+                      petList={[]}
                       amount={item.itemCount}
                       onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}
                     />
