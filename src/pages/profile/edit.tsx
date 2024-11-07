@@ -117,12 +117,6 @@ const EmailInput = styled(Input)`
   padding-right: 30px;
 `;
 
-const SkeletonImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-`;
-
 export default function ProfileEditPage() {
     const [user, setUser] = useState<UserResponse | null>(null);
     const [isChanged, setIsChanged] = useState(false);
@@ -186,11 +180,7 @@ interface UserInputData {
     fetchUserInfo();
   }, []); 
 
-  if(isLoading) return (
-    <LoadingComponent>
-      <SkeletonImage src="/images/skeleton/userpage_skeleton.png" alt="skeleton" />
-    </LoadingComponent>
-  )
+  if(isLoading) return <LoadingComponent src="/images/skeleton/userpage_skeleton.png" />
   
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;

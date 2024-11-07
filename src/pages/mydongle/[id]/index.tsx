@@ -12,6 +12,7 @@ import { getPetInfo, getPets } from "@/services/pets/pets";
 import { useParams } from "next/navigation";
 import router from "next/router";
 import { deletePetToOrderItem } from "@/services/order/order";
+import LoadingComponent from "@/components/common/Loading";
 
 const PetsPortWrapper = styled.div`
   display: flex;
@@ -108,6 +109,8 @@ export default function MyDonglePage() {
   const [petData, setPetData] = useState<PetInfoResponseType>();
   const [petProfiles, setPetProfiles] = useState<PetProfileType[]>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (!petId) {
       // id가 없을 경우 /mydongle/add로 리다이렉트
@@ -130,6 +133,8 @@ export default function MyDonglePage() {
         setPetData(data);
       } catch (error) {
         console.error("반려동물 정보를 불러오는 데 실패했습니다.", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -141,6 +146,8 @@ export default function MyDonglePage() {
     const data = await getPetInfo(petId);
     setPetData(data);
   };
+
+  if (isLoading) return <LoadingComponent src="/images/skeleton/petpage_skeleton.png" />
 
   return (
     <div className="page">

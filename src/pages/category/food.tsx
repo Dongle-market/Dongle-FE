@@ -9,6 +9,7 @@ import FooterNav from "@/components/navbar/CategoryFooterNav";
 import ProductRow from "@/components/items/CategoryItemsRow";
 import SelectBox from "@/components/header/SelectBox";
 import styled from 'styled-components';
+import LoadingComponent from '@/components/common/Loading';
 
 const ProductListContainer = styled.div`
   padding: 16px;
@@ -75,6 +76,7 @@ export default function FoodPage() {
   });
 
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +88,8 @@ export default function FoodPage() {
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -145,6 +149,8 @@ export default function FoodPage() {
     }
     return result;
   }, [products]);
+
+  if (isLoading) return <LoadingComponent src="/images/skeleton/cartpage_skeleton.png" />
 
   return (
     <div className="page">

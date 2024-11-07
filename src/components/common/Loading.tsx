@@ -32,18 +32,21 @@ const LoadingBackground = styled.div`
   z-index: 50;
 `;
 
-export default function LoadingComponent({
-  children,
-}: {
-  children: ReactNode;
-}) {
+const SkeletonImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`
+
+
+export default function LoadingComponent({src}: {src: string}): ReactNode {
   return (
     <Wrapper className="page">
       <LoadingContainer>
         <LoadingCatSvg />
       </LoadingContainer>
       <LoadingBackground>
-        {children}
+        <SkeletonImage src={src} alt="skeleton" />
       </LoadingBackground>
     </Wrapper>
   );
