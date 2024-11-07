@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType, PetInfoResponseType } from "@/services/pets/pets.type";
-import { postPet, GetResponse, patchPet, DeletePet } from "@/services/pets/pets";
+import { postPet, getPetInfo, patchPet, DeletePet } from "@/services/pets/pets";
 
 
 const TitleWrapper = styled.div`
@@ -221,7 +221,7 @@ export default function MyDongleAddPage() {
   useEffect(() => {
     if (id) {
       setIsEditMode(true);
-      GetResponse(Number(id))
+      getPetInfo(Number(id))
         .then((data: PetInfoResponseType) => {
           setName(data.pet.petName);
           setAnimalType(data.pet.type);
