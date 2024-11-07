@@ -6,10 +6,11 @@ import MyDongleFooterNav from "@/components/navbar/MyDongleFooterNav";
 import Header from "@/components/header/CategoryHeader";
 import MyDongleHeader from "@/components/header/MyDongleHeader";
 import MyDongleHistoryItem from "@/components/items/MyDongleHistoryItem";
-import PetsPort from "@/components/items/PetsPort";
+import PetsPort, { imageMap } from "@/components/items/PetsPort";
 import { PetInfoResponseType } from "@/services/pets/pets.type";
-import { getPetInfo } from "@/services/pets/pets";
+import { getPetInfo, getPets } from "@/services/pets/pets";
 import { useParams } from "next/navigation";
+import router from "next/router";
 
 
 const initialHistoryItems = [
@@ -174,6 +175,12 @@ const HistoryContainer = styled.div`
   box-sizing: border-box;
 `;
 
+interface PetProfileType {
+  petId: number;
+  profileImg: string;
+  petName: string;
+}
+
 interface SelectedItems {
   [key: number]: boolean;
 }
@@ -186,15 +193,34 @@ export default function MyDonglePage() {
   const [items, setItems] = useState(initialHistoryItems);
   const [, setSelectedItems] = useState<SelectedItems>({});
   const [petData, setPetData] = useState<PetInfoResponseType>();
+  const [petProfiles, setPetProfiles] = useState<PetProfileType[]>([]);
 
   useEffect(() => {
-    const fetchPetData = async () => {
-      const data = await getPetInfo(petId);
-      setPetData(data);
-    };
-    if (petId) {
-      fetchPetData();
+    if (!petId) {
+      // id가 없을 경우 /mydongle/add로 리다이렉트
+      router.replace("/mydongle/add");
+      return;
     }
+    const fetchData = async () => {
+      try {
+        // 전체 반려동물 목록 가져오기
+        const pets = await getPets();
+        const formattedPets: PetProfileType[] = pets.map((pet) => ({
+          petId: pet.petId,
+          profileImg: imageMap[pet.profileImg] || "",
+          petName: pet.petName,
+        }));
+        setPetProfiles(formattedPets);
+
+        // 선택된 반려동물 정보 가져오기
+        const data = await getPetInfo(Number(petId));
+        setPetData(data);
+      } catch (error) {
+        console.error("반려동물 정보를 불러오는 데 실패했습니다.", error);
+      }
+    };
+
+    fetchData();
   }, [petId]);
 
   const removeItem = (id: number) => {
@@ -211,7 +237,7 @@ export default function MyDonglePage() {
     <div className="page">
       <Header />
       <div className="mydonglecontent">
-        <MyDongleHeader />
+        <MyDongleHeader petProfiles={petProfiles} />
         <PetsPortWrapper>
           {petData && petData.pet && (
             <PetsPort
