@@ -11,6 +11,7 @@ import { PetInfoResponseType } from "@/services/pets/pets.type";
 import { getPetInfo, getPets } from "@/services/pets/pets";
 import { useParams } from "next/navigation";
 import router from "next/router";
+import { deletePetToOrderItem } from "@/services/order/order";
 
 const PetsPortWrapper = styled.div`
   display: flex;
@@ -98,10 +99,6 @@ interface PetProfileType {
   petName: string;
 }
 
-interface SelectedItems {
-  [key: number]: boolean;
-}
-
 export default function MyDonglePage() {
   const params = useParams<{ id: string }>();
   const petId = params ? parseInt(params.id) : 0;
@@ -139,14 +136,10 @@ export default function MyDonglePage() {
     fetchData();
   }, [petId]);
 
-  const removeItem = (id: number) => {
-    // const newItems = items.filter((item) => item.itemId !== id);
-    // setItems(newItems);
-    // setSelectedItems((prevState) => {
-    //   const newState: SelectedItems = { ...prevState };
-    //   delete newState[id];
-    //   return newState;
-    // });
+  const removeItem = async (orderItemId: number, petId: number) => {
+    await deletePetToOrderItem(orderItemId, petId);
+    const data = await getPetInfo(petId);
+    setPetData(data);
   };
 
   return (
@@ -190,12 +183,12 @@ export default function MyDonglePage() {
                 {petData?.orderItems.map((item) => (
                   <MyDongleHistoryItem
                     itemId={item.itemId}
-                    key={item.itemId}
+                    key={item.orderItemId}
                     imageurl={item.image}
                     name={item.title}
                     price={item.price}
                     orderDate={item.orderDate}
-                    removeItem={() => removeItem(item.itemId)}
+                    removeItem={() => removeItem(item.orderItemId, petId)}
                   />
                 ))}
               </HistoryContainer>

@@ -18,7 +18,13 @@ export interface PetType {
   userId: number;
 }
 
+export interface PetDigestType {
+  petId: number;
+  profileImg: number;
+}
+
 export interface OrderItemType {
+  orderItemId: number;
   itemId: number;
   title: string;
   image: string;

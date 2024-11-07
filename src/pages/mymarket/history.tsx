@@ -12,6 +12,8 @@ import EmptyOrderSvg from '../../../public/svgs/element/empty_order.svg';
 import Link from 'next/link';
 import { getOrderInfo } from '../../../src/services/order/order'; // API 호출 함수 임포트
 import { Order } from '../../../src/services/order/order.type'; // 타입 임포트
+import { PetDigestType, PetType } from '@/services/pets/pets.type';
+import { getPets } from '@/services/pets/pets';
 
 const DateGroupContainer = styled.div`
   margin-bottom: 8px;
@@ -136,8 +138,23 @@ function formatDeliveryDate(dateStr: string): string {
 export default function HistoryPage() {
   const [, setItemCount] = useState(0);
   const [orders, setOrders] = useState<Order[]>([]); // 빈 배열로 초기화
+  const [petList, setPetList] = useState<PetDigestType[]>([]);
 
   useEffect(() => {
+    const loadPets = async () => {
+      try {
+        const petData: PetType[] = await getPets();
+        const digestList = petData.map(pet => ({
+          petId: pet.petId,
+          profileImg: pet.profileImg,
+        }));
+        setPetList(digestList);
+      } catch (error) {
+        console.error(error);
+        setPetList([]);
+      }
+    };
+
     const loadOrders = async () => {
       try {
         const orderData: Order[] = await getOrderInfo(); // Order[] 타입으로 받음
@@ -148,6 +165,7 @@ export default function HistoryPage() {
       }
     };
 
+    loadPets();
     loadOrders();
   }, []);
 
@@ -202,6 +220,7 @@ export default function HistoryPage() {
                       name={item.title}
                       price={item.price}
                       orderDate={order.orderDate}
+                      petList={petList}
                       selectedPetIds={item.pets}
                       amount={item.itemCount}
                       onDeleteSuccess={() => handleDeleteSuccess(item.itemId)}

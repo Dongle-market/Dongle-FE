@@ -12,6 +12,7 @@ import { removeHtmlTags } from "@/utils/removeHtmlTags";
 import { cancelOrderItem } from "../../../src/services/order/order";
 import { addCartItem } from "@/services/carts/carts";
 import { useUserStore } from "@/store/user";
+import { PetDigestType } from "@/services/pets/pets.type";
 
 const HistoryItemContainer = styled.div`
   display: flex;
@@ -123,6 +124,7 @@ interface HistoryItemProps {
   name: string;
   price: number;
   orderDate: string;
+  petList: PetDigestType[];
   selectedPetIds: number[];
   amount: number;
   onDeleteSuccess: (itemId: number) => void;
@@ -134,6 +136,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
   imageurl,
   name,
   price,
+  petList,
   selectedPetIds,
   amount,
   onDeleteSuccess,
@@ -255,7 +258,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
             </AmountWrapper>
           </Info2>
           <Info>
-            <SelectPets selectedPetIds={selectedPetIds} isInteractive={false} />
+            <SelectPets orderItemId={orderItemId} petList={petList} selectedPetIds={selectedPetIds} isInteractive={false} />
             <CartButton onClick={() => handleAddToCart(itemId)}>
               장바구니 담기
             </CartButton>

@@ -1,6 +1,6 @@
 // services/order/order.ts
 import { Server } from "../axios.setting";
-import { Order } from "./order.type";
+import { AddPetToOrderItemResponseType, Order } from "./order.type";
 
 // 주문 정보를 가져오는 함수
 export const getOrderInfo = async (): Promise<Order[]> => {
@@ -20,5 +20,26 @@ export const cancelOrderItem = async (orderItemId: number): Promise<void> => {
     return response.data;
   } catch {
     throw new Error("Failed to delete order item");
+  }
+}
+
+export const addPetToOrderItem = async (orderItemId: number, petId: number): Promise<AddPetToOrderItemResponseType> => {
+  try {
+    const response = await Server.post(`/order/pet`, {
+      orderItemId,
+      petId
+    });
+    return response.data;
+  } catch {
+    throw new Error("Failed to add pet to order item");
+  }
+}
+
+export const deletePetToOrderItem = async (orderItemId: number, petId: number): Promise<AddPetToOrderItemResponseType> => {
+  try {
+    const response = await Server.delete(`/order/pet/${orderItemId}/${petId}`);
+    return response.data;
+  } catch {
+    throw new Error("Failed to delete pet to order item");
   }
 }
