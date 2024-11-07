@@ -73,11 +73,11 @@ const subCategories = {
   },
 } as const;
 
-const mainCategoryMapping: { [key: string]: string } = {
-  사료: "food",
-  간식: "snack",
-  용품: "product",
-};
+// const mainCategoryMapping: { [key: string]: string } = {
+//   사료: "food",
+//   간식: "snack",
+//   용품: "product",
+// };
 
 type MainCategory = keyof (typeof subCategories)["dog"];
 // type SubCategory = (typeof subCategories)["dog"][MainCategory][number];
@@ -114,7 +114,7 @@ export default function PetHome() {
           const subCategoryList = subCategories[species][mainCategory];
           const results = await Promise.all(
             subCategoryList.map((sub) =>
-              ItemAPI.fetchItemData(sub).catch(() => [])
+              ItemAPI.fetchCategoryData(sub, "dog", species === "cat" ? "low" : "").catch(() => [])
             )
           );
 
@@ -132,7 +132,7 @@ export default function PetHome() {
           const categories = ["food", "snack", "product"];
           const results = await Promise.all(
             categories.map(() =>
-              ItemAPI.fetchItemData('').catch(() => [])
+              ItemAPI.fetchCategoryData("", "dog", species === "cat" ? "low" : "").catch(() => [])
             )
           );
 
