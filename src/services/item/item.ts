@@ -62,12 +62,13 @@ export class ItemAPI {
   }
 
   // species와 category에 따라 아이템 데이터 가져오기 (order 기본값 설정 포함)
-  static async fetchItemData(sub: string, species: string = 'dog', category: string = 'food') {
+  static async fetchItemData(sub: string) {
     try {
-      const order = species === 'cat' ? 'low' : undefined; // cat일 경우 order=low
-      const response = await Server.get(`/item/${category}`, {
-        params: { species, sub, order },
-      });
+      // category와 species 값을 강제 설정
+      const response = await Server.get(`/item/food`, {
+      params: { species: 'dog', sub },
+
+    });
       return response.data;
     } catch (error) {
       console.error(error);
