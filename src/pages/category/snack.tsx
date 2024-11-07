@@ -79,7 +79,10 @@ export default function SnackPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ItemAPI.fetchCategoryData(subValue, orderValue);
+        // cat일 때도 dog 데이터를 요청하고, 정렬 방식은 다르게 적용
+        const finalSpecies = speciesValue === "cat" ? "dog" : speciesValue;
+        const finalOrder = speciesValue === "cat" && orderValue === "" ? "low" : orderValue;
+        const data = await ItemAPI.fetchCategoryData(subValue, finalSpecies, finalOrder);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
