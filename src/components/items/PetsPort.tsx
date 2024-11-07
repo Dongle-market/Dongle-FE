@@ -144,40 +144,6 @@ export const imageMap: { [key: number]: string } = {
   6: "/images/petprofileimages/cat3.png",
 };
 
-// const Pet = [
-//   {
-//     pet: {
-//       petId: 13,
-//       petName: "동글이",
-//       profileImg: 1,
-//       type: "dog",
-//       gender: "male",
-//       age: 5,
-//       userId: 2,
-//     },
-//     orderItems: [
-//       {
-//         itemId: 21,
-//         title:
-//           "슈퍼벳 리퀴드잇 노령견 <b>강아지 습식사료</b> 액상사료 회복식 노견 200ml 5개",
-//         image:
-//           "https://shopping-phinf.pstatic.net/main_8358452/83584527138.7.jpg",
-//         price: 29000,
-//         orderDate: "2024-11-04T00:27:57.031Z",
-//       },
-//       {
-//         itemId: 22,
-//         title:
-//           "개똑 유기농 <b>강아지 습식사료</b> 치매예방 그레인프리 쇠고기맛 12개입 1팩",
-//         image:
-//           "https://shopping-phinf.pstatic.net/main_8239770/82397707016.3.jpg",
-//         price: 16900,
-//         orderDate: "2024-11-04T01:56:52.659Z",
-//       },
-//     ],
-//   },
-// ];
-
 interface PetsPortType {
   petId: number;
   petName: string;
@@ -233,7 +199,7 @@ const PetsPort = ({
                 </InputWrapper>
                 <InputWrapper>
                   <InputTitle>여권번호</InputTitle>
-                  <InputContent>URECA001</InputContent>
+                  <InputContent>URECA{petId.toString().padStart(3, '0')}</InputContent>
                 </InputWrapper>
               </InputContainer>
               <InputContainer>
@@ -243,7 +209,7 @@ const PetsPort = ({
                 </InputWrapper>
                 <InputWrapper>
                   <InputTitle>성별</InputTitle>
-                  <InputContent>{gender}</InputContent>
+                  <InputContent>{gender==='male' ? '남' : '여'}</InputContent>
                 </InputWrapper>
               </InputContainer>
             </InputBody>
