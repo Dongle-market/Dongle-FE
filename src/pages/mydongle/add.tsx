@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType, PetInfoResponseType, PetType } from "@/services/pets/pets.type";
 import { postPet, getPetInfo, patchPet, DeletePet, getPets } from "@/services/pets/pets";
+import Link from "next/link";
 
 
 const TitleWrapper = styled.div`
@@ -165,7 +166,6 @@ const RegistButton = styled.div<{ $isActive: boolean }>`
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
-  /* margin-top: 12px; */
   text-align: center;
   `;
 
@@ -177,7 +177,6 @@ const EditButton = styled.div<{ $isActive: boolean }>`
   border: ${(props) => (props.$isActive ? "none" : "1px solid #d9d9d9")};
   border-radius: 10px;
   font-size: 16px;
-  /* margin-top: 12px; */
   text-align: center;
   cursor: pointer;
 `;
@@ -191,7 +190,6 @@ const RemoveButton = styled.div`
   border: 1px #d9d9d9;
   border-radius: 10px;
   font-size: 16px;
-  /* margin-top: 12px; */
   text-align: center;
   cursor: pointer;
 `;
@@ -213,6 +211,7 @@ export default function MyDongleAddPage() {
     age: 0,
   });
 
+  const [toastInfo, setToastInfo] = useState(false);
   const [nameError, setNameError] = useState("");
   const [ageError, setAgeError] = useState("");
   const isFormFilled = Object.values(petInfo).every((value) => value !== "" && value !== 0);
@@ -237,7 +236,18 @@ export default function MyDongleAddPage() {
         })
         .catch(() => toast.error("반려동물 정보를 불러오는 데 실패했습니다."));
     }
+    else {
+      setToastInfo(true);
+    }
   }, [id]);
+
+  // useEffect(() => {
+    
+  //   if (toastInfo) {
+  //     router.push('/mydongle/add');
+  //     setToastInfo(false);
+  //   }
+  // }, [toastInfo]);
 
   const handleProfileImageChange = (imageId: number, event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -303,9 +313,8 @@ export default function MyDongleAddPage() {
         router.push(`/mydongle/${newPet.petId}`); // 새로 생성된 petId로 라우팅
       }
     } catch (error) {
-      toast.error("반려동물 정보 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", {
-        onClose: () => router.push(`/mydongle/add`),
-      });
+      toast.error("반려동물 정보 처리 중 오류가 생겼습니다.");
+      setToastInfo(true);
       console.error(error);
     }
   };
@@ -314,7 +323,7 @@ export default function MyDongleAddPage() {
     if (!id) return;
     try {
       await DeletePet(Number(id));
-      toast.success("반려동물이 삭제되었습니다.");
+      toast.success("반려동물 정보가 삭제되었습니다.");
   
       // 남아있는 반려동물 리스트를 가져와서 조건에 따라 라우팅
       const remainingPets = await getPets();
@@ -323,25 +332,22 @@ export default function MyDongleAddPage() {
         router.push(`/mydongle/${remainingPets[0].petId}`);
       } else {
         // 반려동물이 없을 경우 /mydongle/add로 이동
-        router.push(`/mydongle/add`);
+        router.push('/mydongle/add');
       }
     } catch (error) {
-      toast.error("반려동물 삭제 중 오류가 발생했습니다.", {
-        onClose: () => router.push(`/mydongle/add`),
-      });
+      toast.error("반려동물 정보 삭제 중 오류가 생겼습니다.");
+      // setTimeout(() => {
+      //   router.push('/mydongle/add');
+      // }, 500);
       console.error(error);
     }
   };
-
+  
   return (
     <div className="page">
       <MyDongleHeader />
-      <ToastContainer
-        position="top-center"
-        style={{ marginTop: "32px", boxSizing: "border-box" }}
-        toastStyle={{ margin: "16px", width: "calc(100% - 32px)" }}
-      />
       <div className="content">
+      <ToastContainer position="top-center" style={{ marginTop: "32px" }} />
         <MyDongleAddHeader />
         <TitleWrapper>
             <Title>ARRIVAL CARD</Title>
@@ -436,7 +442,7 @@ export default function MyDongleAddPage() {
               <AgeInputWrapper>
               <AgeInput
                 type="text"
-                value={petInfo.age}
+                value={petInfo.age === 0 ? "" : petInfo.age}
                 onChange={handleAgeChange}
               />
 
