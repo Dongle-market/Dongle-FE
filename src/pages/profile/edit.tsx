@@ -123,8 +123,6 @@ const SkeletonImage = styled.img`
     object-fit: cover;
 `;
 
-
-
 export default function ProfileEditPage() {
     const [user, setUser] = useState<UserResponse | null>(null);
     const [isChanged, setIsChanged] = useState(false);

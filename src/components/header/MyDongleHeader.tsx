@@ -6,9 +6,6 @@ import Image from "next/image";
 import AddPetSvg from "../../../public/svgs/pet/addpet.svg";
 import AddPetActiveSvg from "../../../public/svgs/pet/addpetactive.svg";
 import { useRouter } from "next/router";
-import { getPets } from "@/services/pets/pets";
-import { imageMap } from "../items/PetsPort";
-import { useParams } from "next/navigation";
 
 const PetHeader = styled.div`
   padding-top: 36px;

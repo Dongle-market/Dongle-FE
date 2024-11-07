@@ -9,9 +9,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import MyDongleAddHeader from "../../components/header/MyDongleHeader";
-import { PetPostRequestType, PetInfoResponseType, PetType } from "@/services/pets/pets.type";
+import { PetPostRequestType, PetInfoResponseType } from "@/services/pets/pets.type";
 import { postPet, getPetInfo, patchPet, DeletePet, getPets } from "@/services/pets/pets";
-import Link from "next/link";
 import { imageMap } from "@/components/items/PetsPort";
 
 
@@ -274,24 +273,24 @@ export default function MyDongleAddPage() {
     fetchPets();
   }, []);
 
-  const toastOptions = {
-    position: "top-center",
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    style: {
-      marginTop: '82px',
-      marginRight: '16px',
-      marginLeft: '16px',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
-      borderRadius: '16px',
-      color: 'white',
-      textAlign: 'center'
-    }
-  };
+  // const toastOptions = {
+  //   position: "top-center",
+  //   hideProgressBar: true,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   style: {
+  //     marginTop: '82px',
+  //     marginRight: '16px',
+  //     marginLeft: '16px',
+  //     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  //     backdropFilter: 'blur(10px)',
+  //     WebkitBackdropFilter: 'blur(10px)',
+  //     borderRadius: '16px',
+  //     color: 'white',
+  //     textAlign: 'center'
+  //   }
+  // };
 
   const handleProfileImageChange = (imageId: number, event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -333,7 +332,7 @@ export default function MyDongleAddPage() {
     }
   };
 
-  const handleInputChange = (key: keyof PetPostRequestType, value: any) => {
+  const handleInputChange = (key: keyof PetPostRequestType, value: string | number) => {
     setPetInfo((prev) => ({
       ...prev,
       [key]: value,
