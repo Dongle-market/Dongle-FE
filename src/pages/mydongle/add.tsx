@@ -202,6 +202,7 @@ const pets = [
   { id: 5, imageurl: "/images/petprofileimages/dog3.png" },
   { id: 6, imageurl: "/images/petprofileimages/cat3.png" },
 ];
+
 export default function MyDongleAddPage() {
   const [petInfo, setPetInfo] = useState<PetPostRequestType>({
     petName: "",
@@ -216,7 +217,7 @@ export default function MyDongleAddPage() {
   const [ageError, setAgeError] = useState("");
   const isFormFilled = Object.values(petInfo).every((value) => value !== "" && value !== 0);
   const [isEditMode, setIsEditMode] = useState(false);
-  
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -242,12 +243,31 @@ export default function MyDongleAddPage() {
   }, [id]);
 
   // useEffect(() => {
-    
+
   //   if (toastInfo) {
   //     router.push('/mydongle/add');
   //     setToastInfo(false);
   //   }
   // }, [toastInfo]);
+
+  const toastOptions = {
+    position: "top-center",
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    style: {
+      marginTop: '82px',
+      marginRight: '16px',
+      marginLeft: '16px',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+      borderRadius: '16px',
+      color: 'white',
+      textAlign: 'center'
+    }
+  };
 
   const handleProfileImageChange = (imageId: number, event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -273,11 +293,11 @@ export default function MyDongleAddPage() {
       }));
     }
   };
-  
+
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputAge = event.target.value;
     const ageNumber = Number(inputAge);
-  
+
     if (!inputAge || (ageNumber >= 0 && ageNumber <= 30)) {
       setAgeError("");
       setPetInfo((prev) => ({
@@ -287,30 +307,34 @@ export default function MyDongleAddPage() {
     } else {
       setAgeError("숫자만 입력 가능합니다. (0~30)");
     }
-  };  
+  };
 
   const handleInputChange = (key: keyof PetPostRequestType, value: any) => {
     setPetInfo((prev) => ({
       ...prev,
       [key]: value,
     }));
-  };  
+  };
 
   const handleSubmit = async () => {
     if (!isFormFilled) {
       toast.error("모든 필드를 올바르게 입력해주세요.");
       return;
     }
-  
+
     try {
       if (isEditMode && id) {
         await patchPet(Number(id), petInfo);
-        toast.success("반려동물 정보가 수정되었습니다.");
-        router.push(`/mydongle/${id}`);
+        toast.success("반려동물 정보가 수정되었습니다.", {
+          onClose: () => router.push(`/mydongle/${id}`),
+          autoClose: 1000
+        });
       } else {
         const newPet = await postPet(petInfo); // 새로 생성된 pet 객체
-        toast.success("반려동물이 등록되었습니다.");
-        router.push(`/mydongle/${newPet.petId}`); // 새로 생성된 petId로 라우팅
+        toast.success("반려동물이 등록되었습니다.", {
+          onClose: () => router.push(`/mydongle/${newPet.petId}`), // 새로 생성된 petId로 라우팅,
+          autoClose: 1000 // 5초 후 자동 닫기 설정, 필요에 따라 조절 가능
+        });
       }
     } catch (error) {
       toast.error("반려동물 정보 처리 중 오류가 생겼습니다.");
@@ -323,16 +347,24 @@ export default function MyDongleAddPage() {
     if (!id) return;
     try {
       await DeletePet(Number(id));
-      toast.success("반려동물 정보가 삭제되었습니다.");
-  
+
       // 남아있는 반려동물 리스트를 가져와서 조건에 따라 라우팅
       const remainingPets = await getPets();
       if (remainingPets.length > 0) {
         // 가장 첫 번째 반려동물의 petId로 이동
-        router.push(`/mydongle/${remainingPets[0].petId}`);
+        toast.success("반려동물 정보가 삭제되었습니다.", {
+          onClose: () => router.push(`/mydongle/${remainingPets[0].petId}`),
+          autoClose: 1000 // 5초 후 자동 닫기 설정, 필요에 따라 조절 가능
+        });
       } else {
         // 반려동물이 없을 경우 /mydongle/add로 이동
-        router.push('/mydongle/add');
+        toast.success("반려동물 정보가 삭제되었습니다.", {
+          onClose: () => {
+            window.location.href = '/mydongle/add'; // 페이지 이동
+            window.location.reload(); // 새로고침
+          },
+          autoClose: 1000 // 5초 후 자동 닫기 설정, 필요에 따라 조절 가능
+        });
       }
     } catch (error) {
       toast.error("반려동물 정보 삭제 중 오류가 생겼습니다.");
@@ -342,36 +374,36 @@ export default function MyDongleAddPage() {
       console.error(error);
     }
   };
-  
+
   return (
     <div className="page">
       <MyDongleHeader />
       <div className="content">
-      <ToastContainer position="top-center" style={{ marginTop: "32px" }} />
+        <ToastContainer position="top-center" style={{ marginTop: "32px", padding: "0 16px"}} />
         <MyDongleAddHeader />
         <TitleWrapper>
-            <Title>ARRIVAL CARD</Title>
-            <SemiTitle>입국신고서 (댕냥전용)</SemiTitle>
+          <Title>ARRIVAL CARD</Title>
+          <SemiTitle>입국신고서 (댕냥전용)</SemiTitle>
         </TitleWrapper>
         <Wrapper>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <RegistrationCard>
-            <InfoContainer>
-              <Question>반려동물의 프로필 사진을 선택해주세요.</Question>
-              <PetProfileImageOptionContainer>
-              {pets.map((pet) => (
-                <PetProfileImageOptionButton
-                  key={pet.id}
-                  selected={petInfo.profileImg === pet.id}
-                  imageurl={pet.imageurl}
-                  onClick={(e) => handleProfileImageChange(pet.id, e)}
-                />
-              ))}
-              </PetProfileImageOptionContainer>
-            </InfoContainer>
-            <InfoContainer>
-              <Question>반려동물의 이름을 입력하세요.</Question>
-              {nameError && (
+          <form onSubmit={(e) => e.preventDefault()}>
+            <RegistrationCard>
+              <InfoContainer>
+                <Question>반려동물의 프로필 사진을 선택해주세요.</Question>
+                <PetProfileImageOptionContainer>
+                  {pets.map((pet) => (
+                    <PetProfileImageOptionButton
+                      key={pet.id}
+                      selected={petInfo.profileImg === pet.id}
+                      imageurl={pet.imageurl}
+                      onClick={(e) => handleProfileImageChange(pet.id, e)}
+                    />
+                  ))}
+                </PetProfileImageOptionContainer>
+              </InfoContainer>
+              <InfoContainer>
+                <Question>반려동물의 이름을 입력하세요.</Question>
+                {nameError && (
                   <div
                     style={{
                       color: "red",
@@ -384,16 +416,16 @@ export default function MyDongleAddPage() {
                     {nameError}
                   </div>
                 )}
-             <NameInput
-                type="text"
-                value={petInfo.petName}
-                onChange={handleNameChange}
-              />
-            </InfoContainer>
-            <InfoContainer>
-              <Question>반려동물의 종은 무엇인가요?</Question>
-              <ButtonWrapper>
-              <OptionButton
+                <NameInput
+                  type="text"
+                  value={petInfo.petName}
+                  onChange={handleNameChange}
+                />
+              </InfoContainer>
+              <InfoContainer>
+                <Question>반려동물의 종은 무엇인가요?</Question>
+                <ButtonWrapper>
+                  <OptionButton
                     selected={petInfo.type === "dog"}
                     onClick={() => handleInputChange("type", "dog")}
                   >
@@ -405,12 +437,12 @@ export default function MyDongleAddPage() {
                   >
                     😺 고양이
                   </OptionButton>
-              </ButtonWrapper>
-            </InfoContainer>
-            <InfoContainer>
-              <Question>반려동물의 성별은 무엇인가요?</Question>
-              <ButtonWrapper>
-              <OptionButton
+                </ButtonWrapper>
+              </InfoContainer>
+              <InfoContainer>
+                <Question>반려동물의 성별은 무엇인가요?</Question>
+                <ButtonWrapper>
+                  <OptionButton
                     selected={petInfo.gender === "male"}
                     onClick={() => handleInputChange("gender", "male")}
                   >
@@ -422,11 +454,11 @@ export default function MyDongleAddPage() {
                   >
                     여
                   </OptionButton>
-              </ButtonWrapper>
-            </InfoContainer>
-            <InfoContainer>
-              <Question>반려동물의 나이는 몇 살인가요?</Question>
-              {ageError && (
+                </ButtonWrapper>
+              </InfoContainer>
+              <InfoContainer>
+                <Question>반려동물의 나이는 몇 살인가요?</Question>
+                {ageError && (
                   <div
                     style={{
                       color: "red",
@@ -439,40 +471,40 @@ export default function MyDongleAddPage() {
                     {ageError}
                   </div>
                 )}
-              <AgeInputWrapper>
-              <AgeInput
-                type="text"
-                value={petInfo.age === 0 ? "" : petInfo.age}
-                onChange={handleAgeChange}
-              />
+                <AgeInputWrapper>
+                  <AgeInput
+                    type="text"
+                    value={petInfo.age === 0 ? "" : petInfo.age}
+                    onChange={handleAgeChange}
+                  />
 
-                <AgeLabel>살</AgeLabel>
+                  <AgeLabel>살</AgeLabel>
                 </AgeInputWrapper>
               </InfoContainer>
               <ButtonContainer>
-              {isEditMode ? (
-                isFormFilled ? (
-                  <>
-                    <EditButton $isActive={true} onClick={handleSubmit}>수정하기</EditButton>
-                    <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
-                  </>
+                {isEditMode ? (
+                  isFormFilled ? (
+                    <>
+                      <EditButton $isActive={true} onClick={handleSubmit}>수정하기</EditButton>
+                      <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
+                    </>
+                  ) : (
+                    <>
+                      <EditButton $isActive={false}>수정하기</EditButton>
+                      <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
+                    </>
+                  )
                 ) : (
-                  <>
-                    <EditButton $isActive={false}>수정하기</EditButton>
-                    <RemoveButton onClick={handleDelete}>삭제하기</RemoveButton>
-                  </>
-                )
-              ) : (
-                <RegistButton $isActive={isFormFilled} onClick={isFormFilled ? handleSubmit : undefined}>
-                  등록하기
-                </RegistButton>
-              )}
-          </ButtonContainer>
-          </RegistrationCard>
-        </form>
-      </Wrapper>
-    </div>
-    <MyDongleFooterNav />
+                  <RegistButton $isActive={isFormFilled} onClick={isFormFilled ? handleSubmit : undefined}>
+                    등록하기
+                  </RegistButton>
+                )}
+              </ButtonContainer>
+            </RegistrationCard>
+          </form>
+        </Wrapper>
+      </div>
+      <MyDongleFooterNav />
     </div>
   );
 }
