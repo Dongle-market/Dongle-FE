@@ -1,5 +1,4 @@
 // /item/:itemId/payments.tsx
-'use client';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -18,6 +17,7 @@ import { CartItemType } from '@/types/item';
 import { UserResponse } from '@/services/users/users.type';
 import { postOrder } from '@/services/payments/payments';
 import { requestPayment } from '@/services/payments/toss';
+import { removeHtmlTags } from '@/utils/removeHtmlTags';
 
 const TossPayButtonWrapper = styled.div`
     display: flex;
@@ -151,7 +151,7 @@ export default function PaymentsPage() {
         setShowDetails(cartItems.length < 5); // 장바구니 상품이 5개 이하일 경우 펼치기
         if (cartItems && userData) {
             setTotalPrice(cartItems.reduce((acc, item) => acc + item.price*item.itemCount, 0));
-            setOrderName(`${cartItems[0].name} 외 ${cartItems.length}건`); // 토스 전송용 order name
+            setOrderName(`${removeHtmlTags(cartItems[0].name)} 외 ${cartItems.length}건`); // 토스 전송용 order name
             setOrderData({
                 receiverName: userData.userName,
                 addr: userData.addr || '서울특별시 강남구 선릉로 428',

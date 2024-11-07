@@ -1,7 +1,7 @@
 // OrderItem.tsx
-'use client';
 
 import { CartItemType } from '@/types/item';
+import { removeHtmlTags } from '@/utils/removeHtmlTags';
 import React from 'react';
 import styled from 'styled-components';
 // import XsmallSvg from '/public/svgs/element/x_small.svg';
@@ -87,10 +87,10 @@ const OrderItem: React.FC<OrderItemProps> = ({ cartItems }) => {
     <>
       {cartItems.map((item, index) => (
         <OrderItemContainer key={index}>
-          <ItemImg src={item.imageurl} alt={item.name} />
+          <ItemImg src={item.imageurl} alt={removeHtmlTags(item.name)} />
           <ItemInfoContainer>
             <ItemBrand>{item.brand}</ItemBrand>
-            <ItemName>{item.name}</ItemName>
+            <ItemName>{removeHtmlTags(item.name)}</ItemName>
 
             <PriceContainer>
               <ItemPrice>{(item.price * item.itemCount).toLocaleString()} 원</ItemPrice>
