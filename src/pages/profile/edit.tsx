@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import KaKaoTalkSvg from '../../../public/svgs/element/kakaotalk.svg';
 import BadgeSvg from '/public/svgs/element/badge.svg';
+import ErrorSvg from "/public/svgs/element/error.svg";
 import { getUserInfo, updateUserInfo } from '@/services/users/users';
 import { UserResponse } from '@/services/users/users.type';
 import LoadingComponent from '@/components/common/Loading';
@@ -122,12 +123,11 @@ const SkeletonImage = styled.img`
     object-fit: cover;
 `;
 
-
-
 export default function ProfileEditPage() {
     const [user, setUser] = useState<UserResponse | null>(null);
     const [isChanged, setIsChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [phoneError, setPhoneError] = useState("");
   
 // 1. UserInputData 인터페이스 정의
 interface UserInputData {
@@ -199,6 +199,23 @@ interface UserInputData {
         [name]: value
       }));
     };
+
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const input = event.target.value;
+      const inputNumber = input.replace(/\D/g, "");
+      
+      // 숫자가 아닌 문자가 포함된 경우에만 오류 메시지 표시
+      if (input !== inputNumber) {
+        setPhoneError("전화번호는 숫자만 입력해주세요.");
+      } else {
+        setPhoneError("");
+      }
+      setUserInputData((prev) => ({
+        ...prev,
+        phoneNumber: input.replace(/\D/g, ""),
+      }));
+    
+    };
   
     const patchUserInfo = async () => {
       try {
@@ -246,11 +263,25 @@ interface UserInputData {
             </InfoField>
             <InfoField>
               <Label>휴대폰 번호</Label>
+              {phoneError && (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "7px 0px 12px",
+                    }}
+                  >
+                    <ErrorSvg style={{ marginRight: "4px" }} />
+                    {phoneError}
+                  </div>
+                )}
               <Input
                 type="text"
                 name="phoneNumber"
                 value={userInputData.phoneNumber}
-                onChange={handleInputChange}
+                onChange={handlePhoneChange}
               />
             </InfoField>
             <InfoField>

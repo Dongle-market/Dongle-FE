@@ -1,5 +1,4 @@
 // MyDongleHeader.tsx
-"use client";
 
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -37,21 +36,42 @@ const AddPetIcon = styled.div`
   cursor: pointer;
 `;
 
-const petProfiles = [
-  { id: 1, src: "/images/selectpets/DogEmoji.png", alt: "Dog" },
-  { id: 2, src: "/images/selectpets/CatEmoji.png", alt: "Cat" }
-];
+interface PetProfileType {
+  petId: number;
+  profileImg: string;
+  petName: string;
+}
 
-const MyDongleHeader = () => {
+interface MyDongleHeaderProps {
+  petProfiles: PetProfileType[];
+}
+
+const MyDongleHeader: React.FC<MyDongleHeaderProps> = ({ petProfiles }) => {
   const router = useRouter();
   const [isActive, setIsActive] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
 
   useEffect(() => {
-    if (router.pathname === '/mydongle/add') {
-      setIsActive(true);
+    const isAddPage = router.pathname === '/mydongle/add';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const editPetId = urlParams.get("id") ? Number(urlParams.get("id")) : null;
+
+    if (isAddPage && editPetId) {
+      setSelectedProfile(editPetId);
+    } else {
+      const urlSegments = router.asPath.split("/");
+      const lastSegment = urlSegments[urlSegments.length - 1];
+      const urlPetId = Number(lastSegment);
+      if (!isNaN(urlPetId)) {
+        setSelectedProfile(urlPetId);
+        setIsActive(false);
+      } else {
+        setSelectedProfile(null);
+        setIsActive(true);
+      }
     }
-  }, [router.pathname]);
+  }, [router.asPath]);
 
   const handleAddPetClick = () => {
     if (!isActive) {
@@ -59,21 +79,21 @@ const MyDongleHeader = () => {
     }
   };
 
-  const handleProfileClick = (id: number) => {
-    if (router.pathname !== '/mydongle/add') {
-      setSelectedProfile(id);
-    }
+  const handleProfileClick = (petId: number) => {
+    router.push(`/mydongle/${petId}`);
+    setSelectedProfile(petId);
+    setIsActive(false);
   };
 
   return (
     <PetHeader>
-      {petProfiles.map((profile) => (
+      {petProfiles && petProfiles.map((profile) => (
         <PetProfile
-          key={profile.id}
-          selected={selectedProfile === profile.id}
-          onClick={() => handleProfileClick(profile.id)}
+          key={profile.petId}
+          selected={selectedProfile === profile.petId}
+          onClick={() => handleProfileClick(profile.petId)}
         >
-          <Image src={profile.src} alt={profile.alt} layout="fill" objectFit="cover" />
+          <Image src={profile.profileImg} alt={profile.petName} layout="fill" objectFit="cover" />
         </PetProfile>
       ))}
       <AddPetIcon onClick={handleAddPetClick}>
