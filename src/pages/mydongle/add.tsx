@@ -12,6 +12,7 @@ import MyDongleAddHeader from "../../components/header/MyDongleHeader";
 import { PetPostRequestType, PetInfoResponseType, PetType } from "@/services/pets/pets.type";
 import { postPet, getPetInfo, patchPet, DeletePet, getPets } from "@/services/pets/pets";
 import Link from "next/link";
+import { imageMap } from "@/components/items/PetsPort";
 
 
 const TitleWrapper = styled.div`
@@ -203,6 +204,12 @@ const pets = [
   { id: 6, imageurl: "/images/petprofileimages/cat3.png" },
 ];
 
+interface PetProfileType {
+  petId: number;
+  profileImg: string;
+  petName: string;
+}
+
 export default function MyDongleAddPage() {
   const [petInfo, setPetInfo] = useState<PetPostRequestType>({
     petName: "",
@@ -212,11 +219,11 @@ export default function MyDongleAddPage() {
     age: 0,
   });
 
-  const [toastInfo, setToastInfo] = useState(false);
   const [nameError, setNameError] = useState("");
   const [ageError, setAgeError] = useState("");
   const isFormFilled = Object.values(petInfo).every((value) => value !== "" && value !== 0);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [petProfiles, setPetProfiles] = useState<PetProfileType[]>([]);
 
   const router = useRouter();
   const { id } = router.query;
@@ -238,17 +245,34 @@ export default function MyDongleAddPage() {
         .catch(() => toast.error("반려동물 정보를 불러오는 데 실패했습니다."));
     }
     else {
-      setToastInfo(true);
+      setIsEditMode(false);
+      setPetInfo({
+        petName: "",
+        profileImg: 0,
+        type: "",
+        gender: "",
+        age: 0,
+      });
     }
   }, [id]);
 
-  // useEffect(() => {
+  const fetchPets = async () => {
+    try {
+      const pets = await getPets(); // PetType[]을 반환
+      const formattedPets: PetProfileType[] = pets.map((pet) => ({
+        petId: pet.petId,
+        profileImg: imageMap[pet.profileImg] || "",
+        petName: pet.petName,
+      }));
+      setPetProfiles(formattedPets);
+    } catch (error) {
+      console.error("반려동물 데이터를 불러오는 데 실패했습니다.", error);
+    }
+  };
 
-  //   if (toastInfo) {
-  //     router.push('/mydongle/add');
-  //     setToastInfo(false);
-  //   }
-  // }, [toastInfo]);
+  useEffect(() => {
+    fetchPets();
+  }, []);
 
   const toastOptions = {
     position: "top-center",
@@ -325,20 +349,21 @@ export default function MyDongleAddPage() {
     try {
       if (isEditMode && id) {
         await patchPet(Number(id), petInfo);
+        await fetchPets(); // 반려동물 목록 업데이트
         toast.success("반려동물 정보가 수정되었습니다.", {
           onClose: () => router.push(`/mydongle/${id}`),
-          autoClose: 1000
+          autoClose: 1000,
         });
       } else {
-        const newPet = await postPet(petInfo); // 새로 생성된 pet 객체
+        const newPet = await postPet(petInfo);
+        await fetchPets(); // 반려동물 목록 업데이트
         toast.success("반려동물이 등록되었습니다.", {
-          onClose: () => router.push(`/mydongle/${newPet.petId}`), // 새로 생성된 petId로 라우팅,
-          autoClose: 1000 // 5초 후 자동 닫기 설정, 필요에 따라 조절 가능
+          onClose: () => router.push(`/mydongle/${newPet.petId}`),
+          autoClose: 1000,
         });
       }
     } catch (error) {
       toast.error("반려동물 정보 처리 중 오류가 생겼습니다.");
-      setToastInfo(true);
       console.error(error);
     }
   };
@@ -347,24 +372,28 @@ export default function MyDongleAddPage() {
     if (!id) return;
     try {
       await DeletePet(Number(id));
+      await fetchPets(); // 반려동물 목록 업데이트
 
-      // 남아있는 반려동물 리스트를 가져와서 조건에 따라 라우팅
       const remainingPets = await getPets();
       if (remainingPets.length > 0) {
-        // 가장 첫 번째 반려동물의 petId로 이동
         toast.success("반려동물 정보가 삭제되었습니다.", {
           onClose: () => router.push(`/mydongle/${remainingPets[0].petId}`),
-          autoClose: 1000 // 5초 후 자동 닫기 설정, 필요에 따라 조절 가능
+          autoClose: 1000,
         });
       } else {
-        // 반려동물이 없을 경우 /mydongle/add로 이동
-        toast.success("반려동물 정보가 삭제되었습니다.", {
-          onClose: () => {
-            window.location.href = '/mydongle/add'; // 페이지 이동
-            window.location.reload(); // 새로고침
-          },
-          autoClose: 1000 // 5초 후 자동 닫기 설정, 필요에 따라 조절 가능
+        setPetInfo({
+          petName: "",
+          profileImg: 0,
+          type: "",
+          gender: "",
+          age: 0,
         });
+        setIsEditMode(false);
+        toast.success("반려동물 정보가 삭제되었습니다.", {
+          autoClose: 1000,
+          onClose:()=>router.push('/mydongle/add'),
+        });
+
       }
     } catch (error) {
       toast.error("반려동물 정보 삭제 중 오류가 생겼습니다.");
@@ -380,7 +409,7 @@ export default function MyDongleAddPage() {
       <MyDongleHeader />
       <div className="content">
         <ToastContainer position="top-center" style={{ marginTop: "32px", padding: "0 16px"}} />
-        <MyDongleAddHeader />
+        <MyDongleAddHeader petProfiles={petProfiles} />
         <TitleWrapper>
           <Title>ARRIVAL CARD</Title>
           <SemiTitle>입국신고서 (댕냥전용)</SemiTitle>
