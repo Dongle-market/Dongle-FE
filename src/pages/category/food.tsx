@@ -79,7 +79,10 @@ export default function FoodPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ItemAPI.fetchCategoryData(speciesValue, subValue, orderValue);
+        // cat일 때도 dog 데이터를 요청하고, 정렬 방식은 다르게 적용
+        const finalSpecies = speciesValue === "cat" ? "dog" : speciesValue;
+        const finalOrder = speciesValue === "cat" && orderValue === "" ? "low" : orderValue;
+        const data = await ItemAPI.fetchCategoryData(subValue, finalSpecies, finalOrder);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -87,15 +90,16 @@ export default function FoodPage() {
     };
     fetchData();
   }, [speciesValue, subValue, orderValue]);
+  
 
   // 동물에 따른 카테고리 옵션 설정
   const categoryOptions = speciesValue === 'cat'
     ? [
         { label: "전체", sub: "" },
-        { label: "캔/통조림", sub: "can" },
+        { label: "캔/통조림", sub: "soft" },
         { label: "건식사료", sub: "dry" },
         { label: "습식사료", sub: "wet" },
-        { label: "에어/동결사료", sub: "air" },
+        // { label: "에어/동결사료", sub: "soft" },
       ]
     : [
         { label: "전체", sub: "" },

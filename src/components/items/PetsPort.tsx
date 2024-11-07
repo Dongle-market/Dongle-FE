@@ -1,10 +1,8 @@
 // PetsPort.tsx
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { PetInfoResponseType } from "../../services/pets/pets.type";
 import { useRouter } from "next/router";
-import { PetType } from "@/services/pets/pets.type";
 
 const PassportContainer = styled.div`
   position: relative;
@@ -194,11 +192,9 @@ const PetsPort = ({
   petId,
   petName,
   profileImg,
-  type,
   gender,
   age,
 }: PetsPortType) => {
-  const [petData, setPetData] = useState<PetInfoResponseType | null>(null);
   const router = useRouter();
 
   const routeToInfo = (petId: number) => {
