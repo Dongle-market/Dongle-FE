@@ -197,7 +197,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
           </Link>
         </div>
       );
-    } catch (error) {
+    } catch {
       toast(
         <div
           style={{

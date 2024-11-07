@@ -1,5 +1,5 @@
 import { Server } from "../axios.setting";
-import { AddCartItemResponseType, DeleteCartItemResponseType, GetAllMyCartsResponseType, PatchCartItemResponseType } from "./carts.type";
+import { AddCartItemResponseType, CartType, DeleteCartItemResponseType, GetAllMyCartsResponseType } from "./carts.type";
 
 export const getAllMyCarts = async (): Promise<GetAllMyCartsResponseType> => {
   const response = await Server.get("/cart");
@@ -16,7 +16,7 @@ export const addCartItem = async (itemId: number, itemCount: number): Promise<Ad
   }
 }
 
-export const patchCartItem = async (cartId: number, itemCount: number): Promise<PatchCartItemResponseType> => {
+export const patchCartItem = async (cartId: number, itemCount: number): Promise<CartType> => {
   try {
     const response = await Server.patch(`/cart/${cartId}`, { itemCount });
     return response.data;

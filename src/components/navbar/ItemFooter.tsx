@@ -9,7 +9,7 @@ import HeartFullSvg from '/public/svgs/element/heart_full.svg';
 import PlusSvg from '/public/svgs/element/plus.svg';
 import MinusSvg from '/public/svgs/element/minus.svg';
 import { useRouter } from 'next/router';
-import { CartItemType, ClientCartItemType } from '@/types/item';
+import { ClientCartItemType } from '@/types/item';
 import { addCartItem } from '@/services/carts/carts';
 import { useUserStore } from '@/store/user';
 import Link from 'next/link';
@@ -166,7 +166,7 @@ const ItemFooter = ({ item, profileImages }: ItemFooterProps) => {
           </Link>
         </div>
       );
-    } catch (error) {
+    } catch {
       toast(
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           이미 담긴 상품입니다. 장바구니로 이동하시겠어요?

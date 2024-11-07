@@ -209,7 +209,7 @@ export default function CartPage() {
           try {
             const data = await patchCartItem(item.cartId, newCount);
             return { ...item, itemCount: data.itemCount };
-          } catch (error) {
+          } catch {
             isError = true;
             return item;
           }

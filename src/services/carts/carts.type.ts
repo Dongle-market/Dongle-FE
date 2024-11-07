@@ -28,8 +28,6 @@ export interface AddCartItemResponseType extends CartType {
   cartCount: number;
 }
 
-export interface PatchCartItemResponseType extends CartType {}
-
 export interface DeleteCartItemResponseType {
   message: string;
   cartCount: number;
