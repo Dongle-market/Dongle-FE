@@ -1,3 +1,4 @@
+// home.tsx
 
 import React, { useEffect, useState } from 'react';
 import { ItemAPI } from '@/services/item/item';

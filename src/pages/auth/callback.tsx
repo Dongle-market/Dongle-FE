@@ -1,4 +1,3 @@
-'use client';
 
 import { login } from "@/services/auth/auth";
 import { useRouter } from "next/router";

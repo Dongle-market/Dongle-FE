@@ -1,5 +1,4 @@
 // SelectPets.tsx
-'use client';
 
 import { addPetToOrderItem, deletePetToOrderItem } from '@/services/order/order';
 import { PetDigestType } from '@/services/pets/pets.type';
