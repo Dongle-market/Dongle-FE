@@ -10,6 +10,7 @@ import MainItem from "@/components/items/MainItem";
 import { UserResponse } from '@/services/users/users.type';
 import { getUserInfo } from '@/services/users/users';
 import { useUserStore } from '@/store/user';
+import LoadingComponent from '@/components/common/Loading';
 
 interface Item {
   itemId: number;
@@ -92,6 +93,7 @@ export default function PetHome() {
   const setPetId = useUserStore((state) => state.setPetId);
   const setCartCount = useUserStore((state) => state.setCartCount);
   const cartCount = useUserStore((state) => state.cartCount);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -149,6 +151,8 @@ export default function PetHome() {
         }
       } catch (error) {
         console.error("Failed to fetch products", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -230,6 +234,8 @@ export default function PetHome() {
       </ProductWrapper>
     ));
   };
+  
+  if (isLoading) return <LoadingComponent src="/images/skeleton/mainpage_skeleton.png" />
 
   return (
     <div className="page">

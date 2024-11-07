@@ -97,11 +97,7 @@ export default function ItemPage() {
         fetchData();
     }, [id]);
 
-    if (isLoading) return (
-        <LoadingComponent>
-            <SkeletonImage src="/images/skeleton/itempage_skeleton.png" alt="skeleton" />
-        </LoadingComponent>
-    );
+    if (isLoading) return <LoadingComponent src="/images/skeleton/itempage_skeleton.png" />
     if (!item) return <FallbackComponent />;
 
     const getCategoryName = (key: string): string => {

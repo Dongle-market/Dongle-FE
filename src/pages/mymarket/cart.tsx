@@ -21,6 +21,7 @@ import {
   patchCartItem,
 } from "@/services/carts/carts";
 import { useUserStore } from "@/store/user";
+import LoadingComponent from "@/components/common/Loading";
 
 const ChoiceDelete = styled.div`
   display: flex;
@@ -101,23 +102,30 @@ export default function CartPage() {
   const [selectAll, setSelectAll] = useState(true); // 전체선택용 boolean
   const [totalPrice, setTotalPrice] = useState(0); // 총 가격
   const setCartCount = useUserStore((state) => state.setCartCount);
+  const [isLoading, setIsLoading] = useState(true);
 
   /** 초기 데이터 로드 */
   useEffect(() => {
     const fetchAllMyCarts = async () => {
-      const data = await getAllMyCarts();
-      const cartItems = data.carts.map((cart) => ({
-        cartId: cart.cartId,
-        itemId: cart.item.itemId,
-        itemCount: cart.itemCount,
-        price: cart.item.lprice,
-        imageurl: cart.item.image,
-        brand: cart.item.brand,
-        name: cart.item.title,
-      }));
-      setCartItems(cartItems);
-      setSelectedItems(cartItems);
-			setCartCount(cartItems.length);
+      try {
+        const data = await getAllMyCarts();
+        const cartItems = data.carts.map((cart) => ({
+          cartId: cart.cartId,
+          itemId: cart.item.itemId,
+          itemCount: cart.itemCount,
+          price: cart.item.lprice,
+          imageurl: cart.item.image,
+          brand: cart.item.brand,
+          name: cart.item.title,
+        }));
+        setCartItems(cartItems);
+        setSelectedItems(cartItems);
+        setCartCount(cartItems.length);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchAllMyCarts();
   }, []);
@@ -271,7 +279,8 @@ export default function CartPage() {
 
   const itemCount = cartItems.length;
   const selectedCount = Object.values(selectedItems).filter(Boolean).length;
-
+  
+  if (isLoading) return <LoadingComponent src="/images/skeleton/cartpage_skeleton.png" />
   return (
     <>
       <ToastContainer

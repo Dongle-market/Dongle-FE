@@ -13,6 +13,7 @@ import { getOrderInfo } from '../../../src/services/order/order'; // API 호출 
 import { Order } from '../../../src/services/order/order.type'; // 타입 임포트
 import { PetDigestType, PetType } from '@/services/pets/pets.type';
 import { getPets } from '@/services/pets/pets';
+import LoadingComponent from '@/components/common/Loading';
 
 const DateGroupContainer = styled.div`
   margin-bottom: 8px;
@@ -138,6 +139,7 @@ export default function HistoryPage() {
   const [, setItemCount] = useState(0);
   const [orders, setOrders] = useState<Order[]>([]); // 빈 배열로 초기화
   const [petList, setPetList] = useState<PetDigestType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadPets = async () => {
@@ -161,6 +163,8 @@ export default function HistoryPage() {
       } catch (error) {
         console.error('Failed to fetch orders:', error);
         setOrders([]); // 오류 발생 시 빈 배열 설정
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -186,6 +190,8 @@ export default function HistoryPage() {
     window.addEventListener('storage', updateItemCount);
     return () => window.removeEventListener('storage', updateItemCount);
   }, []);
+  
+  if (isLoading) return <LoadingComponent src="/images/skeleton/cartpage_skeleton.png" />
 
   return (
     <div className="page">
