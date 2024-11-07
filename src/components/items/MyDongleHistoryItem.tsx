@@ -2,8 +2,8 @@
 
 import React from "react";
 import styled from "styled-components";
-import Link from "next/link";
-import { toast } from "react-toastify";
+// import Link from "next/link";
+// import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseSvg from "../../../public/svgs/element/close.svg";
 import { ItemType } from "@/types/item";
@@ -94,7 +94,7 @@ interface MyDongleHistoryItemProps {
   removeItem: () => void;
 }
 
-const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, imageurl, name, price, orderDate, cartItems, removeItem }) => {
+const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, imageurl, name, price, orderDate, removeItem }) => {
 
   const routeToItem = useItemRouting();
 
@@ -102,45 +102,45 @@ const MyDongleHistoryItem: React.FC<MyDongleHistoryItemProps> = ({ itemId, image
   //   return cartItems.some(item => item.name === name && item.price === price);
   // };
 
-  const ToastContent = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-          color: "white",
-          fontSize: "12px",
-        }}
-      >
-        <span>장바구니에 상품을 담았습니다.</span>
-        <Link href="/mymarket/cart" style={{ color: "white" }}>
-          바로가기
-        </Link>
-      </div>
-    );
-  };
+  // const ToastContent = () => {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "space-between",
+  //         alignItems: "center",
+  //         width: "100%",
+  //         color: "white",
+  //         fontSize: "12px",
+  //       }}
+  //     >
+  //       <span>장바구니에 상품을 담았습니다.</span>
+  //       <Link href="/mymarket/cart" style={{ color: "white" }}>
+  //         바로가기
+  //       </Link>
+  //     </div>
+  //   );
+  // };
 
-  const ToastContentAlreadyInCart = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-          color: "white",
-          fontSize: "12px",
-        }}
-      >
-        <span>이미 장바구니에 있는 상품입니다.</span>
-        <Link href="/mymarket/cart" style={{ color: "white" }}>
-          바로가기
-        </Link>
-      </div>
-    );
-  };
+  // const ToastContentAlreadyInCart = () => {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "space-between",
+  //         alignItems: "center",
+  //         width: "100%",
+  //         color: "white",
+  //         fontSize: "12px",
+  //       }}
+  //     >
+  //       <span>이미 장바구니에 있는 상품입니다.</span>
+  //       <Link href="/mymarket/cart" style={{ color: "white" }}>
+  //         바로가기
+  //       </Link>
+  //     </div>
+  //   );
+  // };
 
   // const handleAddToCart = () => {
   //   if (isItemInCart()) {

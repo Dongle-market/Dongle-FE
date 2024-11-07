@@ -1,8 +1,7 @@
 // PetsPort.tsx
 
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { PetInfoResponseType } from "../../services/pets/pets.type";
 import { useRouter } from "next/router";
 
 const PassportContainer = styled.div`
