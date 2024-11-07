@@ -10,6 +10,7 @@ import CheckSvg from '/public/svgs/element/check.svg';
 import CloseSvg from '/public/svgs/element/close.svg';
 import { CartItemType } from '@/types/item';
 import { useItemRouting } from '@/utils/itemIdRouting';
+import { removeHtmlTags } from '@/utils/removeHtmlTags';
 
 const ItemContainer = styled.div`
     display: flex;
@@ -52,6 +53,9 @@ const Name = styled.div`
     text-overflow: ellipsis;
     white-space: normal;
     cursor: pointer;
+    @media (min-width: 450px) {
+        max-width: 400px;
+    }
 `;
 
 const Price = styled.div`
@@ -97,7 +101,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, selected, toggleSelection, re
                 </div>
                 <Thumbnail src={item.imageurl} alt={item.name} onClick={() => routeToItem(item.itemId)} />
                 <Info>
-                    <Name onClick={() => routeToItem(item.itemId)}>{item.name}</Name>
+                    <Name onClick={() => routeToItem(item.itemId)}>{removeHtmlTags(item.name)}</Name>
                     <Price onClick={() => routeToItem(item.itemId)}>{item.price.toLocaleString()} 원</Price>
                     <CountContainer>
                         <RemoveSvg onClick={handleDecrement} />

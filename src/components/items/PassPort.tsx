@@ -70,12 +70,14 @@ const PassportHeaderLeft = styled.div`
   font-size: 10px;
   font-weight: 600;
   color: #0B0D83;
+  text-align: left;
 `;
 
 const PassportHeaderRight = styled.div`
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: #0B0D83;
+  text-align: right;
 `;
 
 const PassportInfoContainer = styled.div`
@@ -83,13 +85,15 @@ const PassportInfoContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin-right: 12px;
+    width: 100%;
 `;
 
 const InputBody = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    flex-grow: 1;
     gap: 8px;
+    width: 100%;
 `;
 
 const InputContainer = styled.div`
@@ -117,6 +121,23 @@ const InputContent = styled.span`
     text-decoration: none;
 `;
 
+const PhoneInputWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+`;
+
+const PhoneInputContent = styled.div`
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`;
+
 const ClubBadge = styled.div`
     display: flex;
     align-items: center;
@@ -130,8 +151,7 @@ const ClubBadge = styled.div`
 `;
 
 const PassportImage = styled.img`
-  width: 128px;
-  height: 160px;
+  width: 30%;
   margin-right: 24px;
   object-fit: cover;
 `;
@@ -205,8 +225,8 @@ const PassPort = () => {
       <FirstPassport>
         <PassportBody>
           <PassPortHeaderContainer>
-            <PassportHeaderLeft>여권 PETSPORT</PassportHeaderLeft>
-            <PassportHeaderRight>동글민국 REPUBLIC OF DONGLE</PassportHeaderRight>
+            <PassportHeaderLeft>여권 PASSPORT</PassportHeaderLeft>
+            <PassportHeaderRight>동글월드 REPUBLIC OF DONGLE</PassportHeaderRight>
           </PassPortHeaderContainer>
           <PassportInfoContainer>
             <PassportImage src={user.profilePic} alt={user.userName} />
@@ -218,7 +238,7 @@ const PassPort = () => {
                 </InputWrapper>
                 <InputWrapper>
                   <InputTitle>여권번호</InputTitle>
-                  <InputContent>URECA001</InputContent>
+                  <InputContent>URECA{user.userId.toString().padStart(3, '0')}</InputContent>
                 </InputWrapper>
               </InputContainer>
               <InputContainer>
@@ -228,10 +248,10 @@ const PassPort = () => {
                 </InputWrapper>
                 <ClubBadge><BadgeSvg/> 댕니버스 클럽</ClubBadge>
               </InputContainer>
-              <InputWrapper>
+              <PhoneInputWrapper>
                 <InputTitle>전화번호</InputTitle>
-                <InputContent>{user.phoneNumber ?? "등록된 번호가 없습니다."}</InputContent>
-              </InputWrapper>
+                <PhoneInputContent>{(user.phoneNumber || user.phoneNumber!=='') ? user.phoneNumber : "등록된 번호가 없습니다."}</PhoneInputContent>
+              </PhoneInputWrapper>
               <UserEditButton href="/profile/edit">✈️ 회원정보 수정</UserEditButton>
             </InputBody>
           </PassportInfoContainer>

@@ -76,7 +76,7 @@ const MyMarketFooterNav = () => {
             <DogHomeSvg />
             <span>동글 홈</span>
         </IconContainer>
-        <IconContainer href="/mymarket/wishlist">
+        <IconContainer href="/mymarket/history">
             <BasketSvg />
             <BoldText>마이 마켓</BoldText>
         </IconContainer>

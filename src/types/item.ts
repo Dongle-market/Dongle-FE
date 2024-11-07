@@ -4,7 +4,14 @@ export interface ItemType {
   price: number;
 }
 
+export interface ClientCartItemType extends ItemType {
+  imageurl: string;
+  brand: string
+  name: string;
+};
+
 export interface CartItemType extends ItemType {
+  cartId: number;
   imageurl: string;
   brand: string
   name: string;
