@@ -110,6 +110,7 @@ export default function PetHome() {
   }, [setPetId, setCartCount]);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProducts = async () => {
       try {
         if (mainCategory && subCategories[species][mainCategory]) {
