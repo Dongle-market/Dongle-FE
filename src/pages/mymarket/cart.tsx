@@ -118,6 +118,7 @@ export default function CartPage() {
       }));
       setCartItems(cartItems);
       setSelectedItems(cartItems);
+			setCartCount(cartItems.length);
     };
     fetchAllMyCarts();
   }, []);
