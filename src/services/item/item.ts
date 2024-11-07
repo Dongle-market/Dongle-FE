@@ -61,12 +61,12 @@ export class ItemAPI {
     return response.data;
   }
 
-  // species, sub, category로 아이템 데이터 가져오기
-  static async fetchItemData(sub: string) {
+  // species와 category에 따라 아이템 데이터 가져오기 (order 기본값 설정 포함)
+  static async fetchItemData(sub: string, species: string = 'dog', category: string = 'food') {
     try {
-      // category와 species 값을 강제 설정
-      const response = await Server.get(`/item/food`, {
-        params: { species: 'dog', sub },
+      const order = species === 'cat' ? 'low' : undefined; // cat일 경우 order=low
+      const response = await Server.get(`/item/${category}`, {
+        params: { species, sub, order },
       });
       return response.data;
     } catch (error) {
@@ -75,12 +75,11 @@ export class ItemAPI {
     }
   }
 
-  // category 데이터를 species, sub, order 기준으로 가져오기
-  static async fetchCategoryData(sub: string, order: string) {
+  static async fetchCategoryData(sub: string, species: string = 'dog', order: string = 'asc') {
     try {
-      // category와 species 값을 강제 설정
+      const finalOrder = species === 'cat' ? 'low' : order; // cat일 경우 order=low
       const response = await Server.get(`/item/food`, {
-        params: { species: 'dog', sub, order },
+        params: { species, sub, order: finalOrder },
       });
       return response.data;
     } catch (error) {
