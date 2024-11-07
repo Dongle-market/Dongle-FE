@@ -73,17 +73,17 @@ const OrderDate = styled.div`
   color: #545454;
 `;
 
-const CartButton = styled.button`
-  background-color: #f1f1f1;
-  font-family: "Pretendard";
-  font-size: 12px;
-  color: #5e5e5e;
-  text-decoration: none;
-  border-radius: 30px;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-`;
+// const CartButton = styled.button`
+//   background-color: #f1f1f1;
+//   font-family: "Pretendard";
+//   font-size: 12px;
+//   color: #5e5e5e;
+//   text-decoration: none;
+//   border-radius: 30px;
+//   border: none;
+//   padding: 8px 12px;
+//   cursor: pointer;
+// `;
 
 interface MyDongleHistoryItemProps {
   itemId: ItemType['itemId'];
