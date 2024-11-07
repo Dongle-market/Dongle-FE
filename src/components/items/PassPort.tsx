@@ -184,12 +184,6 @@ const PetsPortCode = styled.img`
   box-sizing: border-box;
 `;
 
-const SkeletonImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-`;
-
 const PassPort = () => {
   const [user, setUser] = useState<UserResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -210,11 +204,8 @@ const PassPort = () => {
     fetchUserInfo();
   }, []);
 
-  if(isLoading) return (
-    <LoadingComponent>
-      <SkeletonImage src="/images/skeleton/userpage_skeleton.png" alt="skeleton" />
-    </LoadingComponent>
-  )
+  if(isLoading) return <LoadingComponent src="/images/skeleton/userpage_skeleton.png" />
+
 
   if (!user) {
     return <FallbackComponent />;
