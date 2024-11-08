@@ -10,7 +10,7 @@ import MainItem from "@/components/items/MainItem";
 import { UserResponse } from '@/services/users/users.type';
 import { getUserInfo } from '@/services/users/users';
 import { useUserStore } from '@/store/user';
-import LoadingComponent from '@/components/common/Loading';
+import EmptyMainItem from '@/components/common/EmptyMainItem';
 
 interface Item {
   itemId: number;
@@ -228,6 +228,13 @@ export default function PetHome() {
       <ProductWrapper key={category}>
         <Title>{getTitle(category)}</Title>
         <ProductContainer>
+          {isLoading && <>
+            <EmptyMainItem />
+            <EmptyMainItem />
+            <EmptyMainItem />
+            <EmptyMainItem />
+            <EmptyMainItem />
+          </>}
           {products[category]?.map((product) => (
             <MainItem key={product.itemId} item={product} />
           ))}
@@ -236,8 +243,6 @@ export default function PetHome() {
     ));
   };
   
-  if (isLoading) return <LoadingComponent src="/images/skeleton/mainpage_skeleton.png" />
-
   return (
     <div className="page">
       <MainHeader

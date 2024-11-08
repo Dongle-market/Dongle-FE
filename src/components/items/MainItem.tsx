@@ -25,6 +25,7 @@ const Price = styled.div`
 `;
 
 const Name = styled.div`
+  height: 34px;
   color: #666;
   font-size: 14px;
   margin-top: 8px;
